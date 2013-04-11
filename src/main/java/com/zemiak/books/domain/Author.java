@@ -24,8 +24,7 @@ public class Author implements Serializable {
     private URL bibliography;
     private URL guttenberg;
     
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name="author_tag")
+    @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Tag> tags;
     
     @OneToMany(mappedBy="author", cascade=CascadeType.PERSIST)
@@ -38,6 +37,7 @@ public class Author implements Serializable {
 
     public Author() {
         tags = new HashSet<>();
+        books = new HashSet<>();
     }
 
     public String getName() {
@@ -106,6 +106,14 @@ public class Author implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+    
+    public void addTag(Tag tag) {
+        tags.add(tag);
+    }
+    
+    public void addBook(Book book) {
+        books.add(book);
     }
 
     @Override

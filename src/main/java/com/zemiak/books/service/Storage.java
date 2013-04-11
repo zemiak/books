@@ -103,8 +103,8 @@ public class Storage {
         author.setBibliography(readBibliography(authorFile));
         author.setGuttenberg(readGuttenberg(authorFile));
         author.setWikipedia(readWikipedia(authorFile));
-        author.setTags(readTags(authorFile));
-        author.setBooks(readBooks(authorFile, author));
+        readTags(authorFile, author);
+        readBooks(authorFile, author);
         author.setId();
         
         return author;
@@ -126,41 +126,22 @@ public class Storage {
         return readUrlFile(authorFile, "w");
     }
     
-    private List<Tag> tags = new ArrayList<>();
-    private Tag getTag(String tagName) {
-        for (Tag tag: tags) {
-            if (tagName.equals(tag.getName())) {
-                return tag;
-            }
-        }
-        
-        Tag tag = new Tag();
-        tag.setName(tagName);
-        tag.setId();
-        tags.add(tag);
-        
-        return tag;
-    }
-
-    private Set<Tag> readTags(File authorFile) {
+    private void readTags(File authorFile, Author author) {
         File file = new File(authorFile.getAbsolutePath() + "/doc/tags.txt");
         
         if (! file.isFile()) {
-            return null;
+            return;
         }
         
         String content = readFileContent(file);
-        Set<Tag> authorTags = new HashSet<>();
         
         if (content.indexOf(';') == -1) {
-            authorTags.add(getTag(content));
+            author.addTag(new Tag(content));
         } else {
             for (String tagName : content.split(";")) {
-                authorTags.add(getTag(tagName));
+                author.addTag(new Tag(tagName));
             }
         }
-        
-        return authorTags;
     }
 
     private URL readUrlFile(File authorFile, String fileName) {
@@ -216,21 +197,18 @@ public class Storage {
         }
     }
     
-    private Set<Book> readBooks(File authorFile, Author author) {
-        Set<Book> books = new HashSet<>();
+    private void readBooks(File authorFile, Author author) {
         File en = new File(authorFile.getAbsolutePath() + "/en/");
         
         if (en.isDirectory()) {
             for (Book book: readBooksFromDirectory(en, author)) {
-                books.add(book);
+                author.addBook(book);
             }
         }
         
         for (Book book: readBooksFromDirectory(authorFile, author)) {
-            books.add(book);
+            author.addBook(book);
         }
-        
-        return books;
     }
 
     private List<Book> readBooksFromDirectory(File dir, Author author) {

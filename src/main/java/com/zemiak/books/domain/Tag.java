@@ -2,11 +2,9 @@ package com.zemiak.books.domain;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -17,13 +15,11 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name = "Tag.findByName", query = "select a from Tag a where a.name = :name")
 })
 public class Tag implements Serializable {
-    private String name;
-    
     @Id
-    private int id;
+    @GeneratedValue
+    private long id;
     
-    @ManyToMany(mappedBy="tags")
-    private Set<Author> authors;
+    private String name;
     
     public Tag() {
     }
@@ -62,29 +58,9 @@ public class Tag implements Serializable {
         return true;
     }
 
-    public int getId() {
-        return id;
-    }
-    
-    public void setId() {
-        id = hashCode();
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Set<Author> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
-    }
-
     @Override
     public String toString() {
-        return "Tag{" + "name=" + name + ", id=" + id + '}';
+        return "Tag{" + "name=" + name + '}';
     }
     
 }
