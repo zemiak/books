@@ -1,0 +1,51 @@
+package com.zemiak.books.domain.dto;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class Letter implements Serializable {
+    private String letter;
+    private String authorsUrl;
+
+    public Letter() {
+    }
+
+    public Letter(com.zemiak.books.domain.Letter letter) {
+        this.letter = letter.getLetter();
+
+        authorsUrl = "/webservices/authors/?letter=" + this.letter;
+    }
+
+    @Override
+    public String toString() {
+        return "Letter{" + "letter=" + letter + ", authorsUrl=" + authorsUrl + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.letter);
+        hash = 37 * hash + Objects.hashCode(this.authorsUrl);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Letter other = (Letter) obj;
+        if (!Objects.equals(this.letter, other.letter)) {
+            return false;
+        }
+        if (!Objects.equals(this.authorsUrl, other.authorsUrl)) {
+            return false;
+        }
+        return true;
+    }
+}

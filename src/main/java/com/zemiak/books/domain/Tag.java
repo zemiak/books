@@ -18,18 +18,22 @@ public class Tag implements Serializable {
     @Id
     @GeneratedValue
     private long id;
-    
+
     private String name;
-    
+
     public Tag() {
     }
-    
+
     public Tag(String name) {
         this.name = name.trim().toLowerCase();
     }
 
     public String getName() {
         return name;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public void setName(String name) {
@@ -62,5 +66,5 @@ public class Tag implements Serializable {
     public String toString() {
         return "Tag{" + "name=" + name + '}';
     }
-    
+
 }

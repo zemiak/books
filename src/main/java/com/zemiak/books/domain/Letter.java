@@ -1,7 +1,6 @@
 package com.zemiak.books.domain;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -18,10 +17,10 @@ import javax.persistence.OneToMany;
 public class Letter implements Serializable {
     @Id
     private String letter;
-    
+
     @OneToMany(cascade=CascadeType.PERSIST)
     private Set<Author> authors;
-    
+
     public Letter() {
     }
 
@@ -40,12 +39,12 @@ public class Letter implements Serializable {
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
-    
+
     @Override
     public String toString() {
         return "Letter{" + "letter=" + letter + '}';
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 3;

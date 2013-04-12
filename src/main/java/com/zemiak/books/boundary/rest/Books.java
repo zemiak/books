@@ -1,0 +1,57 @@
+package com.zemiak.books.boundary.rest;
+
+import com.zemiak.books.boundary.Collection;
+import com.zemiak.books.domain.dto.Book;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+@Path("/books")
+@Stateless
+public class Books {
+
+    @Inject
+    private Collection collection;
+
+    @GET
+    @Produces({"application/xml","application/json"})
+    public List<Book> getAll() {
+        List<Book> books = new ArrayList<>();
+
+        for (com.zemiak.books.domain.Book book: collection.getBooks()) {
+            Book dto = new Book(book);
+            books.add(dto);
+        }
+
+        return books;
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces({"application/xml","application/json"})
+    public Book getBook(@PathParam("id") int id){
+        com.zemiak.books.domain.Book book = collection.getBook(id);
+
+        Book ret = (null == book) ? null : new Book(book);
+        return ret;
+    }
+
+    @GET
+    @Path("author/{author}")
+    @Produces({"application/xml","application/json"})
+    public List<Book> getByAuthor(@PathParam("author") int authorId){
+        List<Book> books = new ArrayList<>();
+
+        for (com.zemiak.books.domain.Book book: collection.getAuthor(authorId).getBooks()) {
+            Book dto = new Book(book);
+            books.add(dto);
+        }
+
+        return books;
+    }
+}

@@ -16,10 +16,10 @@ public class Book implements Serializable {
     private String mobiFileName;
     private String epubFileName;
     private String name;
-    
+
     @ManyToOne
     private Author author;
-    
+
     @Id
     private int id;
 
@@ -61,13 +61,9 @@ public class Book implements Serializable {
     public int getId() {
         return id;
     }
-    
+
     public void setId() {
         id = hashCode();
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override
@@ -104,6 +100,6 @@ public class Book implements Serializable {
     public String toString() {
         return "Book{" + "mobiFileName=" + mobiFileName + ", epubFileName=" + epubFileName + ", name=" + name + ", author=" + author + ", id=" + id + '}';
     }
-    
-    
+
+
 }

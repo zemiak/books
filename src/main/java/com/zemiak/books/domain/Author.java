@@ -8,8 +8,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -23,21 +21,25 @@ public class Author implements Serializable {
     private URL originalSite;
     private URL bibliography;
     private URL guttenberg;
-    
+
     @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Tag> tags;
-    
+
     @OneToMany(mappedBy="author", cascade=CascadeType.PERSIST)
     private Set<Book> books;
-    
+
     private String name;
-    
+
     @Id
     private int id;
 
     public Author() {
         tags = new HashSet<>();
         books = new HashSet<>();
+    }
+
+    public void setId() {
+        id = hashCode();
     }
 
     public String getName() {
@@ -47,7 +49,7 @@ public class Author implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public URL getWikipedia() {
         return wikipedia;
     }
@@ -95,23 +97,15 @@ public class Author implements Serializable {
     public void setBooks(Set<Book> books) {
         this.books = books;
     }
-    
+
     public int getId() {
         return id;
     }
 
-    public void setId() {
-        id = hashCode();
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-    
     public void addTag(Tag tag) {
         tags.add(tag);
     }
-    
+
     public void addBook(Book book) {
         books.add(book);
     }
@@ -142,6 +136,6 @@ public class Author implements Serializable {
     public String toString() {
         return "Author{" + "wikipedia=" + wikipedia + ", originalSite=" + originalSite + ", bibliography=" + bibliography + ", guttenberg=" + guttenberg + ", name=" + name + ", id=" + id + '}';
     }
-    
-    
+
+
 }
