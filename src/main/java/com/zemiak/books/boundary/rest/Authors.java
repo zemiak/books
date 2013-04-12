@@ -10,15 +10,16 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-@Path("/authors")
 @Stateless
+@Path("authors")
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class Authors {
     @Inject
     private Collection collection;
 
     @GET
-    @Produces({"application/xml","application/json"})
     public List<Author> getAll() {
         List<Author> authors = new ArrayList<>();
 
@@ -32,7 +33,6 @@ public class Authors {
 
     @GET
     @Path("{id}")
-    @Produces({"application/xml","application/json"})
     public Author getAuthor(@PathParam("id") int id){
         com.zemiak.books.domain.Author author = collection.getAuthor(id);
 
@@ -42,7 +42,6 @@ public class Authors {
 
     @GET
     @Path("letter/{letter}")
-    @Produces({"application/xml","application/json"})
     public List<Author> getByLetter(@PathParam("letter") String letter){
         List<Author> authors = new ArrayList<>();
 

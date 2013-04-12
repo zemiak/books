@@ -10,15 +10,16 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-@Path("/letters")
 @Stateless
+@Path("letters")
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class Letters {
     @Inject
     private Collection collection;
 
     @GET
-    @Produces({"application/xml","application/json"})
     public List<Letter> getAll() {
         List<Letter> letters = new ArrayList<>();
 
@@ -32,7 +33,6 @@ public class Letters {
 
     @GET
     @Path("{id}")
-    @Produces({"application/xml","application/json"})
     public Letter getLetter(@PathParam("id") String id){
         com.zemiak.books.domain.Letter letter = collection.getLetter(id);
 

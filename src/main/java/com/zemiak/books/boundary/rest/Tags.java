@@ -10,15 +10,16 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-@Path("/tags")
 @Stateless
+@Path("tags")
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class Tags {
     @Inject
     private Collection collection;
 
     @GET
-    @Produces({"application/xml","application/json"})
     public List<Tag> getAll() {
         List<Tag> tags = new ArrayList<>();
 
@@ -32,7 +33,6 @@ public class Tags {
 
     @GET
     @Path("{id}")
-    @Produces({"application/xml","application/json"})
     public Tag getTag(@PathParam("id") int id){
         com.zemiak.books.domain.Tag tag = collection.getTag(id);
 

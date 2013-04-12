@@ -1,11 +1,15 @@
 package com.zemiak.books.domain.dto;
 
 import com.zemiak.books.domain.Tag;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
 public class Author {
     private URL wikipedia;

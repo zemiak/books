@@ -2,10 +2,13 @@ package com.zemiak.books.domain.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Letter implements Serializable {
+public class Letter {
     private String letter;
     private String authorsUrl;
 
