@@ -22,20 +22,23 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.DependsOn;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
 @Singleton
 @Startup
+@DependsOn("Configuration")
 public class Storage {
-    private static final String PATH = "/Users/vasko/Documents/Books/";
-
     private static final int NUMBER_OF_LETTERS = 26;
     private static final Logger LOG = Logger.getLogger(Storage.class.getName());
 
     @Inject
     private Collection col;
+    
+    @Inject
+    private Configuration conf;
 
     @PostConstruct
     public void readData() {
@@ -46,7 +49,7 @@ public class Storage {
         long startTime = System.currentTimeMillis();
         LOG.log(Level.INFO, "readData started on {0}", new Object[]{new Date()});
 
-        File mainDir = new File(PATH);
+        File mainDir = new File(conf.getBookPath());
 
         readDataFromFiles(mainDir);
 
