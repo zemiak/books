@@ -53,11 +53,14 @@ public class Collection {
 
     public List<Tag> getTags() {
         List<Tag> tags = new ArrayList<>();
+        List<String> tagNames = new ArrayList<>();
+        
         for (Object e: em.createNamedQuery("Tag.findAll").getResultList()) {
             Tag tag = (Tag) e;
 
-            if (! tags.contains(tag.getName())) {
+            if (! tagNames.contains(tag.getName())) {
                 tags.add(tag);
+                tagNames.add(tag.getName());
             }
         }
 
@@ -65,18 +68,9 @@ public class Collection {
     }
 
     public List<Author> getAuthorsByTag(String tagName) {
-        List<Author> authors = new ArrayList<>();
-
-        for (Author author: getAuthors()) {
-            for(Tag tag: author.getTags()) {
-                if (tagName.equals(tag.getName())) {
-                    authors.add(author);
-                    break;
-                }
-            }
-        }
-
-        return authors;
+        return em.createNamedQuery("Author.findByTag")
+                .setParameter("tag", "%" + tagName.toLowerCase() + ";%")
+                .getResultList();
     }
 
     public List<Tag> getDistinctTags() {

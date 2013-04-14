@@ -1,8 +1,9 @@
 package com.zemiak.books.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,16 +13,17 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name = "Letter.findAll", query = "select a from Letter a")
+@NamedQuery(name = "Letter.findAll", query = "select a from Letter a order by a.letter")
 })
 public class Letter implements Serializable {
     @Id
     private String letter;
 
     @OneToMany(cascade=CascadeType.PERSIST)
-    private Set<Author> authors;
+    private List<Author> authors;
 
     public Letter() {
+        authors = new ArrayList<>();
     }
 
     public String getLetter() {
@@ -32,11 +34,11 @@ public class Letter implements Serializable {
         this.letter = letter.toUpperCase();
     }
 
-    public Set<Author> getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(Set<Author> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
 

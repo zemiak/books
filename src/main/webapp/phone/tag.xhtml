@@ -1,0 +1,24 @@
+<f:view xmlns="https://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pm="http://primefaces.org/mobile"
+        contentType="text/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html">
+    
+    <pm:page title="Books">
+        <pm:view id="main">
+            <pm:header title="##{tagPage.tagName}">
+                <f:facet name="left"><p:button value="Back" icon="back"/></f:facet>
+            </pm:header>
+            
+            <pm:content>
+                <h3>Authors</h3>
+                <p:dataList value="#{tagPage.authors}" var="item">
+                    <h:outputLink value="author.jsf?id=#{item.id}">#{item.name}</h:outputLink>
+                </p:dataList>
+            </pm:content>
+        </pm:view>
+    </pm:page>
+    
+</f:view>

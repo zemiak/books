@@ -2,9 +2,9 @@ package com.zemiak.books.domain;
 
 import java.io.Serializable;
 import java.net.URL;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,20 +14,23 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name = "Author.findAll", query = "select a from Author a"),
-@NamedQuery(name = "Author.findByExpression", query = "select a from Author a where lower(a.name) like :expr")
+@NamedQuery(name = "Author.findAll", query = "select a from Author a order by a.name"),
+@NamedQuery(name = "Author.findByExpression", query = "select a from Author a where lower(a.name) like :expr order by a.name"),
+@NamedQuery(name = "Author.findByTag", query = "select a from Author a where lower(a.tagString) like :tag")
 })
 public class Author implements Serializable {
     private URL wikipedia;
     private URL originalSite;
     private URL bibliography;
     private URL guttenberg;
+    
+    private String tagString;
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    private Set<Tag> tags;
+    private List<Tag> tags;
 
     @OneToMany(mappedBy="author", cascade=CascadeType.PERSIST)
-    private Set<Book> books;
+    private List<Book> books;
 
     private String name;
 
@@ -35,8 +38,8 @@ public class Author implements Serializable {
     private int id;
 
     public Author() {
-        tags = new HashSet<>();
-        books = new HashSet<>();
+        tags = new ArrayList<>();
+        books = new ArrayList<>();
     }
 
     public void setId() {
@@ -83,19 +86,19 @@ public class Author implements Serializable {
         this.guttenberg = guttenberg;
     }
 
-    public Set<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
-    public Set<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 
@@ -138,5 +141,11 @@ public class Author implements Serializable {
         return "Author{" + "wikipedia=" + wikipedia + ", originalSite=" + originalSite + ", bibliography=" + bibliography + ", guttenberg=" + guttenberg + ", name=" + name + ", id=" + id + '}';
     }
 
+    public String getTagString() {
+        return tagString;
+    }
 
+    public void setTagString(String tagString) {
+        this.tagString = tagString;
+    }
 }

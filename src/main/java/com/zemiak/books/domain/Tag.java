@@ -10,9 +10,9 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name = "Tag.findAll", query = "select a from Tag a"),
-@NamedQuery(name = "Tag.findDistinct", query = "select distinct a.name from Tag a"),
-@NamedQuery(name = "Tag.findByName", query = "select a from Tag a where a.name = :name")
+@NamedQuery(name = "Tag.findAll", query = "select a from Tag a order by a.name"),
+@NamedQuery(name = "Tag.findDistinct", query = "select distinct a.name from Tag a order by a.name"),
+@NamedQuery(name = "Tag.findByName", query = "select a from Tag a where a.name = :name order by a.name")
 })
 public class Tag implements Serializable {
     @Id

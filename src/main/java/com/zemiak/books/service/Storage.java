@@ -16,9 +16,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -80,8 +78,8 @@ public class Storage {
         }
     }
 
-    private Set<Author> readAuthors(File letterFile) {
-        Set<Author> authors = new HashSet<>();
+    private List<Author> readAuthors(File letterFile) {
+        List<Author> authors = new ArrayList<>();
 
         for (String author: letterFile.list()) {
             File authorFile = new File(letterFile.getAbsolutePath() + "/" + author);
@@ -132,7 +130,7 @@ public class Storage {
             return;
         }
 
-        String content = readFileContent(file);
+        String content = readFileContent(file).trim().toLowerCase();
 
         if (content.indexOf(';') == -1) {
             author.addTag(new Tag(content));
@@ -141,6 +139,8 @@ public class Storage {
                 author.addTag(new Tag(tagName));
             }
         }
+        
+        author.setTagString(content + ";");
     }
 
     private URL readUrlFile(File authorFile, String fileName) {
