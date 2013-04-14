@@ -2,6 +2,7 @@ package com.zemiak.books.boundary.rest;
 
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.dto.Letter;
+import com.zemiak.books.service.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -18,13 +19,16 @@ import javax.ws.rs.core.MediaType;
 public class Letters {
     @Inject
     private Collection collection;
+    
+    @Inject
+    private Configuration conf;
 
     @GET
-    public List<Letter> getAll() {
+    public List<Letter> all() {
         List<Letter> letters = new ArrayList<>();
 
         for (com.zemiak.books.domain.Letter letter: collection.getLetters()) {
-            Letter dto = new Letter(letter);
+            Letter dto = new Letter(letter, conf.getRestBaseUrl());
             letters.add(dto);
         }
 
@@ -33,10 +37,10 @@ public class Letters {
 
     @GET
     @Path("{id}")
-    public Letter getLetter(@PathParam("id") String id){
+    public Letter find(@PathParam("id") String id){
         com.zemiak.books.domain.Letter letter = collection.getLetter(id);
 
-        Letter ret = (null == letter) ? null : new Letter(letter);
+        Letter ret = (null == letter) ? null : new Letter(letter, conf.getRestBaseUrl());
         return ret;
     }
 }

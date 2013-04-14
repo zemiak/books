@@ -2,6 +2,7 @@ package com.zemiak.books.boundary.rest;
 
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.dto.Book;
+import com.zemiak.books.service.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -19,13 +20,16 @@ public class Books {
 
     @Inject
     private Collection collection;
+    
+    @Inject
+    private Configuration conf;
 
     @GET
-    public List<Book> getAll() {
+    public List<Book> all() {
         List<Book> books = new ArrayList<>();
 
         for (com.zemiak.books.domain.Book book: collection.getBooks()) {
-            Book dto = new Book(book);
+            Book dto = new Book(book, conf.getRestBaseUrl());
             books.add(dto);
         }
 
@@ -34,20 +38,20 @@ public class Books {
 
     @GET
     @Path("{id}")
-    public Book getBook(@PathParam("id") int id){
+    public Book find(@PathParam("id") int id){
         com.zemiak.books.domain.Book book = collection.getBook(id);
 
-        Book ret = (null == book) ? null : new Book(book);
+        Book ret = (null == book) ? null : new Book(book, conf.getRestBaseUrl());
         return ret;
     }
 
     @GET
     @Path("author/{author}")
-    public List<Book> getByAuthor(@PathParam("author") int authorId){
+    public List<Book> findByAuthor(@PathParam("author") int authorId){
         List<Book> books = new ArrayList<>();
 
         for (com.zemiak.books.domain.Book book: collection.getAuthor(authorId).getBooks()) {
-            Book dto = new Book(book);
+            Book dto = new Book(book, conf.getRestBaseUrl());
             books.add(dto);
         }
 

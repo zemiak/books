@@ -2,6 +2,7 @@ package com.zemiak.books.boundary.rest;
 
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.dto.Author;
+import com.zemiak.books.service.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -18,13 +19,16 @@ import javax.ws.rs.core.MediaType;
 public class Authors {
     @Inject
     private Collection collection;
+    
+    @Inject
+    private Configuration conf;
 
     @GET
-    public List<Author> getAll() {
+    public List<Author> all() {
         List<Author> authors = new ArrayList<>();
 
         for (com.zemiak.books.domain.Author author: collection.getAuthors()) {
-            Author dto = new Author(author);
+            Author dto = new Author(author, conf.getRestBaseUrl());
             authors.add(dto);
         }
 
@@ -33,20 +37,20 @@ public class Authors {
 
     @GET
     @Path("{id}")
-    public Author getAuthor(@PathParam("id") int id){
+    public Author find(@PathParam("id") int id){
         com.zemiak.books.domain.Author author = collection.getAuthor(id);
 
-        Author ret = (null == author) ? null : new Author(author);
+        Author ret = (null == author) ? null : new Author(author, conf.getRestBaseUrl());
         return ret;
     }
 
     @GET
     @Path("letter/{letter}")
-    public List<Author> getByLetter(@PathParam("letter") String letter){
+    public List<Author> findByLetter(@PathParam("letter") String letter){
         List<Author> authors = new ArrayList<>();
 
         for (com.zemiak.books.domain.Author author: collection.getLetter(letter).getAuthors()) {
-            Author dto = new Author(author);
+            Author dto = new Author(author, conf.getRestBaseUrl());
             authors.add(dto);
         }
 

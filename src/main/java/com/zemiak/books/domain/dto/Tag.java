@@ -14,11 +14,11 @@ public class Tag {
     public Tag() {
     }
 
-    public Tag(com.zemiak.books.domain.Tag tag) {
+    public Tag(com.zemiak.books.domain.Tag tag, String baseUrl) {
         id = tag.getId();
         name = tag.getName();
 
-        authorsUrl = "/webservices/authors/?tag=" + name;
+        authorsUrl = baseUrl + "/authors/tag/" + name;
     }
 
     @Override

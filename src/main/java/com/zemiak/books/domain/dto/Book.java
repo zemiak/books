@@ -17,13 +17,13 @@ public class Book {
     public Book() {
     }
 
-    public Book(com.zemiak.books.domain.Book book) {
+    public Book(com.zemiak.books.domain.Book book, String baseUrl) {
         mobiFileName = book.getMobiFileName();
         epubFileName = book.getEpubFileName();
         name = book.getName();
         id = book.getId();
 
-        authorUrl = "/webservices/authors/?id=" + book.getAuthor().getId();
+        authorUrl = baseUrl + "/authors/" + book.getAuthor().getId();
     }
 
     @Override

@@ -42,7 +42,7 @@ public class Storage {
 
     @PostConstruct
     public void readData() {
-        if (isDataCached()) {
+        if (! conf.isRefreshData()) {
             return;
         }
 
@@ -58,13 +58,6 @@ public class Storage {
                 new Object[]{(System.currentTimeMillis() - startTime),
                     col.getLetters().size(), col.getAuthors().size(), col.getBooks().size(),
                     col.getTags().size()});
-    }
-
-    private boolean isDataCached() {
-        // testing
-        return true;
-        
-        //return col.getLetters().size() == NUMBER_OF_LETTERS;
     }
 
     public void readDataFromFiles(File mainDir) {

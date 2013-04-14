@@ -24,7 +24,7 @@ public class Author {
     public Author() {
     }
 
-    public Author(com.zemiak.books.domain.Author author) {
+    public Author(com.zemiak.books.domain.Author author, String baseUrl) {
         wikipedia = author.getWikipedia();
         originalSite = author.getOriginalSite();
         bibliography = author.getBibliography();
@@ -36,7 +36,7 @@ public class Author {
             tags.add(tag.getName());
         }
 
-        booksUrl = "/webservices/books/author/?id=" + id;
+        booksUrl = baseUrl + "/books/author/" + id;
     }
 
     @Override

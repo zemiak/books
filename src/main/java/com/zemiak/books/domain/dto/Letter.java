@@ -1,6 +1,5 @@
 package com.zemiak.books.domain.dto;
 
-import java.io.Serializable;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,10 +14,10 @@ public class Letter {
     public Letter() {
     }
 
-    public Letter(com.zemiak.books.domain.Letter letter) {
+    public Letter(com.zemiak.books.domain.Letter letter, String baseUrl) {
         this.letter = letter.getLetter();
 
-        authorsUrl = "/webservices/authors/?letter=" + this.letter;
+        authorsUrl = baseUrl + "/authors/letter/" + this.letter;
     }
 
     @Override
