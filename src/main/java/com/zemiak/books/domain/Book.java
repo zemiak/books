@@ -10,7 +10,8 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name = "Book.findAll", query = "select a from Book a")
+@NamedQuery(name = "Book.findAll", query = "select a from Book a"),
+@NamedQuery(name = "Book.findByExpression", query = "select a from Book a where lower(a.name) like :expr")
 })
 public class Book implements Serializable {
     private String mobiFileName;

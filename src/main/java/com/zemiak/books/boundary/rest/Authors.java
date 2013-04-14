@@ -56,4 +56,16 @@ public class Authors {
 
         return authors;
     }
+    
+    @GET
+    @Path("search/{expr}")
+    public List<Author> findByExpression(@PathParam("expr") String expr) {
+        List<Author> authors = new ArrayList<>();
+        for (com.zemiak.books.domain.Author author: collection.getAuthorsByExpression(expr)) {
+            Author dto = new Author(author, conf.getRestBaseUrl());
+            authors.add(dto);
+        }
+
+        return authors;
+    }
 }

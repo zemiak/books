@@ -14,7 +14,8 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name = "Author.findAll", query = "select a from Author a")
+@NamedQuery(name = "Author.findAll", query = "select a from Author a"),
+@NamedQuery(name = "Author.findByExpression", query = "select a from Author a where lower(a.name) like :expr")
 })
 public class Author implements Serializable {
     private URL wikipedia;

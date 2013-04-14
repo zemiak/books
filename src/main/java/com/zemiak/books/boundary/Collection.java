@@ -26,6 +26,18 @@ public class Collection {
     public List<Book> getBooks() {
         return em.createNamedQuery("Book.findAll").getResultList();
     }
+    
+    public List<Book> getBooksByExpression(String expr) {
+        return em.createNamedQuery("Book.findByExpression")
+                .setParameter("expr", "%" + expr.toLowerCase() + "%")
+                .getResultList();
+    }
+    
+    public List<Author> getAuthorsByExpression(String expr) {
+        return em.createNamedQuery("Author.findByExpression")
+                .setParameter("expr", "%" + expr.toLowerCase() + "%")
+                .getResultList();
+    }
 
     public Book getBook(int id) {
         return em.find(Book.class, id);

@@ -57,4 +57,16 @@ public class Books {
 
         return books;
     }
+    
+    @GET
+    @Path("search/{expr}")
+    public List<Book> findByExpression(@PathParam("expr") String expr) {
+        List<Book> books = new ArrayList<>();
+        for (com.zemiak.books.domain.Book book: collection.getBooksByExpression(expr)) {
+            Book dto = new Book(book, conf.getRestBaseUrl());
+            books.add(dto);
+        }
+
+        return books;
+    }
 }
