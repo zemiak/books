@@ -27,7 +27,7 @@
                     </p:dataList>
                 </h:panelGroup>
                 
-                <h:panelGroup rendered="#{searchPage.authors.size() == 0 && searchPage.books.size() == 0}">
+                <h:panelGroup rendered="#{searchPage.authors.size() == 0 and searchPage.books.size() == 0}">
                     <h3>No Results</h3>
                 </h:panelGroup>
             </pm:content>

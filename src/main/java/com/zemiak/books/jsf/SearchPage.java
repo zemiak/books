@@ -24,6 +24,10 @@ public class SearchPage {
         return text;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public List<Author> getAuthors() {
         return authors;
     }
@@ -34,6 +38,9 @@ public class SearchPage {
     
     @PostConstruct
     public void search() {
+        System.out.println("SearchPage: col=" + col);
+        System.out.println("SearchPage: text=" + text);
+        
         authors = col.getAuthorsByExpression(text);
         books = col.getBooksByExpression(text);
     }
