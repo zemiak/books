@@ -31,7 +31,9 @@
                 
                 <h3>Books</h3>
                 <p:dataList value="#{authorPage.books}" var="book">
-                    <h:outputLink value="book.jsf?id=#{book.id}">#{book.name}</h:outputLink>
+                    
+                    <h:outputLink rendered="#{not book.english}" value="book.jsf?id=#{book.id}">#{book.name}</h:outputLink>
+                    <h:outputLink rendered="#{book.english}" value="book.jsf?id=#{book.id}">#{book.name} (en)</h:outputLink>
                 </p:dataList>
                 
                 <c:if test="#{authorPage.author.tags.size() > 0}">
