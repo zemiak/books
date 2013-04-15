@@ -11,8 +11,9 @@
             <pm:header title="Books" />
             
             <pm:content>
-                <h3>Search</h3>
-                <p:inputText type="search" />
+                <p:inputText type="search" id="search" onkeypress="if (event.keyCode === 13) { $('#searchButton').click(); return false; }" immediate="true" />
+                <h:commandButton id="searchButton" action="#{indexPage.runSearch}" style="display:none;" value="submit" />
+                <p:watermark for="search" value="Search..." />
                 
                 <p:spacer height="4em" />
                 <h3>Letters</h3>
