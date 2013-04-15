@@ -107,10 +107,6 @@ public class Book implements Serializable {
         return english;
     }
     
-    public boolean getEnglish() {
-        return english;
-    }
-
     public void setEnglish(boolean english) {
         this.english = english;
     }

@@ -9,17 +9,13 @@
     
     <pm:page title="Books">
         <pm:view id="main">
-            <c:if test="#{bookPage.book.english}">
-                <pm:header title="#{bookPage.book.name} (en)">
-                    <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
-                </pm:header>
-            </c:if>
+            <pm:header rendered="#{bookPage.book.english}" title="#{bookPage.book.name} (en)">
+                <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
+            </pm:header>
 
-            <c:if test="#{! bookPage.book.english}">
-                <pm:header title="#{bookPage.book.name}">
-                    <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
-                </pm:header>
-            </c:if>
+            <pm:header rendered="#{not bookPage.book.english}" title="#{bookPage.book.name}">
+                <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
+            </pm:header>
             
             <pm:content>
                 <h3>Download</h3>
