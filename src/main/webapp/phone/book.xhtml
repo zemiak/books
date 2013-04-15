@@ -9,21 +9,31 @@
     
     <pm:page title="Books">
         <pm:view id="main">
-            <pm:header title="#{bookPage.book.name}">
-                <f:facet name="left"><p:button value="Back" icon="back"/></f:facet>
-            </pm:header>
+            <c:if test="#{bookPage.book.english}">
+                <pm:header title="#{bookPage.book.name} (en)">
+                    <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
+                </pm:header>
+            </c:if>
+
+            <c:if test="#{! bookPage.book.english}">
+                <pm:header title="#{bookPage.book.name}">
+                    <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
+                </pm:header>
+            </c:if>
             
             <pm:content>
                 <h3>Download</h3>
-                <p:dataList>
-                    <c:if test="null != #{bookPage.book.mobiFileName}">
-                        <h:outputLink value="download.jsf?id=#{item.id}&type=mobi">Kindle Format</h:outputLink>
-                    </c:if>
+                <h:form id="downloadForm">
+                    <!-- Actions have a different scope, bookPage is not constructed -->
+                    <h:commandLink action="#{bookPage.fileMobi}" value="Download for Kindle">
+                        <f:param name="id" value="#{bookPage.book.id}" />
+                    </h:commandLink>
                     
-                    <c:if test="null != #{bookPage.book.epubFileName}">
-                        <h:outputLink value="download.jsf?id=#{item.id}&type=epub">ePub Format</h:outputLink>
-                    </c:if>
-                </p:dataList>
+                    <br />
+                    <h:commandLink action="#{bookPage.fileEpub}" value="Download as ePub">
+                        <f:param name="id" value="#{bookPage.book.id}" />
+                    </h:commandLink>
+                </h:form>
             </pm:content>
         </pm:view>
     </pm:page>

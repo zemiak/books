@@ -10,29 +10,28 @@
     <pm:page title="Books">
         <pm:view id="main">
             <pm:header title="#{authorPage.author.name}">
-                <f:facet name="left"><p:button value="Back" icon="back"/></f:facet>
+                <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
             </pm:header>
             
             <pm:content>
-                <c:if test="#{authorPage.author.originalSite} != null">
-                    <h:outputLink value="#{authorPage.author.originalSite}">Web Site</h:outputLink>
+                <c:if test="#{authorPage.author.originalSite != null}">
+                    <h:outputLink value="#{authorPage.author.originalSite.toString()}">Web</h:outputLink>
+                    <h:outputText value="&#160;" />
                 </c:if>
                 
-                <c:if test="#{authorPage.author.wikipedia} != null">
-                    <h:outputLink value="#{authorPage.author.wikipedia}">Wikipedia Article</h:outputLink>
+                <c:if test="#{authorPage.author.wikipedia != null}">
+                    <h:outputLink value="#{authorPage.author.wikipedia.toString()}">Wikipedia</h:outputLink>
+                    <h:outputText value="&#160;" />
                 </c:if>
                 
-                <c:if test="#{authorPage.author.guttenberg} != null">
-                    <h:outputLink value="#{authorPage.author.guttenberg}">Guttenberg Section</h:outputLink>
-                </c:if>
-                
-                <c:if test="#{authorPage.author.guttenberg} != null || #{authorPage.author.wikipedia} != null || #{authorPage.author.originalSite} != null">
-                    <p:spacer height="4em" />
+                <c:if test="#{authorPage.author.guttenberg != null}">
+                    <h:outputLink value="#{authorPage.author.guttenberg.toString()}">Guttenberg</h:outputLink>
+                    <h:outputText value="&#160;" />
                 </c:if>
                 
                 <h3>Books</h3>
-                <p:dataList value="#{authorPage.books}" var="item">
-                    <h:outputLink value="book.jsf?id=#{item.id}">#{item.name}</h:outputLink>
+                <p:dataList value="#{authorPage.books}" var="book">
+                    <h:outputLink value="book.jsf?id=#{book.id}">#{book.name}</h:outputLink>
                 </p:dataList>
                 
                 <c:if test="#{authorPage.author.tags.size() > 0}">

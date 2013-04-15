@@ -11,6 +11,7 @@ public class Book {
     private String epubFileName;
     private String name;
     private int id;
+    private boolean english;
 
     private String authorUrl;
 
@@ -22,6 +23,7 @@ public class Book {
         epubFileName = book.getEpubFileName();
         name = book.getName();
         id = book.getId();
+        english = book.isEnglish();
 
         authorUrl = baseUrl + "/authors/" + book.getAuthor().getId();
     }

@@ -201,6 +201,7 @@ public class Storage {
 
         if (en.isDirectory()) {
             for (Book book: readBooksFromDirectory(en, author)) {
+                book.setEnglish(true);
                 author.addBook(book);
             }
         }
