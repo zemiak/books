@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -19,26 +20,12 @@ public class IndexPage {
     @Inject
     private Collection col;
     
-    public List<Letter> getLetters() {
-        return col.getLetters();
-    }
-    
-    public List<Tag> getTags() {
-        return col.getTags();
-    }
-
-    private void iniTextValue() {
-        Map<String, String> params = FacesContext.getCurrentInstance()
-                .getExternalContext()
-                .getRequestParameterMap();
-
-        text = params.get("text");
-    }
-    
     public void runSearch() {
-        iniTextValue();
+        if (null == text || text.trim().isEmpty()) {
+            return;
+        }
         
-        System.out.println("Search text:"+text);
+        text = text.trim();
         
         try {
             FacesContext
@@ -53,8 +40,28 @@ public class IndexPage {
     public String getText() {
         return text;
     }
+    
+    @PostConstruct
+    public void init() {
+        // handle POST: search
+        
+        Map<String,String> requestParams = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        text = requestParams.get("searchForm:text");
+        
+        if (null != text && !text.trim().isEmpty()) {
+            runSearch();
+        }
+    }
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public List<Letter> getLetters() {
+        return col.getLetters();
+    }
+    
+    public List<Tag> getTags() {
+        return col.getTags();
     }
 }

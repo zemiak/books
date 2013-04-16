@@ -12,14 +12,11 @@
             
             <pm:content>
                 <h:form id="searchForm">
-                    <p:inputText type="search" id="text" />
+                    <p:inputText type="search" value="#{indexPage.text}" id="text" />
                     <p:watermark for="text" value="Search..." />
-                    <h:commandButton value="Login" action="#{indexPage.runSearch}">
-                        <f:param name="text" value="#{indexPage.text}" />
-                    </h:commandButton>
+                    <h:commandLink value="Login" action="#{indexPage.runSearch}" style="visibility: hidden; display: none;" />
                 </h:form>
                 
-                <p:spacer height="4em" />
                 <h3>Letters</h3>
                 <p:dataList value="#{indexPage.letters}" var="item">
                     <h:outputLink value="letter.jsf?id=#{item.letter}">#{item.letter}</h:outputLink>

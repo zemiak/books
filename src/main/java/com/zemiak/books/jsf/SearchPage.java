@@ -38,9 +38,6 @@ public class SearchPage {
     
     @PostConstruct
     public void search() {
-        System.out.println("SearchPage: col=" + col);
-        System.out.println("SearchPage: text=" + text);
-        
         authors = col.getAuthorsByExpression(text);
         books = col.getBooksByExpression(text);
     }
