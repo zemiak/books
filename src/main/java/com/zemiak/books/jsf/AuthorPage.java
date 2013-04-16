@@ -50,4 +50,8 @@ public class AuthorPage {
         
         return books;
     }
+    
+    public String getLetter() {
+        return author.getName().substring(0, 1).toUpperCase();
+    }
 }

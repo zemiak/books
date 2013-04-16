@@ -36,7 +36,7 @@ public class LoginPage {
             session.setAttribute("userManager", userManager);
             wasError = false;
             
-            return "phone/index.jsf";
+            return "/phone/index.jsf";
         }
     }
 

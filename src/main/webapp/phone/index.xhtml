@@ -19,13 +19,13 @@
                 
                 <h3>Letters</h3>
                 <p:dataList value="#{indexPage.letters}" var="item">
-                    <h:outputLink value="letter.jsf?id=#{item.letter}">#{item.letter}</h:outputLink>
+                    <h:outputLink value="/phone/letter.jsf?id=#{item.letter}">#{item.letter}</h:outputLink>
                 </p:dataList>
                 
                 <p:spacer height="4em" />
                 <h3>Tags</h3>
                 <p:dataList value="#{indexPage.tags}" var="item">
-                    <h:outputLink value="tag.jsf?id=#{item.name}">#{item.name}</h:outputLink>
+                    <h:outputLink value="/phone/tag.jsf?id=#{item.name}">#{item.name}</h:outputLink>
                 </p:dataList>
             </pm:content>
         </pm:view>

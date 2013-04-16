@@ -15,7 +15,7 @@
             <pm:content>
                 <h3>Authors</h3>
                 <p:dataList value="#{tagPage.authors}" var="item">
-                    <h:outputLink value="author.jsf?id=#{item.id}">#{item.name}</h:outputLink>
+                    <h:outputLink value="/phone/author.jsf?id=#{item.id}">#{item.name}</h:outputLink>
                 </p:dataList>
             </pm:content>
         </pm:view>
