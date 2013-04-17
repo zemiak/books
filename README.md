@@ -1,7 +1,7 @@
 # books
 
 J2EE / JSF app for viewing a collection of eBooks
-It is mentioned as an optimized web frontend for Kindles, phones and tablets to allow to browse, search and download the books from the collection to a reading device,
+It is mentioned as an optimized web frontend for phones and tablets to allow to browse, search and download the books from the collection to a reading device.
 
 ## How to Build
 This project is developed on NetBeans 7.3. It uses a Derby database called "books", so you have to create that one in the NetBeans first. You can run the app on a J2EE server of your choice.
