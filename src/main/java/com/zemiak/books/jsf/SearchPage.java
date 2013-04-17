@@ -25,7 +25,7 @@ public class SearchPage {
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text = text.toLowerCase();
     }
 
     public List<Author> getAuthors() {
@@ -40,5 +40,25 @@ public class SearchPage {
     public void search() {
         authors = col.getAuthorsByExpression(text);
         books = col.getBooksByExpression(text);
+    }
+    
+    public String getHighlightedValue(String value) {
+        String highlighted = "";
+        int i = value.toLowerCase().indexOf(text);
+        
+        if (i > 0) {
+            highlighted = value.substring(0, i);
+        }
+        
+        // Gold color
+        highlighted += "<span style=\"background-color: #FFD700;\">"
+                + value.substring(i, i + text.length())
+                + "</span>";
+        
+        if (value.length() > i + text.length()) {
+            highlighted += value.substring(i + text.length(), value.length());
+        }
+        
+        return highlighted;
     }
 }
