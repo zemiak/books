@@ -9,18 +9,20 @@
     
     <pm:page title="Books">
         <pm:view id="main">
-            <pm:header rendered="#{bookPage.book.english}" title="#{bookPage.book.name} (en)">
+            <pm:header title="Books">
                 <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
                 <f:facet name="right"><p:button value="Author" icon="forward" href="/phone/author.jsf?id=#{bookPage.book.author.id}"/></f:facet>
             </pm:header>
 
-            <pm:header rendered="#{not bookPage.book.english}" title="#{bookPage.book.name}">
-                <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
-                <f:facet name="right"><p:button value="Author" icon="forward" href="/phone/author.jsf?id=#{bookPage.book.author.id}"/></f:facet>
-            </pm:header>
-            
             <pm:content>
-                <h3>Download</h3>
+                <c:if test="#{bookPage.book.english}">
+                    <h3>#{bookPage.book.name} (en)</h3>
+                </c:if>
+                
+                <c:if test="#{not bookPage.book.english}">
+                    <h3>#{bookPage.book.name}</h3>
+                </c:if>
+                
                 <h:form id="downloadForm">
                     <!-- Actions have a different scope, bookPage is not constructed -->
                     <h:commandLink action="#{bookPage.fileMobi}" value="Download for Kindle">

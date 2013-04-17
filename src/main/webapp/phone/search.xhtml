@@ -15,21 +15,21 @@
             
             <pm:content>
                 <h:panelGroup rendered="#{searchPage.authors.size() > 0}">
-                    <h3>Authors</h3>
+                    <h3>Authors (#{searchPage.authors.size()})</h3>
                     <p:dataList value="#{searchPage.authors}" var="item">
                         <h:outputLink value="/phone/author.jsf?id=#{item.id}">#{item.name}</h:outputLink>
                     </p:dataList>
                 </h:panelGroup>
                 
                 <h:panelGroup rendered="#{searchPage.books.size() > 0}">
-                    <h3>Books</h3>
+                    <h3>Books (#{searchPage.books.size()})</h3>
                     <p:dataList value="#{searchPage.books}" var="item">
                         <h:outputLink value="/phone/book.jsf?id=#{item.id}">#{item.name}</h:outputLink>
                     </p:dataList>
                 </h:panelGroup>
                 
                 <h:panelGroup rendered="#{searchPage.authors.size() == 0 and searchPage.books.size() == 0}">
-                    <h3>No Results</h3>
+                    <h3>No Results for #{searchPage.text}</h3>
                 </h:panelGroup>
             </pm:content>
         </pm:view>

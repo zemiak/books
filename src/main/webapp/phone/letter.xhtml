@@ -8,13 +8,13 @@
     
     <pm:page title="Books">
         <pm:view id="main">
-            <pm:header title="#{letterPage.letter.letter}">
+            <pm:header title="Books">
                 <f:facet name="left"><p:button value="Back" icon="back" href="javascript:history.go(-1);"/></f:facet>
                 <f:facet name="right"><p:button value="Home" icon="home" href="/phone/index.jsf"/></f:facet>
             </pm:header>
             
             <pm:content>
-                <h3>Authors</h3>
+                <h3>Letter #{letterPage.letter.letter}</h3>
                 <p:dataList value="#{letterPage.authors}" var="item">
                     <h:outputLink value="/phone/author.jsf?id=#{item.id}">#{item.name}</h:outputLink>
                 </p:dataList>
