@@ -1,44 +1,26 @@
 package com.zemiak.books.jsf;
 
-import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Book;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.inject.Inject;
+import javax.faces.bean.SessionScoped;
 
 @ManagedBean
+@SessionScoped
 public class AuthorPage {
-    @ManagedProperty("#{param.id}")
-    private int id;
-    
-    @Inject
-    private Collection col;
-    
     private Author author;
-    
-    @PostConstruct
-    public void init() {
-        author = col.getAuthor(id);
-    }
     
     public Author getAuthor() {
         return author;
     }
     
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-    
     public List<Book> getBooks() {
+        System.err.println("getBooks: author is " + author);
+        if (null == author) return null;
+        
         List<Book> books = author.getBooks();
         
         Collections.sort(books, new Comparator<Book>() {
@@ -53,5 +35,11 @@ public class AuthorPage {
     
     public String getLetter() {
         return author.getName().substring(0, 1).toUpperCase();
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+        
+        System.err.println("Setting author to " + author);
     }
 }

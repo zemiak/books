@@ -23,6 +23,6 @@ public class Tag {
 
     @Override
     public String toString() {
-        return "Tag{" + "id=" + id + ", name=" + name + ", authorsUrl=" + authorsUrl + '}';
+        return "TagDTO{" + "id=" + id + ", name=" + name + ", authorsUrl=" + authorsUrl + '}';
     }
 }

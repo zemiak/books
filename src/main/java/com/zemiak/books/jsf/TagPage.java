@@ -2,27 +2,26 @@ package com.zemiak.books.jsf;
 
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
+import com.zemiak.books.domain.Tag;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 
 @ManagedBean
+@SessionScoped
 public class TagPage {
-    @ManagedProperty("#{param.id}")
-    private String id;
+    private Tag tag;
     
     @Inject
     private Collection col;
     
-    public String getTagName() {
-        return id;
-    }
-    
     public List<Author> getAuthors() {
-        List<Author> authors = col.getAuthorsByTag(getTagName());
+        if (null == tag) return null;
+        
+        List<Author> authors = col.getAuthorsByTag(tag.getName());
         
         Collections.sort(authors, new Comparator<Author>() {
             @Override
@@ -33,12 +32,12 @@ public class TagPage {
         
         return authors;
     }
-    
-    public String getId() {
-        return id;
+
+    public Tag getTag() {
+        return tag;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 }

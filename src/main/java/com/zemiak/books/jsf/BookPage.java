@@ -1,6 +1,5 @@
 package com.zemiak.books.jsf;
 
-import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Book;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -12,26 +11,15 @@ import java.io.OutputStream;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 
 @ManagedBean
+@SessionScoped
 public class BookPage {
-
-    @ManagedProperty("#{param.id}")
-    private int id;
-    @Inject
-    private Collection col;
     private Book book;
-
-    @PostConstruct
-    public void init() {
-        book = col.getBook(id);
-    }
 
     public Book getBook() {
         return book;
@@ -41,14 +29,6 @@ public class BookPage {
         fileMobi();
 
         return "Done";
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void fileMobi() {
@@ -67,9 +47,6 @@ public class BookPage {
         Map<String, String> params = FacesContext.getCurrentInstance()
                 .getExternalContext()
                 .getRequestParameterMap();
-
-        id = Integer.parseInt(params.get("id"));
-        init();
     }
 
     private void getFile(String fileName, String ext) {
@@ -155,5 +132,9 @@ public class BookPage {
         File file = new File(fileName);
         
         return (int) file.length();
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 }

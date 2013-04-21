@@ -10,35 +10,52 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 @ManagedBean
+@SessionScoped
 public class IndexPage {
-    private String text;
+    private String searchText;
     
     @Inject
     private Collection col;
     
+    @Inject 
+    private LetterPage letterPage;
+    
+    @Inject
+    private TagPage tagPage;
+    
+    @Inject
+    private AuthorPage authorPage;
+    
+    @Inject
+    private History history;
+    
+    @Inject
+    private BookPage bookPage;
+    
     public void runSearch() {
-        if (null == text || text.trim().isEmpty()) {
+        if (null == searchText || searchText.trim().isEmpty()) {
             return;
         }
         
-        text = text.trim();
+        searchText = searchText.trim();
         
         try {
             FacesContext
                     .getCurrentInstance()
                     .getExternalContext()
-                    .redirect("search.jsf?text=" + text);
+                    .redirect("search.jsf?text=" + searchText);
         } catch (IOException ex) {
             Logger.getLogger(IndexPage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public String getText() {
-        return text;
+    public String getSearchText() {
+        return searchText;
     }
     
     @PostConstruct
@@ -46,15 +63,15 @@ public class IndexPage {
         // handle POST: search
         
         Map<String,String> requestParams = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        text = requestParams.get("searchForm:text");
+        searchText = requestParams.get("searchForm:text");
         
-        if (null != text && !text.trim().isEmpty()) {
+        if (null != searchText && !searchText.trim().isEmpty()) {
             runSearch();
         }
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setSearchText(String text) {
+        this.searchText = text;
     }
 
     public List<Letter> getLetters() {
@@ -63,5 +80,25 @@ public class IndexPage {
     
     public List<Tag> getTags() {
         return col.getTags();
+    }
+
+    public LetterPage getLetterPage() {
+        return letterPage;
+    }
+
+    public TagPage getTagPage() {
+        return tagPage;
+    }
+
+    public AuthorPage getAuthorPage() {
+        return authorPage;
+    }
+
+    public History getHistory() {
+        return history;
+    }
+
+    public BookPage getBookPage() {
+        return bookPage;
     }
 }

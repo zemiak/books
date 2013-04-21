@@ -2,6 +2,7 @@ package com.zemiak.books.jsf;
 
 import com.zemiak.books.service.UserManager;
 import java.io.IOException;
+import javax.faces.bean.ManagedBean;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -12,6 +13,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@ManagedBean
 @WebFilter("/phone/*")
 public class LoginFilter implements Filter {
 

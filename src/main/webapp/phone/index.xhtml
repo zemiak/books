@@ -27,29 +27,145 @@
         xmlns:pm="http://primefaces.org/mobile"
         contentType="text/html"
         xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
         xmlns:h="http://java.sun.com/jsf/html">
     
     <pm:page title="Books">
-        <pm:view id="main">
+        <pm:view id="index" swatch="c">
             <pm:header title="Books" />
             
             <pm:content>
                 <h:form id="searchForm">
-                    <p:inputText type="search" value="#{indexPage.text}" id="text" />
+                    <p:inputText type="search" value="#{indexPage.searchText}" id="text" />
                     <p:watermark for="text" value="Search..." />
                     <h:commandLink value="Login" action="#{indexPage.runSearch}" style="visibility: hidden; display: none;" />
                 </h:form>
                 
                 <h3>Letters</h3>
                 <p:dataList value="#{indexPage.letters}" var="item">
-                    <h:outputLink value="/phone/letter.jsf?id=#{item.letter}">#{item.letter}</h:outputLink>
+                    <p:commandLink value="#{item.letter}" update=":letterForm:letters,:letterForm:letterLabel" action="pm:letter">
+                        <f:setPropertyActionListener value="#{item}" target="#{indexPage.letterPage.letter}" />
+                        <f:setPropertyActionListener value="index" target="#{indexPage.history.lastItem}" />
+                    </p:commandLink>
                 </p:dataList>
                 
                 <p:spacer height="4em" />
                 <h3>Tags</h3>
                 <p:dataList value="#{indexPage.tags}" var="item">
-                    <h:outputLink value="/phone/tag.jsf?id=#{item.name}">#{item.name}</h:outputLink>
+                    <p:commandLink value="#{item.name}" update=":tagForm:tags,:tagForm:tagLabel" action="pm:tag">
+                        <f:setPropertyActionListener value="#{item}" target="#{indexPage.tagPage.tag}" />
+                        <f:setPropertyActionListener value="index" target="#{indexPage.history.lastItem}" />
+                    </p:commandLink>
                 </p:dataList>
+            </pm:content>
+        </pm:view>
+        
+        <pm:view id="letter" swatch="c">
+            <pm:header title="Books">
+                <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.lastItem}"/></f:facet>
+                <f:facet name="right"><p:button value="Home" icon="home" href="#{indexPage.history.home}"/></f:facet>
+            </pm:header>
+            
+            <pm:content>
+                <h:form id="letterForm">
+                    <h3>Letter <p:outputLabel value="#{indexPage.letterPage.letter.letter}" id="letterLabel" /></h3>
+                    <p:dataList value="#{indexPage.letterPage.authors}" var="item" id="letters">
+                        <p:commandLink value="#{item.name}" update=":authorForm:books,:authorForm:webPages,:authorForm:authorLabel,:authorForm:authorTags" action="pm:author">
+                            <f:setPropertyActionListener value="#{item}" target="#{indexPage.authorPage.author}" />
+                            <f:setPropertyActionListener value="tag" target="#{indexPage.history.lastItem}" />
+                        </p:commandLink>
+                    </p:dataList>
+                </h:form>
+            </pm:content>
+        </pm:view>
+        
+        <pm:view id="tag" swatch="c">
+            <pm:header title="Books">
+                <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.lastItem}"/></f:facet>
+                <f:facet name="right"><p:button value="Home" icon="home" href="#{indexPage.history.home}"/></f:facet>
+            </pm:header>
+            
+            <pm:content>
+                <h:form id="tagForm">
+                    <h3>Tag <p:outputLabel value="#{indexPage.tagPage.tag.name}" id="tagLabel" /></h3>
+                    <p:dataList value="#{indexPage.tagPage.authors}" var="item" id="tags">
+                        <p:commandLink value="#{item.name}" update=":authorForm:books,:authorForm:webPages,:authorForm:authorLabel,:authorForm:authorTags" action="pm:author">
+                            <f:setPropertyActionListener value="#{item}" target="#{indexPage.authorPage.author}" />
+                            <f:setPropertyActionListener value="tag" target="#{indexPage.history.lastItem}" />
+                        </p:commandLink>
+                    </p:dataList>
+                </h:form>
+            </pm:content>
+        </pm:view>
+        
+        <pm:view id="author" swatch="c">
+            <pm:header title="Books">
+                <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.lastItem}" /></f:facet>
+                <f:facet name="right"><p:button value="Home" icon="home" href="#{indexPage.history.home}" /></f:facet>
+            </pm:header>
+            
+            <pm:content>
+                <h:form id="authorForm">
+                    <h3><p:outputLabel value="#{indexPage.authorPage.author.name}" id="authorLabel" /></h3>
+                    
+                    <p:dataList value="#{indexPage.authorPage.author.webPages}" var="item" id="webPages">
+                        <h:outputLink value="#{item.href}">#{item.name}</h:outputLink>
+                    </p:dataList>
+                    
+                    <h3>Books</h3>
+
+                    <p:dataList value="#{indexPage.authorPage.books}" var="book" id="books">
+                        <p:commandLink rendered="#{not book.english}" value="#{book.name}" update=":bookForm:bookLabel,:downloadForm:kindle,:downloadForm:epub" action="pm:book">
+                            <f:setPropertyActionListener value="#{book}" target="#{indexPage.bookPage.book}" />
+                            <f:setPropertyActionListener value="author" target="#{indexPage.history.lastItem}" />
+                        </p:commandLink>
+                        
+                        <p:commandLink rendered="#{book.english}" value="#{book.name} (en)" update=":bookForm:bookLabel,:downloadForm:kindle,:downloadForm:epub" action="pm:book">
+                            <f:setPropertyActionListener value="#{book}" target="#{indexPage.bookPage.book}" />
+                            <f:setPropertyActionListener value="author" target="#{indexPage.history.lastItem}" />
+                        </p:commandLink>
+                    </p:dataList>
+
+                    <p:dataList value="#{indexPage.authorPage.author.tags}" var="item" id="authorTags">
+                        <p:commandLink value="#{item.name}" update=":tagForm:tags,:tagForm:tagLabel" action="pm:tag">
+                            <f:setPropertyActionListener value="#{item}" target="#{indexPage.tagPage.tag}" />
+                            <f:setPropertyActionListener value="author" target="#{indexPage.history.lastItem}" />
+                        </p:commandLink>
+                    </p:dataList>
+                </h:form>
+            </pm:content>
+        </pm:view>
+        
+        <pm:view id="book" swatch="c">
+            <pm:header title="Books">
+                <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.lastItem}"/></f:facet>
+                <f:facet name="right"><p:button value="Home" icon="home" href="#{indexPage.history.home}"/></f:facet>
+            </pm:header>
+
+            <pm:content>
+                <h:form id="bookForm">
+                    <h:panelGroup id="bookLabel">
+                        <c:if test="#{indexPage.bookPage.book.english}">
+                            <h3>#{indexPage.bookPage.book.name} (en)</h3>
+                        </c:if>
+
+                        <c:if test="#{not indexPage.bookPage.book.english}">
+                            <h3>#{indexPage.bookPage.book.name}</h3>
+                        </c:if>
+                    </h:panelGroup>
+                </h:form>
+                
+                <h:form id="downloadForm">
+                    <!-- Actions have a different scope, bookPage is not constructed -->
+                    <h:commandLink action="#{indexPage.bookPage.fileMobi}" value="Download for Kindle" id="kindle">
+                        <f:param name="id" value="#{indexPage.bookPage.book.id}" />
+                    </h:commandLink>
+                    
+                    <br />
+                    <h:commandLink action="#{indexPage.bookPage.fileEpub}" value="Download as ePub" id="epub">
+                        <f:param name="id" value="#{indexPage.bookPage.book.id}" />
+                    </h:commandLink>
+                </h:form>
             </pm:content>
         </pm:view>
     </pm:page>

@@ -22,7 +22,7 @@ public class Letter {
 
     @Override
     public String toString() {
-        return "Letter{" + "letter=" + letter + ", authorsUrl=" + authorsUrl + '}';
+        return "LetterDTO{" + "letter=" + letter + ", authorsUrl=" + authorsUrl + '}';
     }
 
     @Override

@@ -19,11 +19,6 @@ import javax.persistence.OneToMany;
 @NamedQuery(name = "Author.findByTag", query = "select a from Author a where lower(a.tagString) like :tag")
 })
 public class Author implements Serializable {
-    private URL wikipedia;
-    private URL originalSite;
-    private URL bibliography;
-    private URL guttenberg;
-    
     private String tagString;
 
     @OneToMany(cascade = CascadeType.PERSIST)
@@ -31,6 +26,9 @@ public class Author implements Serializable {
 
     @OneToMany(mappedBy="author", cascade=CascadeType.PERSIST)
     private List<Book> books;
+    
+    @OneToMany(mappedBy="author", cascade=CascadeType.PERSIST)
+    private List<WebPage> webPages;
 
     private String name;
 
@@ -52,38 +50,6 @@ public class Author implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public URL getWikipedia() {
-        return wikipedia;
-    }
-
-    public void setWikipedia(URL wikipedia) {
-        this.wikipedia = wikipedia;
-    }
-
-    public URL getOriginalSite() {
-        return originalSite;
-    }
-
-    public void setOriginalSite(URL originalSite) {
-        this.originalSite = originalSite;
-    }
-
-    public URL getBibliography() {
-        return bibliography;
-    }
-
-    public void setBibliography(URL bibliography) {
-        this.bibliography = bibliography;
-    }
-
-    public URL getGuttenberg() {
-        return guttenberg;
-    }
-
-    public void setGuttenberg(URL guttenberg) {
-        this.guttenberg = guttenberg;
     }
 
     public List<Tag> getTags() {
@@ -138,7 +104,7 @@ public class Author implements Serializable {
 
     @Override
     public String toString() {
-        return "Author{" + "wikipedia=" + wikipedia + ", originalSite=" + originalSite + ", bibliography=" + bibliography + ", guttenberg=" + guttenberg + ", name=" + name + ", id=" + id + '}';
+        return "Author{name=" + name + ", id=" + id + '}';
     }
 
     public String getTagString() {
@@ -147,5 +113,13 @@ public class Author implements Serializable {
 
     public void setTagString(String tagString) {
         this.tagString = tagString;
+    }
+
+    public List<WebPage> getWebPages() {
+        return webPages;
+    }
+
+    public void setWebPages(List<WebPage> webPages) {
+        this.webPages = webPages;
     }
 }

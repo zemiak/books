@@ -5,6 +5,7 @@ import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Book;
 import com.zemiak.books.domain.Letter;
 import com.zemiak.books.domain.Tag;
+import com.zemiak.books.domain.WebPage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -96,10 +97,7 @@ public class Storage {
         Author author = new Author();
 
         author.setName(authorFile.getName());
-        author.setOriginalSite(readOriginalSite(authorFile));
-        author.setBibliography(readBibliography(authorFile));
-        author.setGuttenberg(readGuttenberg(authorFile));
-        author.setWikipedia(readWikipedia(authorFile));
+        readWebPages(authorFile, author);
         readTags(authorFile, author);
         readBooks(authorFile, author);
         author.setId();
@@ -234,5 +232,32 @@ public class Storage {
         }
 
         return authorBooks;
+    }
+
+    private void readWebPages(File authorFile, Author author) {
+        List<WebPage> pages = new ArrayList<>();
+        URL url;
+        
+        url = readOriginalSite(authorFile);
+        if (null != url) {
+            pages.add(new WebPage("Original Site", url, author));
+        }
+        
+        url = readBibliography(authorFile);
+        if (null != url) {
+            pages.add(new WebPage("Bibliography", url, author));
+        }
+        
+        url = readGuttenberg(authorFile);
+        if (null != url) {
+            pages.add(new WebPage("Guttenberg", url, author));
+        }
+        
+        url = readWikipedia(authorFile);
+        if (null != url) {
+            pages.add(new WebPage("Wikipedia", url, author));
+        }
+        
+        author.setWebPages(pages);
     }
 }
