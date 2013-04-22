@@ -18,7 +18,6 @@ public class AuthorPage {
     }
     
     public List<Book> getBooks() {
-        System.err.println("getBooks: author is " + author);
         if (null == author) return null;
         
         List<Book> books = author.getBooks();
@@ -39,7 +38,5 @@ public class AuthorPage {
 
     public void setAuthor(Author author) {
         this.author = author;
-        
-        System.err.println("Setting author to " + author);
     }
 }

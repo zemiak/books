@@ -4,7 +4,6 @@ import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Book;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -13,7 +12,7 @@ import javax.inject.Inject;
 @ManagedBean
 @SessionScoped
 public class SearchPage {
-    @ManagedProperty("#{param.text}")
+    @ManagedProperty(name = "text", value = "text")
     private String text;
     
     @Inject
@@ -27,7 +26,14 @@ public class SearchPage {
     }
 
     public void setText(String text) {
+        if (null == text) {
+            return;
+        }
+        
         this.text = text.toLowerCase();
+        
+        authors = col.getAuthorsByExpression(text);
+        books = col.getBooksByExpression(text);
     }
 
     public List<Author> getAuthors() {
@@ -36,12 +42,6 @@ public class SearchPage {
 
     public List<Book> getBooks() {
         return books;
-    }
-    
-    @PostConstruct
-    public void search() {
-        authors = col.getAuthorsByExpression(text);
-        books = col.getBooksByExpression(text);
     }
     
     public String getHighlightedValue(String value) {

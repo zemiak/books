@@ -28,8 +28,6 @@ public class LoginPage {
             wasError = true;
             lastErrorMessage = "Bad email or password";
             
-            System.out.println("Hashed password:" + new User().encryptPassword(password));
-            
             return (username = password = null);
         } else {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);

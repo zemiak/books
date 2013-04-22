@@ -32,15 +32,11 @@
     
     <pm:page title="Books">
         <pm:view id="index" swatch="c">
-            <pm:header title="Books" />
+            <pm:header title="Books">
+                <f:facet name="right"><p:button value="Search" icon="search" href="#quickSearch"/></f:facet>
+            </pm:header>
             
             <pm:content>
-                <h:form id="searchForm">
-                    <p:inputText type="search" value="#{indexPage.searchText}" id="text" />
-                    <p:watermark for="text" value="Search..." />
-                    <h:commandLink value="Login" action="#{indexPage.runSearch}" style="visibility: hidden; display: none;" />
-                </h:form>
-                
                 <h3>Letters</h3>
                 <p:dataList value="#{indexPage.letters}" var="item">
                     <p:commandLink value="#{item.letter}" update=":letterForm:letters,:letterForm:letterLabel" action="pm:letter">
@@ -165,6 +161,49 @@
                     <h:commandLink action="#{indexPage.bookPage.fileEpub}" value="Download as ePub" id="epub">
                         <f:param name="id" value="#{indexPage.bookPage.book.id}" />
                     </h:commandLink>
+                </h:form>
+            </pm:content>
+        </pm:view>
+        
+        <pm:view id="quickSearch" swatch="c">
+            <pm:header title="Books">
+                <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.home}"/></f:facet>
+            </pm:header>
+            
+            <pm:content>
+                <h:form id="quickSearchForm">
+                    <p:inputText type="search" value="#{indexPage.searchPage.text}" id="text" valueChangeListener="#{indexPage.searchTextListener}" immediate="#{true}" />
+                    <p:watermark for="text" value="Search..." />
+                    <p:commandButton value="Search" action="pm:search" update=":searchForm:searchBooks,:searchForm:searchAuthors">
+                        <f:setPropertyActionListener value="#{indexPage.searchPage.text}" target="#{indexPage.searchPage.text}" />
+                        <f:setPropertyActionListener value="tag" target="#{indexPage.history.lastItem}" />
+                    </p:commandButton>
+                    
+                    <p:focus for="text" />
+                </h:form>
+            </pm:content>
+        </pm:view>
+        
+        <pm:view id="search" swatch="c">
+            <pm:header title="Books">
+                <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.lastItem}"/></f:facet>
+            </pm:header>
+            
+            <pm:content>
+                <h:form id="searchForm">
+                    <p:dataList value="#{indexPage.searchPage.authors}" var="item" id="searchAuthors">
+                        <p:commandLink value="#{indexPage.searchPage.getHighlightedValue(item.name)}" update=":authorForm:books,:authorForm:webPages,:authorForm:authorLabel,:authorForm:authorTags" action="pm:author">
+                            <f:setPropertyActionListener value="#{item}" target="#{indexPage.authorPage.author}" />
+                            <f:setPropertyActionListener value="tag" target="#{indexPage.history.lastItem}" />
+                        </p:commandLink>
+                    </p:dataList>
+
+                    <p:dataList value="#{indexPage.searchPage.books}" var="item" id="searchBooks">
+                        <p:commandLink value="#{indexPage.searchPage.getHighlightedValue(item.name)}" update=":bookForm:bookLabel,:downloadForm:kindle,:downloadForm:epub" action="pm:book">
+                            <f:setPropertyActionListener value="#{item}" target="#{indexPage.bookPage.book}" />
+                            <f:setPropertyActionListener value="author" target="#{indexPage.history.lastItem}" />
+                        </p:commandLink>
+                    </p:dataList>
                 </h:form>
             </pm:content>
         </pm:view>
