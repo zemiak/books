@@ -15,7 +15,7 @@
             <h:form id="quickSearchForm">
                 <p:inputText type="search" value="#{indexPage.searchPage.text}" id="text" valueChangeListener="#{indexPage.searchTextListener}" immediate="#{true}" />
                 <p:watermark for="text" value="Search..." />
-                <p:commandButton value="Search" action="pm:search" update=":searchForm:searchBooks,:searchForm:searchAuthors">
+                <p:commandButton value="Search" action="pm:search" update=":searchForm:searchBooks,:searchForm:searchAuthors,:searchForm:searchAuthorsLabel,:searchForm:searchBooksLabel,:searchForm:searchResultsLabel">
                     <f:setPropertyActionListener value="#{indexPage.searchPage.text}" target="#{indexPage.searchPage.text}" />
                     <f:setPropertyActionListener value="tag" target="#{indexPage.history.lastItem}" />
                 </p:commandButton>
@@ -32,6 +32,8 @@
 
         <pm:content>
             <h:form id="searchForm">
+                <h3><p:outputLabel value="#{indexPage.searchPage.authorsLabel}" id="searchAuthorsLabel" /></h3>
+                
                 <p:dataList value="#{indexPage.searchPage.authors}" var="item" id="searchAuthors">
                     <p:commandLink update=":authorForm:books,:authorForm:webPages,:authorForm:authorLabel,:authorForm:authorTags" action="pm:author">
                         <p:outputLabel value="#{indexPage.searchPage.getHighlightedValue(item.name)}" escape="false" />
@@ -40,6 +42,7 @@
                     </p:commandLink>
                 </p:dataList>
 
+                <h3><p:outputLabel value="#{indexPage.searchPage.booksLabel}" id="searchBooksLabel" /></h3>
                 <p:dataList value="#{indexPage.searchPage.books}" var="item" id="searchBooks">
                     <p:commandLink update=":bookForm:bookLabel,:downloadForm:kindle,:downloadForm:epub" action="pm:book">
                         <p:outputLabel value="#{indexPage.searchPage.getHighlightedValue(item.name)}" escape="false" />
@@ -47,6 +50,8 @@
                         <f:setPropertyActionListener value="author" target="#{indexPage.history.lastItem}" />
                     </p:commandLink>
                 </p:dataList>
+                
+                <h3><p:outputLabel value="#{indexPage.searchPage.resultsLabel}" id="searchResultsLabel" /></h3>
             </h:form>
         </pm:content>
     </pm:view>

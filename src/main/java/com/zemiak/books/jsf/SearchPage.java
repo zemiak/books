@@ -63,4 +63,27 @@ public class SearchPage {
         
         return highlighted;
     }
+    
+    public String getAuthorsLabel() {
+        if (null != authors && !authors.isEmpty()) {
+            return "Authors: " + authors.size();
+        }
+        
+        return "";
+    }
+    
+    public String getBooksLabel() {
+        if (null != books && !books.isEmpty()) {
+            return "Books: " + books.size();
+        }
+        
+        return "";
+    }
+    
+    public String getResultsLabel() {
+        boolean authorsEmpty = null == authors || authors.isEmpty();
+        boolean booksEmpty = null == books || books.isEmpty();
+        
+        return (authorsEmpty && booksEmpty) ? "No results for " + text : "";
+    }
 }
