@@ -39,4 +39,12 @@ public class AuthorPage {
     public void setAuthor(Author author) {
         this.author = author;
     }
+    
+    public String getTagsLabel() {
+        if (null != author && ! author.getTagString().isEmpty()) {
+            return "Tags";
+        }
+        
+        return "";
+    }
 }

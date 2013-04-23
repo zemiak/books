@@ -8,15 +8,14 @@
 
     <pm:view id="letter" swatch="c">
         <pm:header title="Books">
-            <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.lastItem}"/></f:facet>
-            <f:facet name="right"><p:button value="Home" icon="home" href="#{indexPage.history.home}"/></f:facet>
+            <f:facet name="left"><p:button value="Back" icon="back" href="#main?reverse=true"/></f:facet>
         </pm:header>
 
         <pm:content>
             <h:form id="letterForm">
                 <h3>Letter <p:outputLabel value="#{indexPage.letterPage.letter.letter}" id="letterLabel" /></h3>
                 <p:dataList value="#{indexPage.letterPage.authors}" var="item" id="letters">
-                    <p:commandLink value="#{item.name}" update=":authorForm:books,:authorForm:webPages,:authorForm:authorLabel,:authorForm:authorTags" action="pm:author">
+                    <p:commandLink value="#{item.name}" update=":authorForm:authorTagsLabel,:authorForm:books,:authorForm:webPages,:authorForm:authorLabel,:authorForm:authorTags" action="pm:author">
                         <f:setPropertyActionListener value="#{item}" target="#{indexPage.authorPage.author}" />
                         <f:setPropertyActionListener value="tag" target="#{indexPage.history.lastItem}" />
                     </p:commandLink>

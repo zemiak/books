@@ -8,19 +8,21 @@
 
     <pm:view id="author" swatch="c">
         <pm:header title="Books">
-            <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.lastItem}" /></f:facet>
+            <f:facet name="left"><p:button value="Back" icon="back" href="#letter?reverse=true" /></f:facet>
             <f:facet name="right"><p:button value="Home" icon="home" href="#{indexPage.history.home}" /></f:facet>
         </pm:header>
 
         <pm:content>
             <h:form id="authorForm">
                 <h3><p:outputLabel value="#{indexPage.authorPage.author.name}" id="authorLabel" /></h3>
+                
+                <p></p>
 
                 <p:dataList value="#{indexPage.authorPage.author.webPages}" var="item" id="webPages">
                     <h:outputLink value="#{item.href}">#{item.name}</h:outputLink>
                 </p:dataList>
-
-                <h3>Books</h3>
+                
+                <p></p>
 
                 <p:dataList value="#{indexPage.authorPage.books}" var="book" id="books">
                     <p:commandLink rendered="#{not book.english}" value="#{book.name}" update=":bookForm:bookLabel,:downloadForm:kindle,:downloadForm:epub" action="pm:book">
@@ -33,6 +35,12 @@
                         <f:setPropertyActionListener value="author" target="#{indexPage.history.lastItem}" />
                     </p:commandLink>
                 </p:dataList>
+                
+                <p></p>
+                
+                <p>
+                    <p:outputLabel value="#{indexPage.authorPage.tagsLabel}" id="authorTagsLabel" />
+                </p>
 
                 <p:dataList value="#{indexPage.authorPage.author.tags}" var="item" id="authorTags">
                     <p:commandLink value="#{item.name}" update=":tagForm:tags,:tagForm:tagLabel" action="pm:tag">
