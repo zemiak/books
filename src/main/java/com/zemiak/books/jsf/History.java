@@ -6,7 +6,7 @@ import javax.faces.bean.SessionScoped;
 
 @SessionScoped
 public class History {
-    final static private String HOME = "#letter?reverse=true";
+    final static private String HOME = "#main?reverse=true";
     
     private Deque<String> history = new ArrayDeque<>();
     

@@ -33,14 +33,16 @@
         <pm:content>
             <h:form id="searchForm">
                 <p:dataList value="#{indexPage.searchPage.authors}" var="item" id="searchAuthors">
-                    <p:commandLink value="#{indexPage.searchPage.getHighlightedValue(item.name)}" update=":authorForm:books,:authorForm:webPages,:authorForm:authorLabel,:authorForm:authorTags" action="pm:author">
+                    <p:commandLink update=":authorForm:books,:authorForm:webPages,:authorForm:authorLabel,:authorForm:authorTags" action="pm:author">
+                        <p:outputLabel value="#{indexPage.searchPage.getHighlightedValue(item.name)}" escape="false" />
                         <f:setPropertyActionListener value="#{item}" target="#{indexPage.authorPage.author}" />
                         <f:setPropertyActionListener value="tag" target="#{indexPage.history.lastItem}" />
                     </p:commandLink>
                 </p:dataList>
 
                 <p:dataList value="#{indexPage.searchPage.books}" var="item" id="searchBooks">
-                    <p:commandLink value="#{indexPage.searchPage.getHighlightedValue(item.name)}" update=":bookForm:bookLabel,:downloadForm:kindle,:downloadForm:epub" action="pm:book">
+                    <p:commandLink update=":bookForm:bookLabel,:downloadForm:kindle,:downloadForm:epub" action="pm:book">
+                        <p:outputLabel value="#{indexPage.searchPage.getHighlightedValue(item.name)}" escape="false" />
                         <f:setPropertyActionListener value="#{item}" target="#{indexPage.bookPage.book}" />
                         <f:setPropertyActionListener value="author" target="#{indexPage.history.lastItem}" />
                     </p:commandLink>
