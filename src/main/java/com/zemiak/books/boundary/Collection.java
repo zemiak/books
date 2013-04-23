@@ -2,6 +2,7 @@ package com.zemiak.books.boundary;
 
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Book;
+import com.zemiak.books.domain.Cache;
 import com.zemiak.books.domain.Letter;
 import com.zemiak.books.domain.Tag;
 import java.util.ArrayList;
@@ -19,16 +20,12 @@ public class Collection {
         return em.createNamedQuery("Author.findAll").getResultList();
     }
     
-    public List<Author> getAuthorsDocumented() {
-        return em.createNamedQuery("Author.findDocumented").getResultList();
-    }
-    
-    public List<Author> getAuthorsTagged() {
-        return em.createNamedQuery("Author.findTagged").getResultList();
-    }
-
     public Author getAuthor(int id) {
         return em.find(Author.class, id);
+    }
+    
+    public Cache getCache(String key) {
+        return em.find(Cache.class, key);
     }
 
     public List<Book> getBooks() {
