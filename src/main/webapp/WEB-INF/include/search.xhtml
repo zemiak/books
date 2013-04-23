@@ -1,0 +1,52 @@
+<ui:composition xmlns="https://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pm="http://primefaces.org/mobile"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:h="http://java.sun.com/jsf/html">
+
+    <pm:view id="quickSearch" swatch="c">
+        <pm:header title="Books">
+            <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.home}"/></f:facet>
+        </pm:header>
+
+        <pm:content>
+            <h:form id="quickSearchForm">
+                <p:inputText type="search" value="#{indexPage.searchPage.text}" id="text" valueChangeListener="#{indexPage.searchTextListener}" immediate="#{true}" />
+                <p:watermark for="text" value="Search..." />
+                <p:commandButton value="Search" action="pm:search" update=":searchForm:searchBooks,:searchForm:searchAuthors">
+                    <f:setPropertyActionListener value="#{indexPage.searchPage.text}" target="#{indexPage.searchPage.text}" />
+                    <f:setPropertyActionListener value="tag" target="#{indexPage.history.lastItem}" />
+                </p:commandButton>
+
+                <p:focus for="text" />
+            </h:form>
+        </pm:content>
+    </pm:view>
+
+    <pm:view id="search" swatch="c">
+        <pm:header title="Books">
+            <f:facet name="left"><p:button value="Back" icon="back" href="#{indexPage.history.lastItem}"/></f:facet>
+        </pm:header>
+
+        <pm:content>
+            <h:form id="searchForm">
+                <p:dataList value="#{indexPage.searchPage.authors}" var="item" id="searchAuthors">
+                    <p:commandLink value="#{indexPage.searchPage.getHighlightedValue(item.name)}" update=":authorForm:books,:authorForm:webPages,:authorForm:authorLabel,:authorForm:authorTags" action="pm:author">
+                        <f:setPropertyActionListener value="#{item}" target="#{indexPage.authorPage.author}" />
+                        <f:setPropertyActionListener value="tag" target="#{indexPage.history.lastItem}" />
+                    </p:commandLink>
+                </p:dataList>
+
+                <p:dataList value="#{indexPage.searchPage.books}" var="item" id="searchBooks">
+                    <p:commandLink value="#{indexPage.searchPage.getHighlightedValue(item.name)}" update=":bookForm:bookLabel,:downloadForm:kindle,:downloadForm:epub" action="pm:book">
+                        <f:setPropertyActionListener value="#{item}" target="#{indexPage.bookPage.book}" />
+                        <f:setPropertyActionListener value="author" target="#{indexPage.history.lastItem}" />
+                    </p:commandLink>
+                </p:dataList>
+            </h:form>
+        </pm:content>
+    </pm:view>
+    
+</ui:composition>
