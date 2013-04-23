@@ -11,6 +11,10 @@ This project is developed on NetBeans 7.3. It uses a Derby database called "book
 This is highly unpolished, unconfigurable. The project assumes, that you are a non-english ebook collector. Therefore english books have separate folders.
 Also author info/metadata storing is a little bit strange (URL files in the folder structure)
 
+## License
+
+GPL version 2 or later
+
 ## Folder structure
 
 It is simple. First level are letters (the first letter of the Author's lastname).

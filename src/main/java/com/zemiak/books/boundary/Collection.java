@@ -18,6 +18,14 @@ public class Collection {
     public List<Author> getAuthors() {
         return em.createNamedQuery("Author.findAll").getResultList();
     }
+    
+    public List<Author> getAuthorsDocumented() {
+        return em.createNamedQuery("Author.findDocumented").getResultList();
+    }
+    
+    public List<Author> getAuthorsTagged() {
+        return em.createNamedQuery("Author.findTagged").getResultList();
+    }
 
     public Author getAuthor(int id) {
         return em.find(Author.class, id);

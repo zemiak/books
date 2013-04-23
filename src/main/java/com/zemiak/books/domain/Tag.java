@@ -5,6 +5,7 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -18,6 +19,9 @@ public class Tag implements Serializable {
     @Id
     @GeneratedValue
     private long id;
+    
+    @ManyToOne
+    private Author author;
 
     private String name;
 

@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 @NamedQueries({
 @NamedQuery(name = "Author.findAll", query = "select a from Author a order by a.name"),
 @NamedQuery(name = "Author.findByExpression", query = "select a from Author a where lower(a.name) like :expr order by a.name"),
-@NamedQuery(name = "Author.findByTag", query = "select a from Author a where lower(a.tagString) like :tag")
+@NamedQuery(name = "Author.findByTag", query = "select a from Author a where lower(a.tagString) like :tag"),
 })
 public class Author implements Serializable {
     private String tagString;

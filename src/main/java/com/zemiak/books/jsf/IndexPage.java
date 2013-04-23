@@ -33,6 +33,9 @@ public class IndexPage {
     @Inject
     private SearchPage searchPage;
     
+    @Inject
+    private AboutPage aboutPage;
+    
     public void searchTextListener(ValueChangeEvent event) {
         searchPage.setText(event.getNewValue().toString());
     }
@@ -67,5 +70,9 @@ public class IndexPage {
 
     public SearchPage getSearchPage() {
         return searchPage;
+    }
+
+    public AboutPage getAboutPage() {
+        return aboutPage;
     }
 }
