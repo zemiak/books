@@ -8,4 +8,26 @@
         <!-- Minutes: half a year -->
         <session-timeout>259200</session-timeout>
     </session-config>
+    
+    <context-param>
+        <description>Vaadin production mode</description>
+        <param-name>productionMode</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    
+    <servlet>
+        <servlet-name>Vaadin Application Servlet</servlet-name>
+        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+        
+        <init-param>
+            <description>Vaadin UI to display</description>
+            <param-name>UI</param-name>
+            <param-value>com.zemiak.books.BooksUI</param-value>
+        </init-param>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Vaadin Application Servlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
 </web-app>
