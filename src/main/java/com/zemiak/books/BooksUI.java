@@ -4,6 +4,7 @@ import com.vaadin.addon.touchkit.ui.TabBarView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.cdi.CDIUI;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet.Tab;
@@ -13,6 +14,7 @@ import com.vaadin.ui.UI;
 @Theme("mobiletheme")
 @Title("Books")
 @Widgetset("com.zemiak.books.AppWidgetSet")
+@CDIUI
 public class BooksUI extends UI {
     private TabBarView bar;
     

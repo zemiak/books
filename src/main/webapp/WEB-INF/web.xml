@@ -24,6 +24,11 @@
             <param-name>UI</param-name>
             <param-value>com.zemiak.books.BooksUI</param-value>
         </init-param>
+        
+        <init-param>
+            <param-name>UIProvider</param-name>
+            <param-value>com.vaadin.cdi.CDIUIProvider</param-value>
+        </init-param>
     </servlet>
     
     <servlet-mapping>
