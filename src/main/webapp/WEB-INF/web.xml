@@ -17,7 +17,7 @@
     
     <servlet>
         <servlet-name>Vaadin Application Servlet</servlet-name>
-        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+        <servlet-class>com.zemiak.books.BooksServlet</servlet-class>
         
         <init-param>
             <description>Vaadin UI to display</description>
