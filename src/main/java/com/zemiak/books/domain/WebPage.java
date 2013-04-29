@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class WebPage implements Serializable {
+public class WebPage implements Serializable, Comparable {
     @Id
     @GeneratedValue
     private int id;
@@ -91,5 +91,12 @@ public class WebPage implements Serializable {
     
     public String getHref() {
         return url.toString();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        WebPage other = (WebPage) o;
+        
+        return this.getName().compareTo(other.getName());
     }
 }

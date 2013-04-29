@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 @NamedQueries({
 @NamedQuery(name = "Letter.findAll", query = "select a from Letter a order by a.letter")
 })
-public class Letter implements Serializable {
+public class Letter implements Serializable, Comparable {
     @Id
     private String letter;
 
@@ -67,5 +67,12 @@ public class Letter implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Letter other = (Letter) o;
+        
+        return this.getLetter().compareTo(other.getLetter());
     }
 }

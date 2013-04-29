@@ -1,7 +1,6 @@
 package com.zemiak.books.domain;
 
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +17,7 @@ import javax.persistence.OneToMany;
 @NamedQuery(name = "Author.findByExpression", query = "select a from Author a where lower(a.name) like :expr order by a.name"),
 @NamedQuery(name = "Author.findByTag", query = "select a from Author a where lower(a.tagString) like :tag"),
 })
-public class Author implements Serializable {
+public class Author implements Serializable, Comparable {
     private String tagString;
 
     @OneToMany(cascade = CascadeType.PERSIST)
@@ -121,5 +120,12 @@ public class Author implements Serializable {
 
     public void setWebPages(List<WebPage> webPages) {
         this.webPages = webPages;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Author other = (Author) o;
+        
+        return this.getName().compareTo(other.getName());
     }
 }

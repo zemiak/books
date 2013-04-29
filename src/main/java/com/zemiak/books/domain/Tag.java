@@ -15,7 +15,7 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name = "Tag.findDistinct", query = "select distinct a.name from Tag a order by a.name"),
 @NamedQuery(name = "Tag.findByName", query = "select a from Tag a where a.name = :name order by a.name")
 })
-public class Tag implements Serializable {
+public class Tag implements Serializable, Comparable {
     @Id
     @GeneratedValue
     private long id;
@@ -69,6 +69,13 @@ public class Tag implements Serializable {
     @Override
     public String toString() {
         return "Tag{" + "name=" + name + '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Tag other = (Tag) o;
+        
+        return this.getName().compareTo(other.getName());
     }
 
 }

@@ -12,11 +12,11 @@ public class BooksServlet extends TouchKitServlet {
 
         TouchKitSettings s = getTouchKitSettings();
         
-        s.getApplicationIcons().addApplicationIcon(57, 57, "/books/img/icon-57.jpg", true);
-        s.getApplicationIcons().addApplicationIcon(72, 72, "/books/img/icon-72.jpg", true);
-        s.getApplicationIcons().addApplicationIcon(144, 144, "/books/img/icon-144.jpg", true);
-        s.getApplicationIcons().addApplicationIcon(512, 512, "/books/img/icon-512.jpg", true);
-        s.getApplicationIcons().addApplicationIcon(1024, 1024, "/books/img/icon-1024.jpg", true);
+        s.getApplicationIcons().addApplicationIcon(57, 57, "/books/img/icon-57.jpg", false);
+        s.getApplicationIcons().addApplicationIcon(72, 72, "/books/img/icon-72.jpg", false);
+        s.getApplicationIcons().addApplicationIcon(144, 144, "/books/img/icon-144.jpg", false);
+        s.getApplicationIcons().addApplicationIcon(512, 512, "/books/img/icon-512.jpg", false);
+        s.getApplicationIcons().addApplicationIcon(1024, 1024, "/books/img/icon-1024.jpg", false);
         
         ViewPortSettings vp = s.getViewPortSettings();
         vp.setViewPortUserScalable(false);

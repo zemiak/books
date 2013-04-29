@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name = "Book.findAll", query = "select a from Book a order by a.name"),
 @NamedQuery(name = "Book.findByExpression", query = "select a from Book a where lower(a.name) like :expr order by a.name")
 })
-public class Book implements Serializable {
+public class Book implements Serializable, Comparable {
     private String mobiFileName;
     private String epubFileName;
     private String name;
@@ -109,5 +109,12 @@ public class Book implements Serializable {
     
     public void setEnglish(boolean english) {
         this.english = english;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Book other = (Book) o;
+        
+        return this.getName().compareTo(other.getName());
     }
 }
