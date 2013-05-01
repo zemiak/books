@@ -3,12 +3,17 @@ package com.zemiak.books.vaadin.view;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
+import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Book;
 import com.zemiak.books.domain.Tag;
+import com.zemiak.books.domain.WebPage;
+import com.zemiak.books.vaadin.NavManager;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,30 +25,49 @@ class AuthorPage extends NavigationView implements Component {
     CssLayout content = null;
     List<Tag> tags;
     List<Book> books;
+    NavManager manager;
+    Collection col;
+    Author author;
 
-    public AuthorPage(Author author) {
+    public AuthorPage(Author author, Collection col, NavManager manager) {
         super(author.getName());
         
         tags = author.getTags();
         books = author.getBooks();
+        this.manager = manager;
+        this.col = col;
+        this.author = author;
+        
+        this.setToolbar(manager.getToolbar());
+        refresh();
     }
     
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
-        
-        if (null != content) {
-            return;
-        }
-        
+    }
+
+    private void refresh() {
         content = new CssLayout();
         setContent(content);
 
-        Collections.sort(tags);
         Collections.sort(books);
+        
+        if (author.getWebPages() != null && !author.getWebPages().isEmpty()) {
+            VerticalComponentGroup group2 = new VerticalComponentGroup();
+            Label labelp = new Label("Links");
+            
+            for (WebPage page: author.getWebPages()) {
+                Link link = new Link(page.getName(), new ExternalResource(page.getUrl().toString()));
+                group2.addComponent(link);
+            }
+            
+            content.addComponents(labelp, group2);
+        }
         
         VerticalComponentGroup group1 = new VerticalComponentGroup();
         Label label1 = new Label("Books");
+        final AuthorPage that = this;
         
         for (Book book: books) {
             NavigationButton button = new NavigationButton();
@@ -55,7 +79,7 @@ class AuthorPage extends NavigationView implements Component {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new BookPage(finalBook));
+                    getNavigationManager().navigateTo(new BookPage(finalBook, that.manager));
                 }
             });
         }
@@ -63,6 +87,7 @@ class AuthorPage extends NavigationView implements Component {
         content.addComponents(label1, group1);
         
         if (null != tags && !tags.isEmpty()) {
+            Collections.sort(tags);
             VerticalComponentGroup group = new VerticalComponentGroup();
             Label label = new Label("Tags");
 
@@ -76,7 +101,7 @@ class AuthorPage extends NavigationView implements Component {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        getNavigationManager().navigateTo(new TagPage(finalTag));
+                        getNavigationManager().navigateTo(new TagPage(finalTag, col, that.manager));
                     }
                 });
             }

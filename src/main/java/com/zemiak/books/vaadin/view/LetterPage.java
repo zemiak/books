@@ -5,35 +5,43 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Letter;
+import com.zemiak.books.vaadin.NavManager;
 import java.util.Collections;
 import java.util.List;
 
 class LetterPage extends NavigationView implements Component {
     CssLayout content = null;
     List<Author> authors;
+    NavManager manager;
+    Collection col;
 
-    public LetterPage(Letter letter) {
+    public LetterPage(Letter letter, Collection col, NavManager manager) {
         super(letter.getLetter());
         
         authors = letter.getAuthors();
+        this.manager = manager;
+        this.col = col;
+        
+        this.setToolbar(manager.getToolbar());
+        refresh();
     }
     
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
-        
-        if (null != content) {
-            return;
-        }
+    }
 
+    private void refresh() {
         Collections.sort(authors);
         
         content = new CssLayout();
         setContent(content);
 
         VerticalComponentGroup group = new VerticalComponentGroup();
+        final LetterPage that = this;
         
         for (Author author: authors) {
             NavigationButton button = new NavigationButton();
@@ -45,7 +53,7 @@ class LetterPage extends NavigationView implements Component {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new AuthorPage(finalAuthor));
+                    getNavigationManager().navigateTo(new AuthorPage(finalAuthor, col, that.manager));
                 }
             });
         }

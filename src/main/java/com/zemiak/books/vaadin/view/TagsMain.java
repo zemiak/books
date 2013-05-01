@@ -6,28 +6,23 @@ import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.boundary.Collection;
-import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Tag;
 import com.zemiak.books.vaadin.NavManager;
 import java.util.Collections;
 import java.util.List;
 
-/**
- *
- * @author vasko
- */
-class TagPage extends NavigationView implements Component {
-    List<Author> authors;
-    NavManager manager;
+public class TagsMain extends NavigationView implements Component {
     CssLayout content = null;
+    List<Tag> tags;
+    NavManager manager;
     Collection col;
     
-    public TagPage(Tag tag, Collection col, NavManager manager) {
-        setCaption(tag.getName());
+    public TagsMain(List<Tag> tags, Collection col, NavManager manager) {
+        super("Tags");
         
-        this.col = col;
-        this.authors = col.getAuthorsByTag(tag.getName());
+        this.tags = tags;
         this.manager = manager;
+        this.col = col;
         
         this.setToolbar(manager.getToolbar());
         refresh();
@@ -39,25 +34,24 @@ class TagPage extends NavigationView implements Component {
     }
 
     private void refresh() {
-        Collections.sort(authors);
-        
         content = new CssLayout();
         setContent(content);
 
-        VerticalComponentGroup group = new VerticalComponentGroup();
-        final TagPage that = this;
+        Collections.sort(tags);
         
-        for (Author author: authors) {
+        VerticalComponentGroup group = new VerticalComponentGroup();
+        
+        for (Tag tag: tags) {
             NavigationButton button = new NavigationButton();
-            button.setCaption(author.getName());
+            button.setCaption(tag.getName());
             group.addComponent(button);
             
-            final Author finalAuthor = author;
+            final Tag finalTag = tag;
             
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new AuthorPage(finalAuthor, col, that.manager));
+                    getNavigationManager().navigateTo(new TagPage(finalTag, col, manager));
                 }
             });
         }
