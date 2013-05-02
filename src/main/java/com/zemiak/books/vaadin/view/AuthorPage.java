@@ -14,6 +14,7 @@ import com.zemiak.books.domain.Book;
 import com.zemiak.books.domain.Tag;
 import com.zemiak.books.domain.WebPage;
 import com.zemiak.books.vaadin.NavManager;
+import com.zemiak.books.vaadin.NavToolbar;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,19 +30,20 @@ class AuthorPage extends NavigationView implements Component {
     Collection col;
     Author author;
 
-    public AuthorPage(Author author, Collection col, NavManager manager) {
+    public AuthorPage(Author author, NavManager manager) {
         super(author.getName());
-        
+
+        col = manager.getCollection();
         tags = author.getTags();
         books = author.getBooks();
         this.manager = manager;
-        this.col = col;
+
         this.author = author;
-        
-        this.setToolbar(manager.getToolbar());
+
+        this.setToolbar(new NavToolbar(manager));
         refresh();
     }
-    
+
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
@@ -52,40 +54,40 @@ class AuthorPage extends NavigationView implements Component {
         setContent(content);
 
         Collections.sort(books);
-        
+
         if (author.getWebPages() != null && !author.getWebPages().isEmpty()) {
             VerticalComponentGroup group2 = new VerticalComponentGroup();
             Label labelp = new Label("Links");
-            
+
             for (WebPage page: author.getWebPages()) {
                 Link link = new Link(page.getName(), new ExternalResource(page.getUrl().toString()));
                 group2.addComponent(link);
             }
-            
+
             content.addComponents(labelp, group2);
         }
-        
+
         VerticalComponentGroup group1 = new VerticalComponentGroup();
         Label label1 = new Label("Books");
         final AuthorPage that = this;
-        
+
         for (Book book: books) {
             NavigationButton button = new NavigationButton();
             button.setCaption(book.getName());
             group1.addComponent(button);
-            
+
             final Book finalBook = book;
-            
+
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new BookPage(finalBook, that.manager));
+                    getNavigationManager().navigateTo(new BookPage(finalBook, manager));
                 }
             });
         }
-        
+
         content.addComponents(label1, group1);
-        
+
         if (null != tags && !tags.isEmpty()) {
             Collections.sort(tags);
             VerticalComponentGroup group = new VerticalComponentGroup();
@@ -101,11 +103,11 @@ class AuthorPage extends NavigationView implements Component {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        getNavigationManager().navigateTo(new TagPage(finalTag, col, that.manager));
+                        getNavigationManager().navigateTo(new TagPage(finalTag, manager));
                     }
                 });
             }
-            
+
             content.addComponents(label, group);
         }
     }

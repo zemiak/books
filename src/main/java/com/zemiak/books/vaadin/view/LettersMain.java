@@ -9,6 +9,7 @@ import com.vaadin.ui.CssLayout;
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Letter;
 import com.zemiak.books.vaadin.NavManager;
+import com.zemiak.books.vaadin.NavToolbar;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,18 +18,20 @@ public class LettersMain extends NavigationView implements Component {
     List<Letter> letters;
     NavManager manager;
     Collection col;
-    
-    public LettersMain(List<Letter> letters, Collection col, NavManager manager) {
+
+    public LettersMain(NavManager manager) {
         super("Letters");
-        
-        this.letters = letters;
+
         this.manager = manager;
-        this.col = col;
-        
-        this.setToolbar(manager.getToolbar());
+        this.col = manager.getCollection();
+        this.letters = col.getLetters();
+
+
+
+        this.setToolbar(new NavToolbar(manager));
         refresh();
     }
-    
+
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
@@ -39,25 +42,23 @@ public class LettersMain extends NavigationView implements Component {
         setContent(content);
 
         Collections.sort(letters);
-        
+
         VerticalComponentGroup group = new VerticalComponentGroup();
-        final Toolbar toolbar = (Toolbar) getToolbar();
-        
         for (Letter letter: letters) {
             NavigationButton button = new NavigationButton();
             button.setCaption(letter.getLetter());
             group.addComponent(button);
-            
+
             final Letter finalLetter = letter;
-            
+
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new LetterPage(finalLetter, col, manager));
+                    getNavigationManager().navigateTo(new LetterPage(finalLetter, manager));
                 }
             });
         }
-        
+
         content.addComponents(group);
     }
 }

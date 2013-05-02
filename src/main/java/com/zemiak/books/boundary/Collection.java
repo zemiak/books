@@ -79,7 +79,16 @@ public class Collection {
     }
 
     public List<Tag> getDistinctTags() {
-        return em.createNamedQuery("Tag.findDistinct").getResultList();
+        List<String> tagNames = em.createNamedQuery("Tag.findDistinct").getResultList();
+        List<Tag> tags = new ArrayList<>();
+        
+        for (String tagName: tagNames) {
+            List<Tag> results = em.createNamedQuery("Tag.findByName")
+                    .setParameter("name", tagName).getResultList();
+            tags.add(results.get(0));
+        }
+        
+        return tags;
     }
 
     public Tag getTag(int id) {

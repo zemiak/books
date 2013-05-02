@@ -8,6 +8,7 @@ import com.vaadin.ui.CssLayout;
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Tag;
 import com.zemiak.books.vaadin.NavManager;
+import com.zemiak.books.vaadin.NavToolbar;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,18 +17,19 @@ public class TagsMain extends NavigationView implements Component {
     List<Tag> tags;
     NavManager manager;
     Collection col;
-    
-    public TagsMain(List<Tag> tags, Collection col, NavManager manager) {
+
+    public TagsMain(NavManager manager) {
         super("Tags");
-        
-        this.tags = tags;
+
+
         this.manager = manager;
-        this.col = col;
-        
-        this.setToolbar(manager.getToolbar());
+        this.col = manager.getCollection();
+        this.tags = col.getDistinctTags();
+
+        this.setToolbar(new NavToolbar(manager));
         refresh();
     }
-    
+
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
@@ -38,24 +40,25 @@ public class TagsMain extends NavigationView implements Component {
         setContent(content);
 
         Collections.sort(tags);
-        
+        System.err.println(tags);
+
         VerticalComponentGroup group = new VerticalComponentGroup();
-        
+
         for (Tag tag: tags) {
             NavigationButton button = new NavigationButton();
             button.setCaption(tag.getName());
             group.addComponent(button);
-            
+
             final Tag finalTag = tag;
-            
+
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new TagPage(finalTag, col, manager));
+                    getNavigationManager().navigateTo(new TagPage(finalTag, manager));
                 }
             });
         }
-        
+
         content.addComponents(group);
     }
 }

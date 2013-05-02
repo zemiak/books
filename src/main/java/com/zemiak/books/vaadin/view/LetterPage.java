@@ -9,6 +9,7 @@ import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Letter;
 import com.zemiak.books.vaadin.NavManager;
+import com.zemiak.books.vaadin.NavToolbar;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,17 +19,17 @@ class LetterPage extends NavigationView implements Component {
     NavManager manager;
     Collection col;
 
-    public LetterPage(Letter letter, Collection col, NavManager manager) {
+    public LetterPage(Letter letter, NavManager manager) {
         super(letter.getLetter());
-        
+
         authors = letter.getAuthors();
         this.manager = manager;
-        this.col = col;
-        
-        this.setToolbar(manager.getToolbar());
+        this.col = manager.getCollection();
+
+        this.setToolbar(new NavToolbar(manager));
         refresh();
     }
-    
+
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
@@ -36,28 +37,28 @@ class LetterPage extends NavigationView implements Component {
 
     private void refresh() {
         Collections.sort(authors);
-        
+
         content = new CssLayout();
         setContent(content);
 
         VerticalComponentGroup group = new VerticalComponentGroup();
         final LetterPage that = this;
-        
+
         for (Author author: authors) {
             NavigationButton button = new NavigationButton();
             button.setCaption(author.getName());
             group.addComponent(button);
-            
+
             final Author finalAuthor = author;
-            
+
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new AuthorPage(finalAuthor, col, that.manager));
+                    getNavigationManager().navigateTo(new AuthorPage(finalAuthor, manager));
                 }
             });
         }
-        
+
         content.addComponents(group);
     }
 }

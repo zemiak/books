@@ -10,6 +10,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
 import com.zemiak.books.domain.Book;
 import com.zemiak.books.vaadin.NavManager;
+import com.zemiak.books.vaadin.NavToolbar;
 import java.io.File;
 
 /**
@@ -23,14 +24,14 @@ class BookPage extends NavigationView implements Component {
 
     public BookPage(Book book, NavManager manager) {
         super(book.getName());
-        
+
         this.book = book;
         this.manager = manager;
-        
-        this.setToolbar(manager.getToolbar());
+
+        this.setToolbar(new NavToolbar(manager));
         refresh();
     }
-    
+
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
@@ -41,23 +42,25 @@ class BookPage extends NavigationView implements Component {
         setContent(content);
 
         VerticalComponentGroup group1 = new VerticalComponentGroup();
-        
+
         if (book.getMobiFileName() != null) {
-            Button button = new Button();
+            Link button = new Link();
             button.setCaption("Kindle Format");
-            content.addComponent(button);
-            
+            group1.addComponent(button);
+
             FileDownloader fileDownloader = new FileDownloader(new FileResource(new File(book.getMobiFileName())));
             fileDownloader.extend(button);
         }
-        
+
         if (book.getEpubFileName() != null) {
-            Button button = new Button();
+            Link button = new Link();
             button.setCaption("iBooks Format");
-            content.addComponent(button);
-            
+            group1.addComponent(button);
+
             FileDownloader fileDownloader = new FileDownloader(new FileResource(new File(book.getEpubFileName())));
             fileDownloader.extend(button);
         }
+
+        content.addComponent(group1);
     }
 }
