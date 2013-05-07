@@ -8,6 +8,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
+import com.vaadin.util.FileTypeResolver;
 import com.zemiak.books.domain.Book;
 import com.zemiak.books.vaadin.NavManager;
 import com.zemiak.books.vaadin.NavToolbar;
@@ -18,6 +19,21 @@ import java.io.File;
  * @author vasko
  */
 class BookPage extends NavigationView implements Component {
+    static class BookFileResource extends FileResource {
+        private String mimeType;
+        
+        public BookFileResource(File sourceFile, String mimeType) {
+            super(sourceFile);
+            
+            this.mimeType = mimeType;
+        }
+        
+        @Override
+        public String getMIMEType() {
+            return mimeType;
+        }
+    }
+    
     CssLayout content = null;
     NavManager manager;
     Book book;
@@ -44,11 +60,11 @@ class BookPage extends NavigationView implements Component {
         VerticalComponentGroup group1 = new VerticalComponentGroup();
 
         if (book.getMobiFileName() != null) {
-            Button button = new Button();
+            Link button = new Link();
             button.setCaption("Kindle Format");
             group1.addComponent(button);
-
-            FileDownloader fileDownloader = new FileDownloader(new FileResource(new File(book.getMobiFileName())));
+            
+            FileDownloader fileDownloader = new FileDownloader(new BookFileResource(new File(book.getMobiFileName()), "application/x-mobipocket-ebook"));
             fileDownloader.extend(button);
         }
 
@@ -57,7 +73,7 @@ class BookPage extends NavigationView implements Component {
             button.setCaption("iBooks Format");
             group1.addComponent(button);
 
-            FileDownloader fileDownloader = new FileDownloader(new FileResource(new File(book.getEpubFileName())));
+            FileDownloader fileDownloader = new FileDownloader(new BookFileResource(new File(book.getEpubFileName()), "application/epub+zip"));
             fileDownloader.extend(button);
         }
 
