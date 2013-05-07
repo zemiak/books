@@ -6,7 +6,6 @@ import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
@@ -56,24 +55,20 @@ class AuthorPage extends NavigationView implements Component {
         Collections.sort(books);
 
         if (author.getWebPages() != null && !author.getWebPages().isEmpty()) {
-            VerticalComponentGroup group2 = new VerticalComponentGroup();
-            Label labelp = new Label("Links");
+            VerticalComponentGroup group2 = new VerticalComponentGroup("Links");
 
             for (WebPage page: author.getWebPages()) {
                 Link link = new Link(page.getName(), new ExternalResource(page.getUrl().toString()));
                 group2.addComponent(link);
             }
 
-            content.addComponents(labelp, group2);
+            content.addComponents(group2);
         }
 
-        VerticalComponentGroup group1 = new VerticalComponentGroup();
-        Label label1 = new Label("Books");
-        final AuthorPage that = this;
+        VerticalComponentGroup group1 = new VerticalComponentGroup("Books");
 
         for (Book book: books) {
-            NavigationButton button = new NavigationButton();
-            button.setCaption(book.getName());
+            NavigationButton button = new NavigationButton(book.getName());
             group1.addComponent(button);
 
             final Book finalBook = book;
@@ -86,16 +81,14 @@ class AuthorPage extends NavigationView implements Component {
             });
         }
 
-        content.addComponents(label1, group1);
+        content.addComponents(group1);
 
         if (null != tags && !tags.isEmpty()) {
             Collections.sort(tags);
-            VerticalComponentGroup group = new VerticalComponentGroup();
-            Label label = new Label("Tags");
+            VerticalComponentGroup group = new VerticalComponentGroup("Tags");
 
             for (Tag tag: tags) {
-                NavigationButton button = new NavigationButton();
-                button.setCaption(tag.getName());
+                NavigationButton button = new NavigationButton(tag.getName());
                 group.addComponent(button);
 
                 final Tag finalTag = tag;
@@ -108,7 +101,7 @@ class AuthorPage extends NavigationView implements Component {
                 });
             }
 
-            content.addComponents(label, group);
+            content.addComponents(group);
         }
     }
 }

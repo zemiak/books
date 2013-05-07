@@ -44,7 +44,7 @@ class BookPage extends NavigationView implements Component {
         VerticalComponentGroup group1 = new VerticalComponentGroup();
 
         if (book.getMobiFileName() != null) {
-            Link button = new Link();
+            Button button = new Button();
             button.setCaption("Kindle Format");
             group1.addComponent(button);
 

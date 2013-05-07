@@ -18,10 +18,12 @@ class LetterPage extends NavigationView implements Component {
     List<Author> authors;
     NavManager manager;
     Collection col;
+    Letter letter;
 
     public LetterPage(Letter letter, NavManager manager) {
         super(letter.getLetter());
 
+        this.letter = letter;
         authors = letter.getAuthors();
         this.manager = manager;
         this.col = manager.getCollection();
@@ -42,11 +44,9 @@ class LetterPage extends NavigationView implements Component {
         setContent(content);
 
         VerticalComponentGroup group = new VerticalComponentGroup();
-        final LetterPage that = this;
 
         for (Author author: authors) {
-            NavigationButton button = new NavigationButton();
-            button.setCaption(author.getName());
+            NavigationButton button = new NavigationButton(author.getName());
             group.addComponent(button);
 
             final Author finalAuthor = author;

@@ -1,0 +1,11 @@
+/* NavigationButton
+
+.v-touchkit-navbutton { }
+.v-touchkit-navbutton-desc { }
+.v-icon { }
+
+*/
+
+.v-icon.statistics {
+    display: none;
+}

@@ -20,7 +20,7 @@ public class LettersMain extends NavigationView implements Component {
     Collection col;
 
     public LettersMain(NavManager manager) {
-        super("Letters");
+        super("Books");
 
         this.manager = manager;
         this.col = manager.getCollection();

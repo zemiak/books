@@ -3,11 +3,11 @@ package com.zemiak.books.vaadin.view;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Link;
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Book;
@@ -79,10 +79,13 @@ public class SearchPage extends NavigationView implements Component {
             content.addComponent(new Label("No search results"));
             return;
         }
+        
+        Label searchText = new Label("Search text: <emph>" + text + "</emph>");
+        searchText.setContentMode(ContentMode.HTML);
+        content.addComponent(searchText);
 
         if (! books.isEmpty()) {
-            VerticalComponentGroup group = new VerticalComponentGroup();
-            Label label = new Label("Books: " + books.size());
+            VerticalComponentGroup group = new VerticalComponentGroup("Books: " + books.size());
 
             Collections.sort(books);
             for (Book book: books) {
@@ -100,12 +103,11 @@ public class SearchPage extends NavigationView implements Component {
                 });
             }
 
-            content.addComponents(label, group);
+            content.addComponents(group);
         }
 
         if (! authors.isEmpty()) {
-            VerticalComponentGroup group = new VerticalComponentGroup();
-            Label label = new Label("Authors: " + authors.size());
+            VerticalComponentGroup group = new VerticalComponentGroup("Authors: " + authors.size());
 
             Collections.sort(authors);
             for (Author author: authors) {
@@ -126,7 +128,7 @@ public class SearchPage extends NavigationView implements Component {
                 });
             }
 
-            content.addComponents(label, group);
+            content.addComponents(group);
         }
     }
 }

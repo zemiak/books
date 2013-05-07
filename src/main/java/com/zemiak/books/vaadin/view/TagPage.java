@@ -24,7 +24,7 @@ class TagPage extends NavigationView implements Component {
     Collection col;
 
     public TagPage(Tag tag, NavManager manager) {
-        setCaption(tag.getName());
+        setCaption("#" + tag.getName());
 
         this.manager = manager;
         this.col = manager.getCollection();
@@ -45,12 +45,10 @@ class TagPage extends NavigationView implements Component {
         content = new CssLayout();
         setContent(content);
 
-        VerticalComponentGroup group = new VerticalComponentGroup();
-        final TagPage that = this;
+        VerticalComponentGroup group = new VerticalComponentGroup("Authors");
 
         for (Author author: authors) {
-            NavigationButton button = new NavigationButton();
-            button.setCaption(author.getName());
+            NavigationButton button = new NavigationButton(author.getName());
             group.addComponent(button);
 
             final Author finalAuthor = author;

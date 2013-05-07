@@ -19,7 +19,7 @@ public class TagsMain extends NavigationView implements Component {
     Collection col;
 
     public TagsMain(NavManager manager) {
-        super("Tags");
+        super("Books");
 
 
         this.manager = manager;
@@ -45,8 +45,7 @@ public class TagsMain extends NavigationView implements Component {
         VerticalComponentGroup group = new VerticalComponentGroup();
 
         for (Tag tag: tags) {
-            NavigationButton button = new NavigationButton();
-            button.setCaption(tag.getName());
+            NavigationButton button = new NavigationButton(tag.getName());
             group.addComponent(button);
 
             final Tag finalTag = tag;
