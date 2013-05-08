@@ -1,5 +1,6 @@
 package com.zemiak.books.vaadin.view;
 
+import com.vaadin.addon.touchkit.extensions.Html5InputSettings;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -13,8 +14,6 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
 import com.zemiak.books.vaadin.NavManager;
 import com.zemiak.books.vaadin.NavToolbar;
-import org.vaadin.actionbuttontextfield.ActionButtonTextField;
-import org.vaadin.actionbuttontextfield.widgetset.client.ActionButtonType;
 
 public class SearchMain extends NavigationView implements Component {
     NavManager manager;
@@ -45,17 +44,15 @@ public class SearchMain extends NavigationView implements Component {
         
         VerticalComponentGroup group = new VerticalComponentGroup("Search");
         
-        ActionButtonTextField searchButtonTextField = ActionButtonTextField.extend(searchField);
-        searchButtonTextField.setActionButtonType(ActionButtonType.ACTION_SEARCH);
-        searchButtonTextField.addClickListener(new ActionButtonTextField.ClickListener() {
-            @Override
-            public void buttonClick(ActionButtonTextField.ClickEvent clickEvent) {
-                getNavigationManager().navigateTo(new SearchPage(searchField.getValue(), manager));
-            }
-        });
+        final Html5InputSettings html5InputSettings = new Html5InputSettings(
+                searchField);
+        html5InputSettings.setProperty("type", "search");
+        html5InputSettings.setProperty("autocomplete", "off");
+        html5InputSettings.setProperty("autocorrect", "off");
+        html5InputSettings.setProperty("autocapitalize", "off");
+        html5InputSettings.setProperty("placeholder", "Search...");
         
-        searchField.setInputPrompt("Search...");
-        searchField.setWidth("90%");
+        
         searchField.setImmediate(true);
         searchField.focus();
         group.addComponent(searchField);

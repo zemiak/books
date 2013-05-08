@@ -80,7 +80,7 @@ public class SearchPage extends NavigationView implements Component {
             return;
         }
         
-        Label searchText = new Label("Search text: <emph>" + text + "</emph>");
+        Label searchText = new Label("Search text: <b>" + text + "</b>");
         searchText.setContentMode(ContentMode.HTML);
         content.addComponent(searchText);
 
@@ -90,7 +90,8 @@ public class SearchPage extends NavigationView implements Component {
             Collections.sort(books);
             for (Book book: books) {
                 NavigationButton button = new NavigationButton();
-                button.setCaption((book.getName()));
+                //button.setCaption((book.getName()));
+                button.setDescription(getHighlightedValue(book.getName()));
                 group.addComponent(button);
 
                 final Book finalBook = book;
@@ -112,7 +113,8 @@ public class SearchPage extends NavigationView implements Component {
             Collections.sort(authors);
             for (Author author: authors) {
                 NavigationButton button = new NavigationButton();
-                button.setCaption((author.getName()));
+                //button.setCaption((author.getName()));
+                button.setDescription(getHighlightedValue(author.getName()));
                 group.addComponent(button);
 
                 Button b = new Button();

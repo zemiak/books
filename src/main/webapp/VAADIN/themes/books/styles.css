@@ -1,11 +1,15 @@
-/* NavigationButton
-
-.v-touchkit-navbutton { }
-.v-touchkit-navbutton-desc { }
-.v-icon { }
-
+/*
+    NavigationButton descriptions (search results)
 */
 
-.v-icon.statistics {
-    display: none;
+.v-touchkit-navbutton-desc {
+    float: left;
+    color: black;
+    font-weight: bold;
+}
+
+div .v-touchkit-navbutton-desc {
+    float: left;
+    color: black;
+    font-weight: bold;
 }
