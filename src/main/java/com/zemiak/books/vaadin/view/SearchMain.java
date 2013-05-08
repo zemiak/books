@@ -1,6 +1,7 @@
 package com.zemiak.books.vaadin.view;
 
 import com.vaadin.addon.touchkit.extensions.Html5InputSettings;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -62,6 +63,16 @@ public class SearchMain extends NavigationView implements Component {
         button.setVisible(false);
         button.setClickShortcut(KeyCode.ENTER);
         group.addComponent(button);
+        
+        NavigationButton navButton = new NavigationButton();
+        navButton.setCaption("Search");
+        navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                getNavigationManager().navigateTo(new SearchPage(searchField.getValue(), manager));
+            }
+        });
+        group.addComponent(navButton);
         
         FieldGroup binder = new FieldGroup(item);
         binder.bind(searchField, "name");

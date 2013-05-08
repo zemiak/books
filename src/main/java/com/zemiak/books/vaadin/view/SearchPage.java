@@ -88,7 +88,6 @@ public class SearchPage extends NavigationView implements Component {
             Collections.sort(books);
             for (Book book: books) {
                 NavigationButton button = new NavigationButton();
-                //button.setCaption((book.getName()));
                 button.setDescription(getHighlightedValue(book.getName()));
                 group.addComponent(button);
 
@@ -111,7 +110,6 @@ public class SearchPage extends NavigationView implements Component {
             Collections.sort(authors);
             for (Author author: authors) {
                 NavigationButton button = new NavigationButton();
-                //button.setCaption((author.getName()));
                 button.setDescription(getHighlightedValue(author.getName()));
                 group.addComponent(button);
 
