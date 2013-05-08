@@ -76,14 +76,12 @@ public class SearchPage extends NavigationView implements Component {
         }
 
         if (books.isEmpty() && authors.isEmpty()) {
-            content.addComponent(new Label("No search results"));
+            Label searchText = new Label("No results for text: <b>" + text + "</b>");
+            searchText.setContentMode(ContentMode.HTML);
+            content.addComponent(searchText);
             return;
         }
         
-        Label searchText = new Label("Search text: <b>" + text + "</b>");
-        searchText.setContentMode(ContentMode.HTML);
-        content.addComponent(searchText);
-
         if (! books.isEmpty()) {
             VerticalComponentGroup group = new VerticalComponentGroup("Books: " + books.size());
 
