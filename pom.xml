@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
         
-        <vaadin.version>7.0.4</vaadin.version>
+        <vaadin.version>7.0.5</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
     </properties>
     
@@ -54,22 +54,26 @@
             <artifactId>vaadin-server</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client-compiled</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client</artifactId>
             <version>${vaadin.version}</version>
             <scope>provided</scope>
         </dependency>
+        
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-themes</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -88,6 +92,12 @@
             <groupId>com.vaadin.addon</groupId>
             <artifactId>vaadin-touchkit-agpl</artifactId>
             <version>3.0.0-beta1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>actionbuttontextfield</artifactId>
+            <version>1.0.2</version>
         </dependency>
         
         <dependency>

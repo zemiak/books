@@ -44,4 +44,6 @@
 
 
     <inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
+
+    <inherits name="org.vaadin.actionbuttontextfield.widgetset.ActionButtonTextFieldWidgetset" />
 </module>

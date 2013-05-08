@@ -43,7 +43,7 @@ public class LettersMain extends NavigationView implements Component {
 
         Collections.sort(letters);
 
-        VerticalComponentGroup group = new VerticalComponentGroup();
+        VerticalComponentGroup group = new VerticalComponentGroup("Letters");
         for (Letter letter: letters) {
             NavigationButton button = new NavigationButton();
             button.setCaption(letter.getLetter());

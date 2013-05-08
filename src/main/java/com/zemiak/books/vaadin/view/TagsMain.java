@@ -42,7 +42,7 @@ public class TagsMain extends NavigationView implements Component {
         Collections.sort(tags);
         System.err.println(tags);
 
-        VerticalComponentGroup group = new VerticalComponentGroup();
+        VerticalComponentGroup group = new VerticalComponentGroup("Tags");
 
         for (Tag tag: tags) {
             NavigationButton button = new NavigationButton(tag.getName());

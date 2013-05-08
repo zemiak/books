@@ -9,7 +9,6 @@ import com.vaadin.ui.UI;
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.service.Statistics;
 import com.zemiak.books.vaadin.NavManager;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 @SuppressWarnings("serial")
@@ -17,7 +16,6 @@ import javax.inject.Inject;
 @Title("Books")
 @Widgetset("com.zemiak.books.AppWidgetSet")
 @CDIUI
-@SessionScoped
 public class BooksUI extends UI {
     @Inject
     private Collection col;
