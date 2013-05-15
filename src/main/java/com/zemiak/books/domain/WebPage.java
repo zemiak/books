@@ -1,41 +1,26 @@
 package com.zemiak.books.domain;
 
-import java.io.Serializable;
 import java.net.URL;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
-public class WebPage implements Serializable, Comparable {
-    @Id
-    @GeneratedValue
-    private int id;
-    
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
+public class WebPage {
     private String name;
     private URL url;
-    
-    @ManyToOne
-    private Author author;
-    
+    private int id;
+
+    private String authorUrl;
+
     public WebPage() {
-        
     }
 
-    public WebPage(String name, URL url, Author author) {
-        this.name = name;
-        this.url = url;
-        this.author = author;
-    }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public String toString() {
+        return "WebPage{" + "name=" + name + ", url=" + url + ", id=" + id + ", authorUrl=" + authorUrl + '}';
     }
 
     public String getName() {
@@ -54,18 +39,29 @@ public class WebPage implements Serializable, Comparable {
         this.url = url;
     }
 
-    public Author getAuthor() {
-        return author;
+    public int getId() {
+        return id;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAuthorUrl() {
+        return authorUrl;
+    }
+
+    public void setAuthorUrl(String authorUrl) {
+        this.authorUrl = authorUrl;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.id);
+        int hash = 3;
+        hash = 19 * hash + Objects.hashCode(this.name);
+        hash = 19 * hash + Objects.hashCode(this.url);
+        hash = 19 * hash + this.id;
+        hash = 19 * hash + Objects.hashCode(this.authorUrl);
         return hash;
     }
 
@@ -78,25 +74,18 @@ public class WebPage implements Serializable, Comparable {
             return false;
         }
         final WebPage other = (WebPage) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.url, other.url)) {
+            return false;
+        }
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.authorUrl, other.authorUrl)) {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "WebPage{" + "id=" + id + ", name=" + name + ", url=" + url + ", author=" + author + '}';
-    }
-    
-    public String getHref() {
-        return url.toString();
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        WebPage other = (WebPage) o;
-        
-        return this.getName().compareTo(other.getName());
     }
 }

@@ -1,56 +1,29 @@
 package com.zemiak.books.domain;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
-@NamedQueries({
-@NamedQuery(name = "Letter.findAll", query = "select a from Letter a order by a.letter")
-})
-public class Letter implements Serializable, Comparable {
-    @Id
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
+public class Letter {
     private String letter;
-
-    @OneToMany(cascade=CascadeType.PERSIST)
-    private List<Author> authors;
+    private String authorsUrl;
 
     public Letter() {
-        authors = new ArrayList<>();
-    }
-
-    public String getLetter() {
-        return letter;
-    }
-
-    public void setLetter(String letter) {
-        this.letter = letter.toUpperCase();
-    }
-
-    public List<Author> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
     }
 
     @Override
     public String toString() {
-        return "Letter{" + "letter=" + letter + '}';
+        return "Letter{" + "letter=" + letter + ", authorsUrl=" + authorsUrl + '}';
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + Objects.hashCode(this.letter);
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.letter);
+        hash = 37 * hash + Objects.hashCode(this.authorsUrl);
         return hash;
     }
 
@@ -66,13 +39,9 @@ public class Letter implements Serializable, Comparable {
         if (!Objects.equals(this.letter, other.letter)) {
             return false;
         }
+        if (!Objects.equals(this.authorsUrl, other.authorsUrl)) {
+            return false;
+        }
         return true;
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        Letter other = (Letter) o;
-        
-        return this.getLetter().compareTo(other.getLetter());
     }
 }
