@@ -1,21 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.zemiak.books.boundary;
 
-/**
- * Jersey REST client generated for REST resource:Books [books]<br>
- * USAGE:
- * <pre>
- *        Books client = new Books();
- *        Object response = client.XXX(...);
- *        // do whatever with response
- *        client.close();
- * </pre>
- *
- * @author vasko
- */
+import com.sun.jersey.api.client.WebResource;
+import com.zemiak.books.domain.Book;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Books {
     private com.sun.jersey.api.client.WebResource webResource;
     private com.sun.jersey.api.client.Client client;
@@ -27,27 +16,34 @@ public class Books {
         webResource = client.resource(BASE_URI).path("books");
     }
 
-    public <T> T findByAuthor(Class<T> responseType, String author) throws com.sun.jersey.api.client.UniformInterfaceException {
+    public List<Book> findByAuthor(String author) throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
+        List<Book> type = new ArrayList<>();
+        
         resource = resource.path(java.text.MessageFormat.format("author/{0}", new Object[]{author}));
-        return resource.get(responseType);
+        return resource.get(type.getClass());
     }
 
-    public <T> T findByExpression(Class<T> responseType, String expr) throws com.sun.jersey.api.client.UniformInterfaceException {
+    public List<Book> findByExpression(String expr) throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
+        List<Book> type = new ArrayList<>();
+        
         resource = resource.path(java.text.MessageFormat.format("search/{0}", new Object[]{expr}));
-        return resource.get(responseType);
+        return resource.get(type.getClass());
     }
 
-    public <T> T find(Class<T> responseType, String id) throws com.sun.jersey.api.client.UniformInterfaceException {
+    public Book find(String id) throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
+        
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return resource.get(responseType);
+        return resource.get(Book.class);
     }
 
-    public <T> T all(Class<T> responseType) throws com.sun.jersey.api.client.UniformInterfaceException {
+    public List<Book> all() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
-        return resource.get(responseType);
+        List<Book> type = new ArrayList<>();
+        
+        return resource.get(type.getClass());
     }
 
     public void close() {

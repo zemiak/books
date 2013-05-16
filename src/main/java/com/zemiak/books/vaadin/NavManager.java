@@ -2,8 +2,7 @@ package com.zemiak.books.vaadin;
 
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.zemiak.books.boundary.Collection;
-import com.zemiak.books.service.Statistics;
-import com.zemiak.books.vaadin.view.EmptyMain;
+import com.zemiak.books.boundary.Statistics;
 import com.zemiak.books.vaadin.view.LettersMain;
 
 public class NavManager extends NavigationManager {

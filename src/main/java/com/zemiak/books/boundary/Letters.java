@@ -1,21 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.zemiak.books.boundary;
 
-/**
- * Jersey REST client generated for REST resource:Letters [letters]<br>
- * USAGE:
- * <pre>
- *        Letters client = new Letters();
- *        Object response = client.XXX(...);
- *        // do whatever with response
- *        client.close();
- * </pre>
- *
- * @author vasko
- */
+import com.sun.jersey.api.client.WebResource;
+import com.zemiak.books.domain.Letter;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Letters {
     private com.sun.jersey.api.client.WebResource webResource;
     private com.sun.jersey.api.client.Client client;
@@ -27,19 +16,21 @@ public class Letters {
         webResource = client.resource(BASE_URI).path("letters");
     }
 
-    public <T> T find(Class<T> responseType, String id) throws com.sun.jersey.api.client.UniformInterfaceException {
+    public Letter find(String id) throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
+        
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return resource.get(responseType);
+        return resource.get(Letter.class);
     }
 
-    public <T> T all(Class<T> responseType) throws com.sun.jersey.api.client.UniformInterfaceException {
+    public List<Letter> all() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
-        return resource.get(responseType);
+        List<Letter> type = new ArrayList<>();
+        
+        return resource.get(type.getClass());
     }
 
     public void close() {
         client.destroy();
     }
-    
 }

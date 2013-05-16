@@ -4,6 +4,8 @@
  */
 package com.zemiak.books.boundary;
 
+import com.sun.jersey.api.client.WebResource;
+
 /**
  * Jersey REST client generated for REST resource:Statistics [statistics]<br>
  * USAGE:

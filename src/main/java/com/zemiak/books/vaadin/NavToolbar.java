@@ -4,7 +4,7 @@ import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.zemiak.books.boundary.Collection;
-import com.zemiak.books.service.Statistics;
+import com.zemiak.books.boundary.Statistics;
 import com.zemiak.books.vaadin.view.AboutMain;
 import com.zemiak.books.vaadin.view.LettersMain;
 import com.zemiak.books.vaadin.view.SearchMain;

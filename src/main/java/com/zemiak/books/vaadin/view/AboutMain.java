@@ -6,7 +6,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
-import com.zemiak.books.service.Statistics;
+import com.zemiak.books.boundary.Statistics;
 import com.zemiak.books.vaadin.NavManager;
 import com.zemiak.books.vaadin.NavToolbar;
 

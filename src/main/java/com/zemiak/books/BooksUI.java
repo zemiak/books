@@ -7,7 +7,7 @@ import com.vaadin.cdi.CDIUI;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import com.zemiak.books.boundary.Collection;
-import com.zemiak.books.service.Statistics;
+import com.zemiak.books.boundary.Statistics;
 import com.zemiak.books.vaadin.NavManager;
 import javax.inject.Inject;
 

@@ -1,21 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.zemiak.books.boundary;
 
-/**
- * Jersey REST client generated for REST resource:Tags [tags]<br>
- * USAGE:
- * <pre>
- *        Tags client = new Tags();
- *        Object response = client.XXX(...);
- *        // do whatever with response
- *        client.close();
- * </pre>
- *
- * @author vasko
- */
+import com.sun.jersey.api.client.WebResource;
+import com.zemiak.books.domain.Tag;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tags {
     private com.sun.jersey.api.client.WebResource webResource;
     private com.sun.jersey.api.client.Client client;
@@ -27,19 +16,30 @@ public class Tags {
         webResource = client.resource(BASE_URI).path("tags");
     }
 
-    public <T> T find(Class<T> responseType, String id) throws com.sun.jersey.api.client.UniformInterfaceException {
+    public Tag find(String id) throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
+        
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return resource.get(responseType);
+        return resource.get(Tag.class);
     }
 
-    public <T> T all(Class<T> responseType) throws com.sun.jersey.api.client.UniformInterfaceException {
+    public List<Tag> all() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
-        return resource.get(responseType);
+        List<Tag> type = new ArrayList<>();
+        
+        return resource.get(type.getClass());
     }
 
     public void close() {
         client.destroy();
+    }
+
+    List<String> findByDistinct() {
+        WebResource resource = webResource;
+        List<Tag> type = new ArrayList<>();
+        
+        resource = resource.path("distinct");
+        return resource.get(type.getClass());
     }
     
 }
