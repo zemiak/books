@@ -1,19 +1,18 @@
 package com.zemiak.books.boundary;
 
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import com.zemiak.books.domain.Letter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Letters {
     private com.sun.jersey.api.client.WebResource webResource;
     private com.sun.jersey.api.client.Client client;
-    private static final String BASE_URI = "http://localhost:8080/books-backend/webresources";
 
     public Letters() {
         com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
         client = com.sun.jersey.api.client.Client.create(config);
-        webResource = client.resource(BASE_URI).path("letters");
+        webResource = client.resource(RestData.BASE_URI).path("letters");
     }
 
     public Letter find(String id) throws com.sun.jersey.api.client.UniformInterfaceException {
@@ -25,9 +24,8 @@ public class Letters {
 
     public List<Letter> all() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
-        List<Letter> type = new ArrayList<>();
         
-        return resource.get(type.getClass());
+        return resource.get(new GenericType<List<Letter>>(){});
     }
 
     public void close() {

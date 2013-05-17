@@ -1,5 +1,8 @@
 package com.zemiak.books.domain;
 
+import com.sun.jersey.api.client.GenericType;
+import com.sun.jersey.api.client.WebResource;
+import com.zemiak.books.boundary.RestData;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -17,8 +20,28 @@ public class Author {
     private List<WebPage> webPages;
 
     private String booksUrl;
+    
+    private com.sun.jersey.api.client.WebResource webResource;
+    private com.sun.jersey.api.client.Client client;
 
     public Author() {
+        com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
+        client = com.sun.jersey.api.client.Client.create(config);
+        webResource = client.resource(RestData.BASE_URI);
+    }
+    
+    public List<Book> getBooks() {
+        WebResource resource = webResource;
+        
+        resource = resource.path(booksUrl);
+        return resource.get(new GenericType<List<Book>>() {});
+    }
+    
+    // getTags
+    // getWebPages
+    
+    public void close() {
+        client.destroy();
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.zemiak.books.domain;
 
+import com.sun.jersey.api.client.GenericType;
+import com.sun.jersey.api.client.WebResource;
+import com.zemiak.books.boundary.RestData;
+import java.util.List;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,7 +15,19 @@ public class Letter {
     private String letter;
     private String authorsUrl;
 
+    private com.sun.jersey.api.client.WebResource webResource;
+    private com.sun.jersey.api.client.Client client;
     public Letter() {
+        com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
+        client = com.sun.jersey.api.client.Client.create(config);
+        webResource = client.resource(RestData.BASE_URI);
+    }
+    
+    public List<Author> getAuthors() {
+        WebResource resource = webResource;
+        
+        resource = resource.path(authorsUrl);
+        return resource.get(new GenericType<List<Author>>(){});
     }
 
     @Override

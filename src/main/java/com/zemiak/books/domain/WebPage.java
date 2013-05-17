@@ -1,5 +1,7 @@
 package com.zemiak.books.domain;
 
+import com.sun.jersey.api.client.WebResource;
+import com.zemiak.books.boundary.RestData;
 import java.net.URL;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,7 +17,19 @@ public class WebPage {
 
     private String authorUrl;
 
+    private com.sun.jersey.api.client.WebResource webResource;
+    private com.sun.jersey.api.client.Client client;
     public WebPage() {
+        com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
+        client = com.sun.jersey.api.client.Client.create(config);
+        webResource = client.resource(RestData.BASE_URI);
+    }
+    
+    public Author getAuthor() {
+        WebResource resource = webResource;
+        
+        resource = resource.path(authorUrl);
+        return resource.get(Author.class);
     }
 
     @Override
