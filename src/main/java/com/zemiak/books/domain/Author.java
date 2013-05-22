@@ -3,7 +3,6 @@ package com.zemiak.books.domain;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import com.zemiak.books.boundary.RestData;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -14,12 +13,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
 public class Author {
-    private Set<String> tags = new HashSet<>();
+    private Set<String> tags = null;
     private String name;
     private int id;
-    private List<WebPage> webPages;
+    private List<WebPage> webPages = null;
+    private List<Book> books = null;
 
     private String booksUrl;
+    private String tagsUrl;
+    private String webPagesUrl;
     
     private com.sun.jersey.api.client.WebResource webResource;
     private com.sun.jersey.api.client.Client client;
@@ -31,70 +33,55 @@ public class Author {
     }
     
     public List<Book> getBooks() {
-        WebResource resource = webResource;
+        if (null == books) {
+            WebResource resource = webResource;
+
+            resource = resource.path(booksUrl);
+            books = resource.get(new GenericType<List<Book>>() {});
+        }
         
-        resource = resource.path(booksUrl);
-        return resource.get(new GenericType<List<Book>>() {});
+        return books;
     }
     
-    // getTags
-    // getWebPages
+    public List<WebPage> getWebPages() {
+        if (null == webPages) {
+            WebResource resource = webResource;
+        
+            resource = resource.path(webPagesUrl);
+            webPages = resource.get(new GenericType<List<WebPage>>() {});
+        }
+        
+        return webPages;
+    }
+    
+    public Set<String> getTags() {
+        if (null == tags) {
+            WebResource resource = webResource;
+        
+            resource = resource.path(tagsUrl);
+            tags = resource.get(new GenericType<Set<String>>() {});
+        }
+        
+        return tags;
+    }
     
     public void close() {
         client.destroy();
-    }
-
-    @Override
-    public String toString() {
-        return "Author{" + "tags=" + tags + ", name=" + name + ", id=" + id + ", webPages=" + webPages + ", booksUrl=" + booksUrl + '}';
-    }
-
-    public Set<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<String> tags) {
-        this.tags = tags;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public List<WebPage> getWebPages() {
-        return webPages;
-    }
-
-    public void setWebPages(List<WebPage> webPages) {
-        this.webPages = webPages;
-    }
-
-    public String getBooksUrl() {
-        return booksUrl;
-    }
-
-    public void setBooksUrl(String booksUrl) {
-        this.booksUrl = booksUrl;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.name);
-        hash = 53 * hash + this.id;
-        hash = 53 * hash + Objects.hashCode(this.booksUrl);
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.name);
+        hash = 11 * hash + this.id;
         return hash;
     }
 
@@ -113,9 +100,11 @@ public class Author {
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.booksUrl, other.booksUrl)) {
-            return false;
-        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" + "name=" + name + ", id=" + id + '}';
     }
 }

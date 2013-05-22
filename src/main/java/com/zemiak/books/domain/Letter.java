@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Letter {
     private String letter;
     private String authorsUrl;
+    private List<Author> authors = null;
 
     private com.sun.jersey.api.client.WebResource webResource;
     private com.sun.jersey.api.client.Client client;
@@ -24,22 +25,28 @@ public class Letter {
     }
     
     public List<Author> getAuthors() {
-        WebResource resource = webResource;
+        if (null == authors) {
+            WebResource resource = webResource;
         
-        resource = resource.path(authorsUrl);
-        return resource.get(new GenericType<List<Author>>(){});
+            resource = resource.path(authorsUrl);
+            authors = resource.get(new GenericType<List<Author>>(){});
+        }
+
+        return authors;
+    }
+    
+    public void close() {
+        client.destroy();
     }
 
-    @Override
-    public String toString() {
-        return "Letter{" + "letter=" + letter + ", authorsUrl=" + authorsUrl + '}';
+    public String getLetter() {
+        return letter;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.letter);
-        hash = 37 * hash + Objects.hashCode(this.authorsUrl);
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.letter);
         return hash;
     }
 
@@ -55,9 +62,11 @@ public class Letter {
         if (!Objects.equals(this.letter, other.letter)) {
             return false;
         }
-        if (!Objects.equals(this.authorsUrl, other.authorsUrl)) {
-            return false;
-        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Letter{" + "letter=" + letter + '}';
     }
 }

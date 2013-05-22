@@ -16,6 +16,7 @@ public class WebPage {
     private int id;
 
     private String authorUrl;
+    private Author author = null;
 
     private com.sun.jersey.api.client.WebResource webResource;
     private com.sun.jersey.api.client.Client client;
@@ -26,56 +27,38 @@ public class WebPage {
     }
     
     public Author getAuthor() {
-        WebResource resource = webResource;
+        if (null == author) {
+            WebResource resource = webResource;
         
-        resource = resource.path(authorUrl);
-        return resource.get(Author.class);
+            resource = resource.path(authorUrl);
+            author = resource.get(Author.class);
+        }
+        
+        return author;
     }
-
-    @Override
-    public String toString() {
-        return "WebPage{" + "name=" + name + ", url=" + url + ", id=" + id + ", authorUrl=" + authorUrl + '}';
+    
+    public void close() {
+        client.destroy();
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public URL getUrl() {
         return url;
-    }
-
-    public void setUrl(URL url) {
-        this.url = url;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAuthorUrl() {
-        return authorUrl;
-    }
-
-    public void setAuthorUrl(String authorUrl) {
-        this.authorUrl = authorUrl;
-    }
-
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 19 * hash + Objects.hashCode(this.name);
-        hash = 19 * hash + Objects.hashCode(this.url);
-        hash = 19 * hash + this.id;
-        hash = 19 * hash + Objects.hashCode(this.authorUrl);
+        hash = 79 * hash + Objects.hashCode(this.name);
+        hash = 79 * hash + Objects.hashCode(this.url);
+        hash = 79 * hash + this.id;
         return hash;
     }
 
@@ -97,9 +80,11 @@ public class WebPage {
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.authorUrl, other.authorUrl)) {
-            return false;
-        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "WebPage{" + "name=" + name + ", url=" + url + ", id=" + id + '}';
     }
 }
