@@ -5,15 +5,14 @@ import com.sun.jersey.api.client.WebResource;
 import com.zemiak.books.boundary.RestData;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Author {
-    private Set<String> tags = null;
+public class Author implements Comparable {
+    private List<String> tags = null;
     private String name;
     private int id;
     private List<WebPage> webPages = null;
@@ -22,7 +21,7 @@ public class Author {
     private String booksUrl;
     private String tagsUrl;
     private String webPagesUrl;
-    
+
     private com.sun.jersey.api.client.WebResource webResource;
     private com.sun.jersey.api.client.Client client;
 
@@ -31,7 +30,7 @@ public class Author {
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
     }
-    
+
     public List<Book> getBooks() {
         if (null == books) {
             WebResource resource = webResource;
@@ -39,32 +38,32 @@ public class Author {
             resource = resource.path(booksUrl);
             books = resource.get(new GenericType<List<Book>>() {});
         }
-        
+
         return books;
     }
-    
+
     public List<WebPage> getWebPages() {
         if (null == webPages) {
             WebResource resource = webResource;
-        
+
             resource = resource.path(webPagesUrl);
             webPages = resource.get(new GenericType<List<WebPage>>() {});
         }
-        
+
         return webPages;
     }
-    
-    public Set<String> getTags() {
+
+    public List<String> getTags() {
         if (null == tags) {
             WebResource resource = webResource;
-        
+
             resource = resource.path(tagsUrl);
-            tags = resource.get(new GenericType<Set<String>>() {});
+            tags = resource.get(new GenericType<List<String>>() {});
         }
-        
+
         return tags;
     }
-    
+
     public void close() {
         client.destroy();
     }
@@ -106,5 +105,12 @@ public class Author {
     @Override
     public String toString() {
         return "Author{" + "name=" + name + ", id=" + id + '}';
+    }
+
+    @Override
+    public int compareTo(Object t) {
+        Author other = (Author) t;
+
+        return name.compareTo(other.getName());
     }
 }

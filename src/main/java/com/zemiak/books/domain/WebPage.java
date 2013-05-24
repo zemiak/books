@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class WebPage {
+public class WebPage implements Comparable {
     private String name;
     private URL url;
     private int id;
@@ -25,18 +25,18 @@ public class WebPage {
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
     }
-    
+
     public Author getAuthor() {
         if (null == author) {
             WebResource resource = webResource;
-        
+
             resource = resource.path(authorUrl);
             author = resource.get(Author.class);
         }
-        
+
         return author;
     }
-    
+
     public void close() {
         client.destroy();
     }
@@ -86,5 +86,12 @@ public class WebPage {
     @Override
     public String toString() {
         return "WebPage{" + "name=" + name + ", url=" + url + ", id=" + id + '}';
+    }
+
+    @Override
+    public int compareTo(Object t) {
+        WebPage other = (WebPage) t;
+
+        return name.compareTo(other.getName());
     }
 }

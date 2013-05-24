@@ -23,7 +23,7 @@ import java.util.List;
  */
 class AuthorPage extends NavigationView implements Component {
     CssLayout content = null;
-    List<Tag> tags;
+    List<String> tags;
     List<Book> books;
     NavManager manager;
     Collection col;
@@ -87,11 +87,11 @@ class AuthorPage extends NavigationView implements Component {
             Collections.sort(tags);
             VerticalComponentGroup group = new VerticalComponentGroup("Tags");
 
-            for (Tag tag: tags) {
-                NavigationButton button = new NavigationButton(tag.getName());
+            for (String tag: tags) {
+                NavigationButton button = new NavigationButton(tag);
                 group.addComponent(button);
 
-                final Tag finalTag = tag;
+                final String finalTag = tag;
 
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override

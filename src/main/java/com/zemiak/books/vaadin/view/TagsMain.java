@@ -53,7 +53,7 @@ public class TagsMain extends NavigationView implements Component {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new TagPage(finalTag, manager));
+                    getNavigationManager().navigateTo(new TagPage(finalTag.getName(), manager));
                 }
             });
         }

@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Tag {
+public class Tag implements Comparable {
     private long id;
     private String name;
     private String authorsUrl;
@@ -24,18 +24,18 @@ public class Tag {
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
     }
-    
+
     public List<Author> getAuthors() {
         if (null == authors) {
             WebResource resource = webResource;
-        
+
             resource = resource.path(authorsUrl);
             authors = resource.get(new GenericType<List<Author>>(){});
         }
-        
+
         return authors;
     }
-    
+
     public void close() {
         client.destroy();
     }
@@ -77,5 +77,12 @@ public class Tag {
     @Override
     public String toString() {
         return "Tag{" + "id=" + id + ", name=" + name + '}';
+    }
+
+    @Override
+    public int compareTo(Object t) {
+        Tag other = (Tag) t;
+
+        return name.compareTo(other.getName());
     }
 }

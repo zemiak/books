@@ -1,6 +1,7 @@
 package com.zemiak.books.boundary;
 
 import com.sun.jersey.api.client.WebResource;
+import com.zemiak.books.domain.Cache;
 
 public class Statistics {
     private com.sun.jersey.api.client.WebResource webResource;
@@ -15,29 +16,37 @@ public class Statistics {
     public String getAuthors() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
         resource = resource.path("getAuthors");
-        return resource.get(String.class);
+
+        Cache cache = resource.get(Cache.class);
+        return cache.getValue();
     }
 
     public String getAuthorsDocumented() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
         resource = resource.path("getAuthorsDocumented");
-        return resource.get(String.class);
+
+        Cache cache = resource.get(Cache.class);
+        return cache.getValue();
     }
 
     public String getAuthorsTagged() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
         resource = resource.path("getAuthorsTagged");
-        return resource.get(String.class);
+
+        Cache cache = resource.get(Cache.class);
+        return cache.getValue();
     }
 
     public String getBooks() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
         resource = resource.path("getBooks");
-        return resource.get(String.class);
+
+        Cache cache = resource.get(Cache.class);
+        return cache.getValue();
     }
 
     public void close() {
         client.destroy();
     }
-    
+
 }

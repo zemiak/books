@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Book {
+public class Book implements Comparable {
     private String mobiFileName;
     private String epubFileName;
     private String name;
@@ -18,7 +18,7 @@ public class Book {
 
     private String authorUrl;
     private Author author = null;
-    
+
     private com.sun.jersey.api.client.WebResource webResource;
     private com.sun.jersey.api.client.Client client;
 
@@ -27,18 +27,18 @@ public class Book {
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
     }
-    
+
     public Author getAuthor() {
         if (null == author) {
             WebResource resource = webResource;
-        
+
             resource = resource.path(authorUrl);
             author = resource.get(Author.class);
         }
-        
+
         return author;
     }
-    
+
     public void close() {
         client.destroy();
     }
@@ -92,5 +92,12 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" + "name=" + name + ", id=" + id + ", english=" + english + '}';
+    }
+
+    @Override
+    public int compareTo(Object t) {
+        Book other = (Book) t;
+
+        return name.compareTo(other.getName());
     }
 }

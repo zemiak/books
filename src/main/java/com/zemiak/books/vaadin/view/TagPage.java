@@ -23,12 +23,12 @@ class TagPage extends NavigationView implements Component {
     CssLayout content = null;
     Collection col;
 
-    public TagPage(Tag tag, NavManager manager) {
-        setCaption("#" + tag.getName());
+    public TagPage(String tag, NavManager manager) {
+        setCaption("#" + tag);
 
         this.manager = manager;
         this.col = manager.getCollection();
-        this.authors = col.getAuthorsByTag(tag.getName());
+        this.authors = col.getAuthorsByTag(tag);
 
         this.setToolbar(new NavToolbar(manager));
         refresh();

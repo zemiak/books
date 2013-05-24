@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Letter {
+public class Letter implements Comparable {
     private String letter;
     private String authorsUrl;
     private List<Author> authors = null;
@@ -23,18 +23,18 @@ public class Letter {
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
     }
-    
+
     public List<Author> getAuthors() {
         if (null == authors) {
             WebResource resource = webResource;
-        
+
             resource = resource.path(authorsUrl);
             authors = resource.get(new GenericType<List<Author>>(){});
         }
 
         return authors;
     }
-    
+
     public void close() {
         client.destroy();
     }
@@ -68,5 +68,12 @@ public class Letter {
     @Override
     public String toString() {
         return "Letter{" + "letter=" + letter + '}';
+    }
+
+    @Override
+    public int compareTo(Object t) {
+        Letter other = (Letter) t;
+
+        return letter.compareTo(other.getLetter());
     }
 }
