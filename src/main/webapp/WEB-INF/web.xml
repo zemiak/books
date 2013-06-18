@@ -1,36 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-      version="3.0">
-    
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <session-config>
         <!-- Minutes: half a year -->
         <session-timeout>259200</session-timeout>
     </session-config>
-    
     <context-param>
         <description>Vaadin production mode</description>
         <param-name>productionMode</param-name>
         <param-value>false</param-value>
     </context-param>
-    
     <servlet>
         <servlet-name>Vaadin Application Servlet</servlet-name>
-        <servlet-class>com.zemiak.books.BooksServlet</servlet-class>
-        
+        <servlet-class>com.zemiak.books.phone.BooksServlet</servlet-class>
         <init-param>
             <description>Vaadin UI to display</description>
             <param-name>UI</param-name>
-            <param-value>com.zemiak.books.BooksUI</param-value>
-        </init-param>
-        
-        <init-param>
-            <param-name>UIProvider</param-name>
-            <param-value>com.vaadin.cdi.CDIUIProvider</param-value>
+            <param-value>com.zemiak.books.phone.BooksUI</param-value>
         </init-param>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>Vaadin Application Servlet</servlet-name>
         <url-pattern>/*</url-pattern>
