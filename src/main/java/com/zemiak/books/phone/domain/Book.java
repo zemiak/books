@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Book implements Comparable {
+public class Book {
     private String mobiFileName;
     private String epubFileName;
     private String name;
@@ -94,7 +94,6 @@ public class Book implements Comparable {
         return "Book{" + "name=" + name + ", id=" + id + ", english=" + english + '}';
     }
 
-    @Override
     public int compareTo(Object t) {
         Book other = (Book) t;
 

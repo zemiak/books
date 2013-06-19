@@ -45,8 +45,4 @@
     
 
     <inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
-    
-    <generate-with class="com.zemiak.books.vaadin.BooksLoadFactory">
-        <when-type-is class="com.vaadin.terminal.gwt.client.WidgetMap"/>
-    </generate-with>
 </module>

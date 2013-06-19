@@ -40,8 +40,6 @@ public class LettersMain extends NavigationView implements Component {
         content = new CssLayout();
         setContent(content);
 
-        Collections.sort(letters);
-
         VerticalComponentGroup group = new VerticalComponentGroup("Letters");
         for (Letter letter: letters) {
             NavigationButton button = new NavigationButton();

@@ -52,8 +52,6 @@ class AuthorPage extends NavigationView implements Component {
         content = new CssLayout();
         setContent(content);
 
-        Collections.sort(books);
-
         if (author.getWebPages() != null && !author.getWebPages().isEmpty()) {
             VerticalComponentGroup group2 = new VerticalComponentGroup("Links");
 

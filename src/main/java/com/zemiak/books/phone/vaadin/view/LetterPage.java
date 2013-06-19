@@ -38,8 +38,6 @@ class LetterPage extends NavigationView implements Component {
     }
 
     private void refresh() {
-        Collections.sort(authors);
-
         content = new CssLayout();
         setContent(content);
 

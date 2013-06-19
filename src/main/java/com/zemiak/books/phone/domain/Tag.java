@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Tag implements Comparable {
+public class Tag {
     private long id;
     private String name;
     private String authorsUrl;
@@ -79,7 +79,6 @@ public class Tag implements Comparable {
         return "Tag{" + "id=" + id + ", name=" + name + '}';
     }
 
-    @Override
     public int compareTo(Object t) {
         Tag other = (Tag) t;
 

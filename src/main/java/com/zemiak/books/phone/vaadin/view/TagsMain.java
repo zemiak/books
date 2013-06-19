@@ -39,7 +39,6 @@ public class TagsMain extends NavigationView implements Component {
         content = new CssLayout();
         setContent(content);
 
-        Collections.sort(tags);
         System.err.println(tags);
 
         VerticalComponentGroup group = new VerticalComponentGroup("Tags");

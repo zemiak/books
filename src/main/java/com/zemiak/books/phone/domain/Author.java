@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Author implements Comparable {
+public class Author {
     private List<String> tags = null;
     private String name;
     private int id;
@@ -29,6 +29,14 @@ public class Author implements Comparable {
         com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
+    }
+    
+    public Author(com.zemiak.books.phone.domain.dto.Author author) {
+        this();
+        
+        this.name = author.getName();
+        this.tags = author.getTags();
+        
     }
 
     public List<Book> getBooks() {
@@ -107,7 +115,6 @@ public class Author implements Comparable {
         return "Author{" + "name=" + name + ", id=" + id + '}';
     }
 
-    @Override
     public int compareTo(Object t) {
         Author other = (Author) t;
 

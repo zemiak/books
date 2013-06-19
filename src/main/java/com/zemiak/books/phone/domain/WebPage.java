@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class WebPage implements Comparable {
+public class WebPage {
     private String name;
     private URL url;
     private int id;
@@ -88,7 +88,6 @@ public class WebPage implements Comparable {
         return "WebPage{" + "name=" + name + ", url=" + url + ", id=" + id + '}';
     }
 
-    @Override
     public int compareTo(Object t) {
         WebPage other = (WebPage) t;
 

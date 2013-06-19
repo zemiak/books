@@ -8,12 +8,15 @@ import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Letter implements Comparable {
+public class Letter {
     private String letter;
     private String authorsUrl;
+    
+    @XmlTransient
     private List<Author> authors = null;
 
     private com.sun.jersey.api.client.WebResource webResource;
@@ -70,7 +73,6 @@ public class Letter implements Comparable {
         return "Letter{" + "letter=" + letter + '}';
     }
 
-    @Override
     public int compareTo(Object t) {
         Letter other = (Letter) t;
 

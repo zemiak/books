@@ -85,7 +85,6 @@ public class SearchPage extends NavigationView implements Component {
         if (! books.isEmpty()) {
             VerticalComponentGroup group = new VerticalComponentGroup("Books: " + books.size());
 
-            Collections.sort(books);
             for (Book book: books) {
                 NavigationButton button = new NavigationButton();
                 button.setDescription(getHighlightedValue(book.getName()));
@@ -107,7 +106,6 @@ public class SearchPage extends NavigationView implements Component {
         if (! authors.isEmpty()) {
             VerticalComponentGroup group = new VerticalComponentGroup("Authors: " + authors.size());
 
-            Collections.sort(authors);
             for (Author author: authors) {
                 NavigationButton button = new NavigationButton();
                 button.setDescription(getHighlightedValue(author.getName()));
