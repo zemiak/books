@@ -10,22 +10,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Author {
+public class AuthorDTO {
     private List<String> tags = new ArrayList<>();
     private String name;
     private int id;
-    private List<WebPage> webPages;
+    private List<WebPageDTO> webPages;
 
     private String booksUrl;
     private String tagsUrl;
     private String webPagesUrl;
 
-    public Author() {
+    public AuthorDTO() {
     }
 
     @Override
     public String toString() {
-        return "Author{" + "tags=" + tags + ", name=" + name + ", id=" + id + ", webPages=" + webPages + ", booksUrl=" + booksUrl + '}';
+        return "AuthorDTO{" + "tags=" + tags + ", name=" + name + ", id=" + id + ", webPages=" + webPages + ", booksUrl=" + booksUrl + '}';
     }
 
     public List<String> getTags() {
@@ -40,7 +40,7 @@ public class Author {
         return id;
     }
 
-    public List<WebPage> getWebPages() {
+    public List<WebPageDTO> getWebPages() {
         return webPages;
     }
 

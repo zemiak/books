@@ -3,20 +3,14 @@ package com.zemiak.books.phone.domain;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import com.zemiak.books.phone.boundary.RestData;
+import com.zemiak.books.phone.domain.dto.LetterDTO;
 import java.util.List;
 import java.util.Objects;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement
 public class Letter {
     private String letter;
     private String authorsUrl;
-    
-    @XmlTransient
+
     private List<Author> authors = null;
 
     private com.sun.jersey.api.client.WebResource webResource;
@@ -25,6 +19,13 @@ public class Letter {
         com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
+    }
+
+    public Letter(LetterDTO dto) {
+        this();
+
+        this.letter = dto.getLetter();
+        this.authorsUrl = dto.getAuthorsUrl();
     }
 
     public List<Author> getAuthors() {

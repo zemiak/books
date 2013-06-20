@@ -2,14 +2,10 @@ package com.zemiak.books.phone.domain;
 
 import com.sun.jersey.api.client.WebResource;
 import com.zemiak.books.phone.boundary.RestData;
+import com.zemiak.books.phone.domain.dto.WebPageDTO;
 import java.net.URL;
 import java.util.Objects;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement
 public class WebPage {
     private String name;
     private URL url;
@@ -24,6 +20,14 @@ public class WebPage {
         com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
+    }
+
+    public WebPage(WebPageDTO dto) {
+        this();
+
+        this.name = dto.getName();
+        this.id = dto.getId();
+        this.url = dto.getUrl();
     }
 
     public Author getAuthor() {

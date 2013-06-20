@@ -3,14 +3,12 @@ package com.zemiak.books.phone.domain;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import com.zemiak.books.phone.boundary.RestData;
+import com.zemiak.books.phone.domain.dto.AuthorDTO;
+import com.zemiak.books.phone.domain.dto.WebPageDTO;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement
 public class Author {
     private List<String> tags = null;
     private String name;
@@ -30,13 +28,21 @@ public class Author {
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
     }
-    
-    public Author(com.zemiak.books.phone.domain.dto.Author author) {
+
+    public Author(AuthorDTO author) {
         this();
-        
+
         this.name = author.getName();
         this.tags = author.getTags();
-        
+        this.id = author.getId();
+        this.booksUrl = author.getBooksUrl();
+        this.tagsUrl = author.getTagsUrl();
+        this.webPagesUrl = author.getWebPagesUrl();
+
+        for (WebPageDTO webPageDTO: author.getWebPages()) {
+            this.webPages = new ArrayList<>();
+            this.webPages.add(new WebPage(webPageDTO));
+        }
     }
 
     public List<Book> getBooks() {

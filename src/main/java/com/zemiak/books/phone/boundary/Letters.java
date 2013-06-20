@@ -6,6 +6,8 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.zemiak.books.phone.domain.Letter;
+import com.zemiak.books.phone.domain.dto.LetterDTO;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Letters implements AutoCloseable {
@@ -16,23 +18,39 @@ public class Letters implements AutoCloseable {
         ClientConfig config = new DefaultClientConfig();
         client = Client.create(config);
         webResource = client.resource(RestData.BASE_URI).path("letters");
+
+        System.err.println("Letters webResource: " + webResource.getURI().toString());
     }
 
     public Letter find(String id) throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
-        
+
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return resource.get(Letter.class);
+        return convert(resource.get(LetterDTO.class));
     }
 
     public List<Letter> all() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
-        
-        return resource.get(new GenericType<List<Letter>>(){});
+
+        return convert(resource.get(new GenericType<List<LetterDTO>>(){}));
     }
 
     @Override
     public void close() {
         client.destroy();
+    }
+
+    private List<Letter> convert(List<LetterDTO> list) {
+        List<Letter> result = new ArrayList<>();
+
+        for (LetterDTO dto: list) {
+            result.add(new Letter(dto));
+        }
+
+        return result;
+    }
+
+    private Letter convert(LetterDTO dto) {
+        return new Letter(dto);
     }
 }

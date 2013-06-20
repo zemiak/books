@@ -6,16 +6,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Tag {
+public class TagDTO {
     private long id;
     private String name;
     private String authorsUrl;
 
-    public Tag() {
+    public TagDTO() {
     }
 
     @Override
     public String toString() {
         return "TagDTO{" + "id=" + id + ", name=" + name + ", authorsUrl=" + authorsUrl + '}';
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAuthorsUrl() {
+        return authorsUrl;
     }
 }
