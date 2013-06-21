@@ -1,4 +1,4 @@
-package com.zemiak.books.backend.systemtest;
+package com.zemiak.books.phone.boundary;
 
 import com.zemiak.books.phone.boundary.Tags;
 import com.zemiak.books.phone.domain.Tag;

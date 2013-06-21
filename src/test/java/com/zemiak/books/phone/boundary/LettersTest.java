@@ -1,6 +1,5 @@
-package com.zemiak.books.backend.systemtest;
+package com.zemiak.books.phone.boundary;
 
-import com.zemiak.books.phone.boundary.Letters;
 import com.zemiak.books.phone.domain.Letter;
 import java.util.List;
 import org.junit.Before;

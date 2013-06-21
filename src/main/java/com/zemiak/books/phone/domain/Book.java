@@ -2,9 +2,14 @@ package com.zemiak.books.phone.domain;
 
 import com.sun.jersey.api.client.WebResource;
 import com.zemiak.books.phone.boundary.RestData;
-import com.zemiak.books.phone.domain.dto.BookDTO;
 import java.util.Objects;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Book {
     private String mobiFileName;
     private String epubFileName;
@@ -15,24 +20,16 @@ public class Book {
     private String authorUrl;
     private Author author = null;
 
+    @XmlTransient
     private com.sun.jersey.api.client.WebResource webResource;
+
+    @XmlTransient
     private com.sun.jersey.api.client.Client client;
 
     public Book() {
         com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
-    }
-
-    public Book(BookDTO dto) {
-        this();
-
-        this.id = dto.getId();
-        this.name = dto.getName();
-        this.english = dto.isEnglish();
-        this.authorUrl = dto.getAuthorUrl();
-        this.mobiFileName = dto.getMobiFileName();
-        this.epubFileName = dto.getEpubFileName();
     }
 
     public Author getAuthor() {

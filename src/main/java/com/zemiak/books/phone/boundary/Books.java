@@ -6,8 +6,6 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.zemiak.books.phone.domain.Book;
-import com.zemiak.books.phone.domain.dto.BookDTO;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Books implements AutoCloseable {
@@ -24,45 +22,31 @@ public class Books implements AutoCloseable {
         WebResource resource = webResource;
 
         resource = resource.path("author/" + author);
-        return convert(resource.get(new GenericType<List<BookDTO>>(){}));
+        return resource.get(new GenericType<List<Book>>(){});
     }
 
     public List<Book> findByExpression(String expr) throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
 
         resource = resource.path(java.text.MessageFormat.format("search/{0}", new Object[]{expr}));
-        return convert(resource.get(new GenericType<List<BookDTO>>(){}));
+        return resource.get(new GenericType<List<Book>>(){});
     }
 
     public Book find(String id) throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
 
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return convert(resource.get(BookDTO.class));
+        return resource.get(Book.class);
     }
 
     public List<Book> all() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
 
-        return convert(resource.get(new GenericType<List<BookDTO>>(){}));
+        return resource.get(new GenericType<List<Book>>(){});
     }
 
     @Override
     public void close() {
         client.destroy();
-    }
-
-    private List<Book> convert(List<BookDTO> list) {
-        List<Book> result = new ArrayList<>();
-
-        for (BookDTO dto: list) {
-            result.add(new Book(dto));
-        }
-
-        return result;
-    }
-
-    private Book convert(BookDTO dto) {
-        return new Book(dto);
     }
 }

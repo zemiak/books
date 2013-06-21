@@ -3,12 +3,15 @@ package com.zemiak.books.phone.domain;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import com.zemiak.books.phone.boundary.RestData;
-import com.zemiak.books.phone.domain.dto.AuthorDTO;
-import com.zemiak.books.phone.domain.dto.WebPageDTO;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Author {
     private List<String> tags = null;
     private String name;
@@ -20,29 +23,16 @@ public class Author {
     private String tagsUrl;
     private String webPagesUrl;
 
+    @XmlTransient
     private com.sun.jersey.api.client.WebResource webResource;
+
+    @XmlTransient
     private com.sun.jersey.api.client.Client client;
 
     public Author() {
         com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
         client = com.sun.jersey.api.client.Client.create(config);
         webResource = client.resource(RestData.BASE_URI);
-    }
-
-    public Author(AuthorDTO author) {
-        this();
-
-        this.name = author.getName();
-        this.tags = author.getTags();
-        this.id = author.getId();
-        this.booksUrl = author.getBooksUrl();
-        this.tagsUrl = author.getTagsUrl();
-        this.webPagesUrl = author.getWebPagesUrl();
-
-        for (WebPageDTO webPageDTO: author.getWebPages()) {
-            this.webPages = new ArrayList<>();
-            this.webPages.add(new WebPage(webPageDTO));
-        }
     }
 
     public List<Book> getBooks() {

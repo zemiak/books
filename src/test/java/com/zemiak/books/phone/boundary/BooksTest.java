@@ -1,4 +1,4 @@
-package com.zemiak.books.backend.systemtest;
+package com.zemiak.books.phone.boundary;
 
 import com.zemiak.books.phone.boundary.Authors;
 import com.zemiak.books.phone.boundary.Books;
