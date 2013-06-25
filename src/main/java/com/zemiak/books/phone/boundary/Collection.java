@@ -79,4 +79,20 @@ public class Collection {
     public Tag getTag(String name) {
         return tags.findByName(name);
     }
+    
+    public int getAuthorsCount() {
+        return authors.count();
+    }
+    
+    public int getAuthorsDocumentedCount() {
+        return authors.countDocumented();
+    }
+    
+    public int getAuthorsTaggedCount() {
+        return authors.countTagged();
+    }
+    
+    public int getBooksCount() {
+        return books.count();
+    }
 }

@@ -4,7 +4,6 @@ import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.zemiak.books.phone.boundary.Collection;
-import com.zemiak.books.phone.boundary.Statistics;
 import com.zemiak.books.phone.vaadin.view.AboutMain;
 import com.zemiak.books.phone.vaadin.view.LettersMain;
 import com.zemiak.books.phone.vaadin.view.SearchMain;
@@ -13,14 +12,12 @@ import com.zemiak.books.phone.vaadin.view.TagsMain;
 public class NavToolbar extends Toolbar {
     NavManager nav;
     Collection col;
-    Statistics stat;
 
     public NavToolbar(NavManager nav) {
         super();
 
         this.nav = nav;
         this.col = nav.getCollection();
-        this.stat = nav.getStatistics();
 
         lettersButton();
         tagsButton();

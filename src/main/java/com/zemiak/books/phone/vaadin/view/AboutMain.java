@@ -6,19 +6,19 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
-import com.zemiak.books.phone.boundary.Statistics;
+import com.zemiak.books.phone.boundary.Collection;
 import com.zemiak.books.phone.vaadin.NavManager;
 import com.zemiak.books.phone.vaadin.NavToolbar;
 
 public class AboutMain extends NavigationView implements Component {
-    Statistics stat;
+    Collection col;
     CssLayout content = null;
     public final String VERSION = "1.0";
 
     public AboutMain(NavManager manager) {
         setCaption("Books");
 
-        this.stat = manager.getStatistics();
+        this.col = manager.getCollection();
 
         this.setToolbar(new NavToolbar(manager));
         refresh();
@@ -44,13 +44,13 @@ public class AboutMain extends NavigationView implements Component {
         table.addItem(new Object[]{"Version", 
             new Label(getBold(VERSION), ContentMode.HTML)}, 1);
         table.addItem(new Object[]{"Authors", 
-            new Label(getBold(String.valueOf(stat.getAuthors())), ContentMode.HTML)}, 2);
+            new Label(getBold(String.valueOf(col.getAuthorsCount())), ContentMode.HTML)}, 2);
         table.addItem(new Object[]{"Documented Authors", 
-            new Label(getBold(String.valueOf(stat.getAuthorsDocumented())), ContentMode.HTML)}, 3);
+            new Label(getBold(String.valueOf(col.getAuthorsDocumentedCount())), ContentMode.HTML)}, 3);
         table.addItem(new Object[]{"Tagged Authors", 
-            new Label(getBold(String.valueOf(stat.getAuthorsTagged())), ContentMode.HTML)}, 4);
+            new Label(getBold(String.valueOf(col.getAuthorsTaggedCount())), ContentMode.HTML)}, 4);
         table.addItem(new Object[]{"Books", 
-            new Label(getBold(String.valueOf(stat.getBooks())), ContentMode.HTML)}, 5);
+            new Label(getBold(String.valueOf(col.getBooksCount())), ContentMode.HTML)}, 5);
 
         content.addComponent(table);
     }

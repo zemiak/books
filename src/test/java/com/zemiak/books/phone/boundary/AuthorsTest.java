@@ -72,4 +72,19 @@ public class AuthorsTest {
         List<Author> result = client.findByTag("crime");
         assertTrue(result.size() > 5);
     }
+    
+    @Test
+    public void count() {
+        assertTrue(client.count() > 0);
+    }
+    
+    @Test
+    public void countDocumented() {
+        assertTrue(client.countDocumented() > 0);
+    }
+    
+    @Test
+    public void countTagged() {
+        assertTrue(client.countTagged() > 0);
+    }
 }

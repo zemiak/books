@@ -32,4 +32,9 @@ public class BooksTest {
         List<Book> result = client.findByExpression("hell");
         assertFalse(result.isEmpty());
     }
+    
+    @Test
+    public void count() {
+        assertTrue(client.count() > 0);
+    }
 }

@@ -6,6 +6,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.zemiak.books.phone.domain.Book;
+import com.zemiak.books.phone.domain.Cache;
 import java.util.List;
 
 public class Books implements AutoCloseable {
@@ -43,6 +44,14 @@ public class Books implements AutoCloseable {
         WebResource resource = webResource;
 
         return resource.get(new GenericType<List<Book>>(){});
+    }
+    
+    public int count() {
+        WebResource resource = webResource;
+        resource = resource.path("count");
+        
+        Cache cache = resource.get(Cache.class);
+        return Integer.valueOf(cache.getValue());
     }
 
     @Override

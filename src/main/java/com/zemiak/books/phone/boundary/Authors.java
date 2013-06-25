@@ -6,6 +6,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.zemiak.books.phone.domain.Author;
+import com.zemiak.books.phone.domain.Cache;
 import com.zemiak.books.phone.domain.Tag;
 import com.zemiak.books.phone.domain.WebPage;
 import java.util.List;
@@ -74,5 +75,29 @@ public class Authors implements AutoCloseable {
         String strId = String.valueOf(id);
         resource = resource.path(java.text.MessageFormat.format("webpages/{0}", new Object[]{strId}));
         return resource.get(new GenericType<List<WebPage>>() {});
+    }
+    
+    public int count() {
+        WebResource resource = webResource;
+        resource = resource.path("count");
+        
+        Cache cache = resource.get(Cache.class);
+        return Integer.valueOf(cache.getValue());
+    }
+    
+    public int countDocumented() {
+        WebResource resource = webResource;
+        resource = resource.path("countDocumented");
+        
+        Cache cache = resource.get(Cache.class);
+        return Integer.valueOf(cache.getValue());
+    }
+    
+    public int countTagged() {
+        WebResource resource = webResource;
+        resource = resource.path("countTagged");
+        
+        Cache cache = resource.get(Cache.class);
+        return Integer.valueOf(cache.getValue());
     }
 }
