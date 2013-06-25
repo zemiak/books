@@ -1,7 +1,9 @@
 package com.zemiak.books.phone.domain;
 
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
-import com.zemiak.books.phone.boundary.RestData;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import java.net.URL;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -11,7 +13,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class WebPage {
+public class WebPage implements Comparable {
     private String name;
     private URL url;
     private int id;
@@ -20,23 +22,16 @@ public class WebPage {
     private Author author = null;
 
     @XmlTransient
-    private com.sun.jersey.api.client.WebResource webResource;
-
-    @XmlTransient
-    private com.sun.jersey.api.client.Client client;
-
+    private Client client;
     
     public WebPage() {
-        com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
-        client = com.sun.jersey.api.client.Client.create(config);
-        webResource = client.resource(RestData.BASE_URI);
+        ClientConfig config = new DefaultClientConfig();
+        client = Client.create(config);
     }
 
     public Author getAuthor() {
         if (null == author) {
-            WebResource resource = webResource;
-
-            resource = resource.path(authorUrl);
+            WebResource resource = client.resource(authorUrl);
             author = resource.get(Author.class);
         }
 
@@ -94,6 +89,7 @@ public class WebPage {
         return "WebPage{" + "name=" + name + ", url=" + url + ", id=" + id + '}';
     }
 
+    @Override
     public int compareTo(Object t) {
         WebPage other = (WebPage) t;
 

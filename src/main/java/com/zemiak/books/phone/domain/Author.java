@@ -1,8 +1,10 @@
 package com.zemiak.books.phone.domain;
 
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
-import com.zemiak.books.phone.boundary.RestData;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import java.util.List;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -12,8 +14,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Author {
-    private List<String> tags = null;
+public class Author implements Comparable {
+    private List<Tag> tags = null;
     private String name;
     private int id;
     private List<WebPage> webPages = null;
@@ -24,22 +26,16 @@ public class Author {
     private String webPagesUrl;
 
     @XmlTransient
-    private com.sun.jersey.api.client.WebResource webResource;
-
-    @XmlTransient
-    private com.sun.jersey.api.client.Client client;
+    private Client client;
 
     public Author() {
-        com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
-        client = com.sun.jersey.api.client.Client.create(config);
-        webResource = client.resource(RestData.BASE_URI);
+        ClientConfig config = new DefaultClientConfig();
+        client = Client.create(config);
     }
 
     public List<Book> getBooks() {
         if (null == books) {
-            WebResource resource = webResource;
-
-            resource = resource.path(booksUrl);
+            WebResource resource = client.resource(booksUrl);
             books = resource.get(new GenericType<List<Book>>() {});
         }
 
@@ -48,21 +44,17 @@ public class Author {
 
     public List<WebPage> getWebPages() {
         if (null == webPages) {
-            WebResource resource = webResource;
-
-            resource = resource.path(webPagesUrl);
+            WebResource resource = client.resource(webPagesUrl);
             webPages = resource.get(new GenericType<List<WebPage>>() {});
         }
 
         return webPages;
     }
 
-    public List<String> getTags() {
+    public List<Tag> getTags() {
         if (null == tags) {
-            WebResource resource = webResource;
-
-            resource = resource.path(tagsUrl);
-            tags = resource.get(new GenericType<List<String>>() {});
+            WebResource resource = client.resource(tagsUrl);
+            tags = resource.get(new GenericType<List<Tag>>() {});
         }
 
         return tags;
@@ -111,6 +103,7 @@ public class Author {
         return "Author{" + "name=" + name + ", id=" + id + '}';
     }
 
+    @Override
     public int compareTo(Object t) {
         Author other = (Author) t;
 

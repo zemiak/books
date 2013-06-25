@@ -1,7 +1,9 @@
 package com.zemiak.books.phone.domain;
 
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
-import com.zemiak.books.phone.boundary.RestData;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,7 +12,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Book {
+public class Book implements Comparable {
     private String mobiFileName;
     private String epubFileName;
     private String name;
@@ -21,22 +23,16 @@ public class Book {
     private Author author = null;
 
     @XmlTransient
-    private com.sun.jersey.api.client.WebResource webResource;
-
-    @XmlTransient
-    private com.sun.jersey.api.client.Client client;
+    private Client client;
 
     public Book() {
-        com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();
-        client = com.sun.jersey.api.client.Client.create(config);
-        webResource = client.resource(RestData.BASE_URI);
+        ClientConfig config = new DefaultClientConfig();
+        client = Client.create(config);
     }
 
     public Author getAuthor() {
         if (null == author) {
-            WebResource resource = webResource;
-
-            resource = resource.path(authorUrl);
+            WebResource resource = client.resource(authorUrl);
             author = resource.get(Author.class);
         }
 
@@ -98,6 +94,7 @@ public class Book {
         return "Book{" + "name=" + name + ", id=" + id + ", english=" + english + '}';
     }
 
+    @Override
     public int compareTo(Object t) {
         Book other = (Book) t;
 

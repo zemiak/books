@@ -14,6 +14,7 @@ import com.zemiak.books.phone.domain.Tag;
 import com.zemiak.books.phone.domain.WebPage;
 import com.zemiak.books.phone.vaadin.NavManager;
 import com.zemiak.books.phone.vaadin.NavToolbar;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.List;
  */
 class AuthorPage extends NavigationView implements Component {
     CssLayout content = null;
-    List<String> tags;
+    List<String> tags = new ArrayList<>();
     List<Book> books;
     NavManager manager;
     Collection col;
@@ -33,7 +34,11 @@ class AuthorPage extends NavigationView implements Component {
         super(author.getName());
 
         col = manager.getCollection();
-        tags = author.getTags();
+        
+        for (Tag tag: author.getTags()) {
+            tags.add(tag.getName());
+        }
+
         books = author.getBooks();
         this.manager = manager;
 
