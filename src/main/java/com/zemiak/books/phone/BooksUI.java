@@ -11,7 +11,7 @@ import com.zemiak.books.phone.vaadin.NavManager;
 @SuppressWarnings("serial")
 @Theme("books")
 @Title("Books")
-@Widgetset("com.zemiak.books.AppWidgetSet")
+@Widgetset("com.zemiak.books.phone.AppWidgetSet")
 public class BooksUI extends UI {
     private Collection col = new Collection();
 
