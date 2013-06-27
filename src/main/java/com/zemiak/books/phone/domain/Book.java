@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Book implements Comparable {
+public class Book implements Comparable, AutoCloseable {
     private String mobiFileName;
     private String epubFileName;
     private String name;
@@ -23,24 +23,32 @@ public class Book implements Comparable {
     private Author author = null;
 
     @XmlTransient
-    private Client client;
+    private Client client = null;
 
     public Book() {
-        ClientConfig config = new DefaultClientConfig();
-        client = Client.create(config);
     }
 
     public Author getAuthor() {
         if (null == author) {
-            WebResource resource = client.resource(authorUrl);
+            WebResource resource = getClient().resource(authorUrl);
             author = resource.get(Author.class);
         }
 
         return author;
     }
 
+    private Client getClient() {
+        if (null == client) {
+            ClientConfig config = new DefaultClientConfig();
+            client = Client.create(config);
+        }
+        
+        return client;
+    }
+
+    @Override
     public void close() {
-        client.destroy();
+        if (null != client) client.destroy();
     }
 
     public String getName() {

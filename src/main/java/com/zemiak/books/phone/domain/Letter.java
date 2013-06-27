@@ -7,6 +7,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,30 +15,44 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Letter implements Comparable {
+public class Letter implements Comparable, AutoCloseable {
     private String letter;
     private String authorsUrl;
     private List<Author> authors = null;
 
     @XmlTransient
-    private Client client;
+    private Client client = null;
     
     public Letter() {
-        ClientConfig config = new DefaultClientConfig();
-        client = Client.create(config);
     }
+    
+    @XmlTransient
+    private static final Logger LOG = Logger.getLogger(Letter.class.getName());
 
     public List<Author> getAuthors() {
         if (null == authors) {
-            WebResource resource = client.resource(authorsUrl);
+            WebResource resource = getClient().resource(authorsUrl);
+            long time = System.currentTimeMillis();
             authors = resource.get(new GenericType<List<Author>>(){});
+            System.err.println("getAuthors/REST: " + (System.currentTimeMillis() - time) 
+                    + "ms, for " + authors.size() + " authors");
         }
 
         return authors;
     }
 
+    private Client getClient() {
+        if (null == client) {
+            ClientConfig config = new DefaultClientConfig();
+            client = Client.create(config);
+        }
+        
+        return client;
+    }
+
+    @Override
     public void close() {
-        client.destroy();
+        if (null != client) client.destroy();
     }
 
     public String getLetter() {

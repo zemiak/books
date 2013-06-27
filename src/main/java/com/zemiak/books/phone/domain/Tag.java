@@ -14,30 +14,39 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Tag implements Comparable {
+public class Tag implements Comparable, AutoCloseable {
     private long id;
     private String name;
     private String authorsUrl;
     private List<Author> authors = null;
 
     @XmlTransient
-    private Client client;
+    private Client client = null;
+    
     public Tag() {
-        ClientConfig config = new DefaultClientConfig();
-        client = Client.create(config);
     }
 
     public List<Author> getAuthors() {
         if (null == authors) {
-            WebResource resource = client.resource(authorsUrl);
+            WebResource resource = getClient().resource(authorsUrl);
             authors = resource.get(new GenericType<List<Author>>(){});
         }
 
         return authors;
     }
     
+    private Client getClient() {
+        if (null == client) {
+            ClientConfig config = new DefaultClientConfig();
+            client = Client.create(config);
+        }
+        
+        return client;
+    }
+
+    @Override
     public void close() {
-        client.destroy();
+        if (null != client) client.destroy();
     }
 
     public long getId() {

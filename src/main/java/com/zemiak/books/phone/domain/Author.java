@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Author implements Comparable {
+public class Author implements Comparable, AutoCloseable {
     private List<Tag> tags = null;
     private String name;
     private int id;
@@ -26,16 +26,14 @@ public class Author implements Comparable {
     private String webPagesUrl;
 
     @XmlTransient
-    private Client client;
+    private Client client = null;
 
     public Author() {
-        ClientConfig config = new DefaultClientConfig();
-        client = Client.create(config);
     }
 
     public List<Book> getBooks() {
         if (null == books) {
-            WebResource resource = client.resource(booksUrl);
+            WebResource resource = getClient().resource(booksUrl);
             books = resource.get(new GenericType<List<Book>>() {});
         }
 
@@ -44,7 +42,7 @@ public class Author implements Comparable {
 
     public List<WebPage> getWebPages() {
         if (null == webPages) {
-            WebResource resource = client.resource(webPagesUrl);
+            WebResource resource = getClient().resource(webPagesUrl);
             webPages = resource.get(new GenericType<List<WebPage>>() {});
         }
 
@@ -53,15 +51,25 @@ public class Author implements Comparable {
 
     public List<Tag> getTags() {
         if (null == tags) {
-            WebResource resource = client.resource(tagsUrl);
+            WebResource resource = getClient().resource(tagsUrl);
             tags = resource.get(new GenericType<List<Tag>>() {});
         }
 
         return tags;
     }
+    
+    private Client getClient() {
+        if (null == client) {
+            ClientConfig config = new DefaultClientConfig();
+            client = Client.create(config);
+        }
+        
+        return client;
+    }
 
+    @Override
     public void close() {
-        client.destroy();
+        if (null != client) client.destroy();
     }
 
     public String getName() {
