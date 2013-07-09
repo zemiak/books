@@ -9,31 +9,35 @@ import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
 import com.zemiak.books.phone.vaadin.NavManager;
 import com.zemiak.books.phone.vaadin.NavToolbar;
 
-public class SearchMain extends NavigationView implements Component {
+public class Search extends NavigationView {
     NavManager manager;
     Layout form = null;
     final TextField searchField = new TextField();
+    boolean initialized = false;
     
-    public SearchMain(NavManager manager) {
+    public Search() {
         setCaption("Books");
-
-        this.manager = manager;
-
-        this.setToolbar(new NavToolbar(manager));
-        refresh();
     }
 
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
-        searchField.focus();
+        
+        if (initialized) {
+            return;
+        }
+        
+        this.manager = (NavManager) getNavigationManager();
+        this.setToolbar(new NavToolbar(manager));
+        
+        refresh();
+        initialized = true;
     }
 
     private void refresh() {
@@ -69,7 +73,7 @@ public class SearchMain extends NavigationView implements Component {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                getNavigationManager().navigateTo(new SearchPage(searchField.getValue(), manager));
+                getNavigationManager().navigateTo(new SearchResults(searchField.getValue(), manager));
             }
         });
         group.addComponent(navButton);
@@ -80,7 +84,7 @@ public class SearchMain extends NavigationView implements Component {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                getNavigationManager().navigateTo(new SearchPage(searchField.getValue(), manager));
+                getNavigationManager().navigateTo(new SearchResults(searchField.getValue(), manager));
             }
         });
 

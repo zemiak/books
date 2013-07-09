@@ -2,7 +2,6 @@ package com.zemiak.books.phone.vaadin.view;
 
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -10,25 +9,32 @@ import com.zemiak.books.phone.boundary.Collection;
 import com.zemiak.books.phone.vaadin.NavManager;
 import com.zemiak.books.phone.vaadin.NavToolbar;
 
-public class AboutMain extends NavigationView implements Component {
+public class About extends NavigationView {
     Collection col;
     CssLayout content = null;
     public final String VERSION = "1.0";
+    boolean initialized = false;
 
-    public AboutMain(NavManager manager) {
+    public About() {
         setCaption("Books");
-
-        this.col = manager.getCollection();
-
-        this.setToolbar(new NavToolbar(manager));
-        refresh();
     }
-
+    
     @Override
-    protected void onBecomingVisible() {
+    public void onBecomingVisible() {
         super.onBecomingVisible();
+        
+        if (initialized) {
+            return;
+        }
+        
+        NavManager manager = (NavManager) getNavigationManager();
+        this.col = manager.getCollection();
+        this.setToolbar(new NavToolbar(manager));
+        
+        refresh();
+        initialized = true;
     }
-
+    
     private void refresh() {
         content = new CssLayout();
         setContent(content);

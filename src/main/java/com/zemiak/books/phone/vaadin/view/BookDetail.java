@@ -4,7 +4,6 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
 import com.zemiak.books.phone.domain.Book;
@@ -16,7 +15,7 @@ import java.io.File;
  *
  * @author vasko
  */
-class BookPage extends NavigationView implements Component {
+class BookDetail extends NavigationView {
     static class BookFileResource extends FileResource {
         private String mimeType;
         
@@ -36,19 +35,20 @@ class BookPage extends NavigationView implements Component {
     NavManager manager;
     Book book;
 
-    public BookPage(Book book, NavManager manager) {
+    public BookDetail(Book book, NavManager manager) {
         super(book.getName());
 
         this.book = book;
         this.manager = manager;
 
         this.setToolbar(new NavToolbar(manager));
-        refresh();
     }
 
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        
+        refresh();
     }
 
     private void refresh() {

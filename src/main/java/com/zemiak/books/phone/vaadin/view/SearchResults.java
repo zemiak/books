@@ -5,7 +5,6 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.zemiak.books.phone.boundary.Collection;
@@ -13,10 +12,9 @@ import com.zemiak.books.phone.domain.Author;
 import com.zemiak.books.phone.domain.Book;
 import com.zemiak.books.phone.vaadin.NavManager;
 import com.zemiak.books.phone.vaadin.NavToolbar;
-import java.util.Collections;
 import java.util.List;
 
-public class SearchPage extends NavigationView implements Component {
+public class SearchResults extends NavigationView {
     CssLayout content = null;
     NavManager manager;
     Collection col;
@@ -25,25 +23,21 @@ public class SearchPage extends NavigationView implements Component {
     private List<Author> authors;
     private List<Book> books;
 
-    public SearchPage(String text, NavManager manager) {
+    public SearchResults(String text, NavManager manager) {
         super("Search Results");
 
         col = manager.getCollection();
         this.manager = manager;
         this.text = text.trim().toLowerCase();
 
-        if (! this.text.isEmpty()) {
-            authors = col.getAuthorsByExpression(this.text);
-            books = col.getBooksByExpression(this.text);
-        }
-
         this.setToolbar(new NavToolbar(manager));
-        refresh();
     }
 
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        
+        refresh();
     }
 
     private String getHighlightedValue(String value) {
@@ -69,11 +63,14 @@ public class SearchPage extends NavigationView implements Component {
     private void refresh() {
         content = new CssLayout();
         setContent(content);
-
+        
         if (text.isEmpty()) {
             content.addComponent(new Label("Cannot search for an empty string"));
             return;
         }
+        
+        authors = col.getAuthorsByExpression(this.text);
+        books = col.getBooksByExpression(this.text);
 
         if (books.isEmpty() && authors.isEmpty()) {
             Label searchText = new Label("No results for text: <b>" + text + "</b>");
@@ -95,7 +92,7 @@ public class SearchPage extends NavigationView implements Component {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        getNavigationManager().navigateTo(new BookPage(finalBook, manager));
+                        getNavigationManager().navigateTo(new BookDetail(finalBook, manager));
                     }
                 });
             }
@@ -119,7 +116,7 @@ public class SearchPage extends NavigationView implements Component {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        getNavigationManager().navigateTo(new AuthorPage(finalAuthor, manager));
+                        getNavigationManager().navigateTo(new AuthorDetail(finalAuthor, manager));
                     }
                 });
             }

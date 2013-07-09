@@ -3,21 +3,14 @@ package com.zemiak.books.phone.vaadin;
 import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
-import com.zemiak.books.phone.boundary.Collection;
-import com.zemiak.books.phone.vaadin.view.AboutMain;
-import com.zemiak.books.phone.vaadin.view.LettersMain;
-import com.zemiak.books.phone.vaadin.view.SearchMain;
-import com.zemiak.books.phone.vaadin.view.TagsMain;
 
 public class NavToolbar extends Toolbar {
     NavManager nav;
-    Collection col;
 
     public NavToolbar(NavManager nav) {
         super();
 
         this.nav = nav;
-        this.col = nav.getCollection();
 
         lettersButton();
         tagsButton();
@@ -31,7 +24,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.setCurrentComponent(new LettersMain(nav));
+                nav.navigateTo(nav.getLetters());
             }
         });
         addComponent(button);
@@ -43,7 +36,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.setCurrentComponent(new TagsMain(nav));
+                nav.navigateTo(nav.getTags());
             }
         });
         addComponent(button);
@@ -56,7 +49,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.setCurrentComponent(new SearchMain(nav));
+                nav.navigateTo(nav.getSearch());
             }
         });
         addComponent(button);
@@ -69,7 +62,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.setCurrentComponent(new AboutMain(nav));
+                nav.navigateTo(nav.getAbout());
             }
         });
         addComponent(button);
