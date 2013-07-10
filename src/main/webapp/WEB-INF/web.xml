@@ -18,6 +18,7 @@
             <param-value>com.zemiak.books.phone.BooksUI</param-value>
         </init-param>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>Vaadin Application Servlet</servlet-name>
         <url-pattern>/*</url-pattern>
