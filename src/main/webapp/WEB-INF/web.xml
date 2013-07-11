@@ -11,14 +11,13 @@
     </context-param>
     <servlet>
         <servlet-name>Vaadin Application Servlet</servlet-name>
-        <servlet-class>com.zemiak.books.phone.BooksServlet</servlet-class>
+        <servlet-class>com.zemiak.books.BooksServlet</servlet-class>
         <init-param>
             <description>Vaadin UI to display</description>
             <param-name>UI</param-name>
-            <param-value>com.zemiak.books.phone.BooksUI</param-value>
+            <param-value>com.zemiak.books.BooksUI</param-value>
         </init-param>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>Vaadin Application Servlet</servlet-name>
         <url-pattern>/*</url-pattern>
