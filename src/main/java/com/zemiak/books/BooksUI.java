@@ -7,11 +7,13 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import com.zemiak.books.client.boundary.Collection;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.cdi.CDIUI;
 
 @SuppressWarnings("serial")
 @Theme("books")
 @Title("Books")
 @Widgetset("com.zemiak.books.ui.phone.AppWidgetSet")
+@CDIUI
 public class BooksUI extends UI {
     final boolean DEBUG_PHONE = true;
     

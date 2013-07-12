@@ -82,6 +82,12 @@
             <artifactId>vaadin-themes</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-cdi</artifactId>
+            <version>${vaadin.cdi.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.sun.jersey</groupId>
