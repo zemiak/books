@@ -1,24 +1,25 @@
 package com.zemiak.books.ui.phone.view;
 
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.client.boundary.Collection;
 import com.zemiak.books.client.domain.Letter;
-import com.zemiak.books.ui.phone.NavManager;
-import com.zemiak.books.ui.phone.NavToolbar;
 import java.util.List;
+import javax.inject.Inject;
 
-public class Letters extends NavigationView {
+@CDIView("letters")
+public class Letters extends ViewAbstract {
     CssLayout content = null;
     List<Letter> letters;
-    NavManager manager;
+    
+    @Inject
     Collection col;
+    
     boolean initialized = false;
 
     public Letters() {
-        super("Books");
     }
 
     @Override
@@ -29,10 +30,9 @@ public class Letters extends NavigationView {
             return;
         }
         
-        this.manager = (NavManager) getNavigationManager();
-        this.col = manager.getCollection();
+        this.setCaption("Books");
+        
         this.letters = col.getLetters();
-        this.setToolbar(new NavToolbar(manager));
         
         refresh();
         initialized = true;
@@ -53,7 +53,9 @@ public class Letters extends NavigationView {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new LetterDetail(finalLetter, manager));
+                    LetterDetail view = (LetterDetail) getNavManager().getView("letterdetail");
+                    view.setLetter(finalLetter);
+                    getNavManager().navigateTo(view);
                 }
             });
         }

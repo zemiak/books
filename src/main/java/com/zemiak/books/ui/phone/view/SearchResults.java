@@ -1,8 +1,8 @@
 package com.zemiak.books.ui.phone.view;
 
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -10,27 +10,32 @@ import com.vaadin.ui.Label;
 import com.zemiak.books.client.boundary.Collection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Book;
-import com.zemiak.books.ui.phone.NavManager;
-import com.zemiak.books.ui.phone.NavToolbar;
 import java.util.List;
+import javax.inject.Inject;
 
-public class SearchResults extends NavigationView {
+@CDIView("searchresults")
+public class SearchResults extends ViewAbstract {
     CssLayout content = null;
-    NavManager manager;
+
+    @Inject
     Collection col;
+    
     String text;
 
     private List<Author> authors;
     private List<Book> books;
 
-    public SearchResults(String text, NavManager manager) {
-        super("Search Results");
-
-        col = manager.getCollection();
-        this.manager = manager;
+    public SearchResults() {
+    }
+    
+    public void setText(String text) {
         this.text = text.trim().toLowerCase();
-
-        this.setToolbar(new NavToolbar(manager));
+        refreshData();
+    }
+    
+    private void refreshData() {
+        authors = col.getAuthorsByExpression(this.text);
+        books = col.getBooksByExpression(this.text);
     }
 
     @Override
@@ -63,15 +68,13 @@ public class SearchResults extends NavigationView {
     private void refresh() {
         content = new CssLayout();
         setContent(content);
+        setCaption("?" + text);
         
         if (text.isEmpty()) {
             content.addComponent(new Label("Cannot search for an empty string"));
             return;
         }
         
-        authors = col.getAuthorsByExpression(this.text);
-        books = col.getBooksByExpression(this.text);
-
         if (books.isEmpty() && authors.isEmpty()) {
             Label searchText = new Label("No results for text: <b>" + text + "</b>");
             searchText.setContentMode(ContentMode.HTML);
@@ -92,7 +95,9 @@ public class SearchResults extends NavigationView {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        getNavigationManager().navigateTo(new BookDetail(finalBook, manager));
+                        BookDetail view = (BookDetail) getNavManager().getView("bookdetail");
+                        view.setBook(finalBook);
+                        getNavManager().navigateTo(view);
                     }
                 });
             }
@@ -116,7 +121,9 @@ public class SearchResults extends NavigationView {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        getNavigationManager().navigateTo(new AuthorDetail(finalAuthor, manager));
+                        AuthorDetail view = (AuthorDetail) getNavManager().getView("authordetail");
+                        view.setAuthor(finalAuthor);
+                        getNavManager().navigateTo(view);
                     }
                 });
             }

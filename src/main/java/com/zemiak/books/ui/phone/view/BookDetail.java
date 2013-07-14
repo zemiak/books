@@ -1,21 +1,16 @@
 package com.zemiak.books.ui.phone.view;
 
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
 import com.zemiak.books.client.domain.Book;
-import com.zemiak.books.ui.phone.NavManager;
-import com.zemiak.books.ui.phone.NavToolbar;
 import java.io.File;
 
-/**
- *
- * @author vasko
- */
-class BookDetail extends NavigationView {
+@CDIView("bookdetail")
+class BookDetail extends ViewAbstract {
     static class BookFileResource extends FileResource {
         private String mimeType;
         
@@ -32,16 +27,9 @@ class BookDetail extends NavigationView {
     }
     
     CssLayout content = null;
-    NavManager manager;
     Book book;
 
-    public BookDetail(Book book, NavManager manager) {
-        super(book.getName());
-
-        this.book = book;
-        this.manager = manager;
-
-        this.setToolbar(new NavToolbar(manager));
+    public BookDetail() {
     }
 
     @Override
@@ -50,10 +38,15 @@ class BookDetail extends NavigationView {
         
         refresh();
     }
+    
+    public void setBook(Book book) {
+        this.book = book;
+    }
 
     private void refresh() {
         content = new CssLayout();
         setContent(content);
+        setCaption(book.getName());
 
         VerticalComponentGroup group1 = new VerticalComponentGroup();
 

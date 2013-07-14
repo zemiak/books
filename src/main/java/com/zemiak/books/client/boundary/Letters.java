@@ -7,12 +7,19 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.zemiak.books.client.domain.Letter;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
 
-public class Letters implements AutoCloseable {
+@Stateless
+public class Letters {
     private WebResource webResource;
     private Client client;
 
     public Letters() {
+    }
+    
+    @PostConstruct
+    public void init() {
         ClientConfig config = new DefaultClientConfig();
         client = Client.create(config);
         webResource = client.resource(RestData.BASE_URI).path("letters");
@@ -31,7 +38,6 @@ public class Letters implements AutoCloseable {
         return resource.get(new GenericType<List<Letter>>(){});
     }
 
-    @Override
     public void close() {
         client.destroy();
     }

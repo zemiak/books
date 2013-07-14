@@ -7,12 +7,19 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.zemiak.books.client.domain.Tag;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
 
-public class Tags implements AutoCloseable {
+@Stateless
+public class Tags {
     private WebResource webResource;
     private Client client;
 
     public Tags() {
+    }
+    
+    @PostConstruct
+    public void init() {
         ClientConfig config = new DefaultClientConfig();
         client = Client.create(config);
         webResource = client.resource(RestData.BASE_URI).path("tags");
@@ -45,7 +52,6 @@ public class Tags implements AutoCloseable {
         return resource.get(new GenericType<List<Tag>>(){});
     }
 
-    @Override
     public void close() {
         client.destroy();
     }

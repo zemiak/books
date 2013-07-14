@@ -1,5 +1,6 @@
 package com.zemiak.books.ui.phone;
 
+import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
@@ -24,7 +25,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.navigateTo(nav.getLetters());
+                nav.navigateTo("letters");
             }
         });
         addComponent(button);
@@ -36,7 +37,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.navigateTo(nav.getTags());
+                nav.navigateTo("tags");
             }
         });
         addComponent(button);
@@ -49,7 +50,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.navigateTo(nav.getSearch());
+                nav.navigateTo("search");
             }
         });
         addComponent(button);
@@ -62,7 +63,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.navigateTo(nav.getAbout());
+                nav.navigateTo("about");
             }
         });
         addComponent(button);

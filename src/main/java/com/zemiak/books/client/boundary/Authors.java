@@ -10,12 +10,19 @@ import com.zemiak.books.client.domain.Cache;
 import com.zemiak.books.client.domain.Tag;
 import com.zemiak.books.client.domain.WebPage;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
 
-public class Authors implements AutoCloseable {
+@Stateless
+public class Authors {
     private WebResource webResource;
     private Client client;
 
     public Authors() {
+    }
+    
+    @PostConstruct
+    public void init() {
         ClientConfig config = new DefaultClientConfig();
         client = Client.create(config);
         webResource = client.resource(RestData.BASE_URI).path("authors");
@@ -49,7 +56,6 @@ public class Authors implements AutoCloseable {
         return resource.get(new GenericType<List<Author>>() {});
     }
 
-    @Override
     public void close() {
         client.destroy();
     }

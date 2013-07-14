@@ -6,8 +6,9 @@ import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import com.zemiak.books.client.boundary.Collection;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.cdi.CDIUI;
+import com.vaadin.cdi.CDIViewProvider;
+import javax.inject.Inject;
 
 @SuppressWarnings("serial")
 @Theme("books")
@@ -18,7 +19,9 @@ public class BooksUI extends UI {
     final boolean DEBUG_PHONE = true;
     
     private Collection col;
-    private NavigationManager nav;
+    
+    @Inject
+    private CDIViewProvider viewProvider;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -36,9 +39,10 @@ public class BooksUI extends UI {
     private void initPhone() {
         getPage().addBrowserWindowResizeListener(new com.zemiak.books.ui.phone.ScreenSizeListener());
         
-        nav = new com.zemiak.books.ui.phone.NavManager(col);
+        com.zemiak.books.ui.phone.NavManager nav = new com.zemiak.books.ui.phone.NavManager();
         setContent(nav);
-        nav.navigateTo(((com.zemiak.books.ui.phone.NavManager) nav).getLetters());
+        nav.setViewProvider(viewProvider);
+        nav.navigateTo("letters");
     }
 
     private void initCollection() {
@@ -48,7 +52,7 @@ public class BooksUI extends UI {
     private void initTablet() {
         getPage().addBrowserWindowResizeListener(new com.zemiak.books.ui.tablet.ScreenSizeListener());
         
-        nav = new com.zemiak.books.ui.tablet.NavManager(col);
+        com.zemiak.books.ui.tablet.NavManager nav = new com.zemiak.books.ui.tablet.NavManager(col);
         setContent(nav);
         nav.navigateTo(((com.zemiak.books.ui.tablet.NavManager) nav).getLetters());
     }

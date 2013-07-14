@@ -8,12 +8,19 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.zemiak.books.client.domain.Book;
 import com.zemiak.books.client.domain.Cache;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
 
-public class Books implements AutoCloseable {
+@Stateless
+public class Books {
     private WebResource webResource;
     private Client client;
 
     public Books() {
+    }
+    
+    @PostConstruct
+    public void init() {
         ClientConfig config = new DefaultClientConfig();
         client = Client.create(config);
         webResource = client.resource(RestData.BASE_URI).path("books");
@@ -54,7 +61,6 @@ public class Books implements AutoCloseable {
         return Integer.valueOf(cache.getValue());
     }
 
-    @Override
     public void close() {
         client.destroy();
     }

@@ -6,18 +6,30 @@ import com.zemiak.books.client.domain.Letter;
 import com.zemiak.books.client.domain.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 
+@Stateless
 public class Collection {
-    private Authors authors;
-    private Books books;
-    private Letters letters;
-    private Tags tags;
+    @Inject
+    Authors authors;
+    
+    @Inject
+    Books books;
+    
+    @Inject
+    Letters letters;
+    
+    @Inject
+    Tags tags;
     
     public Collection() {
-        authors = new Authors();
-        books = new Books();
-        letters = new Letters();
-        tags = new Tags();
+    }
+    
+    @PostConstruct
+    public void init() {
+        
     }
     
     public List<Author> getAuthors() {

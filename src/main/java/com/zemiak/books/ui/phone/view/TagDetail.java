@@ -1,39 +1,42 @@
 package com.zemiak.books.ui.phone.view;
 
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.client.boundary.Collection;
 import com.zemiak.books.client.domain.Author;
-import com.zemiak.books.ui.phone.NavManager;
-import com.zemiak.books.ui.phone.NavToolbar;
+import com.zemiak.books.client.domain.Tag;
 import java.util.List;
+import javax.inject.Inject;
 
-/**
- *
- * @author vasko
- */
-class TagDetail extends NavigationView {
+@CDIView("tagdetail")
+class TagDetail extends ViewAbstract {
     List<Author> authors;
-    NavManager manager;
     CssLayout content = null;
+    
+    @Inject
     Collection col;
+    
     String tag;
-
-    public TagDetail(String tag, NavManager manager) {
-        setCaption("#" + tag);
-
-        this.manager = manager;
-        this.tag = tag;
-
-        this.setToolbar(new NavToolbar(manager));
+    
+    public TagDetail() {
     }
-
+    
+    public void setTag(String tag) {
+        this.tag = tag;
+        refreshData();
+    }
+    
+    public void setTag(Tag tag) {
+        setTag(tag.getName());
+    }
+    
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
 
+        setCaption("#" + tag);
         refresh();
     }
 
@@ -41,9 +44,6 @@ class TagDetail extends NavigationView {
         content = new CssLayout();
         setContent(content);
         
-        this.col = manager.getCollection();
-        this.authors = col.getAuthorsByTag(tag);
-
         VerticalComponentGroup group = new VerticalComponentGroup("Authors");
 
         for (Author author: authors) {
@@ -55,11 +55,17 @@ class TagDetail extends NavigationView {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new AuthorDetail(finalAuthor, manager));
+                    AuthorDetail view = (AuthorDetail) getNavManager().getView("authordetail");
+                    view.setAuthor(finalAuthor);
+                    getNavManager().navigateTo(view);
                 }
             });
         }
 
         content.addComponents(group);
+    }
+
+    private void refreshData() {
+        this.authors = col.getAuthorsByTag(tag);
     }
 }

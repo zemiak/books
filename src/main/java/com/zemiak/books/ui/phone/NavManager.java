@@ -2,55 +2,29 @@ package com.zemiak.books.ui.phone;
 
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationView;
-import com.zemiak.books.client.boundary.Collection;
-import com.zemiak.books.ui.phone.view.About;
-import com.zemiak.books.ui.phone.view.Letters;
-import com.zemiak.books.ui.phone.view.Search;
-import com.zemiak.books.ui.phone.view.Tags;
+import com.vaadin.cdi.CDIViewProvider;
+import com.vaadin.navigator.View;
 
 public class NavManager extends NavigationManager {
-    Collection collection;
+    private CDIViewProvider viewProvider;
     
-    NavigationView about;
-    NavigationView letters;
-    NavigationView tags;
-    NavigationView search;
-    
-    public NavManager(Collection collection) {
+    public NavManager() {
         super();
-
-        this.collection = collection;
-
-        initViews();
     }
 
-    public Collection getCollection() {
-        return collection;
+    public CDIViewProvider getViewProvider() {
+        return viewProvider;
+    }
+
+    public void setViewProvider(CDIViewProvider viewProvider) {
+        this.viewProvider = viewProvider;
     }
     
-    private void initViews() {
-        tags = new Tags();
-        about = new About();
-        search = new Search();
-        letters = new Letters();
-        
-        
-        addComponents(letters, search, about, tags);
+    public View getView(String name) {
+        return this.viewProvider.getView(name);
     }
-
-    public NavigationView getAbout() {
-        return about;
-    }
-
-    public NavigationView getLetters() {
-        return letters;
-    }
-
-    public NavigationView getTags() {
-        return tags;
-    }
-
-    public NavigationView getSearch() {
-        return search;
+    
+    public void navigateTo(String name) {
+        this.navigateTo((NavigationView) getView(name));
     }
 }

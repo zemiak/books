@@ -1,22 +1,29 @@
 package com.zemiak.books.ui.phone.view;
 
-import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.zemiak.books.client.boundary.Collection;
-import com.zemiak.books.ui.phone.NavManager;
-import com.zemiak.books.ui.phone.NavToolbar;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
-public class About extends NavigationView {
+@CDIView("about")
+public class About extends ViewAbstract {
+    @Inject
     Collection col;
+    
     CssLayout content = null;
     public final String VERSION = "1.0";
     boolean initialized = false;
 
     public About() {
-        setCaption("Books");
+    }
+    
+    @PostConstruct
+    public void init() {
+        this.setCaption("Books");
     }
     
     @Override
@@ -26,10 +33,6 @@ public class About extends NavigationView {
         if (initialized) {
             return;
         }
-        
-        NavManager manager = (NavManager) getNavigationManager();
-        this.col = manager.getCollection();
-        this.setToolbar(new NavToolbar(manager));
         
         refresh();
         initialized = true;
