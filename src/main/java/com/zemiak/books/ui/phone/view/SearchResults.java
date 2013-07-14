@@ -7,7 +7,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.zemiak.books.client.boundary.Collection;
+import com.zemiak.books.client.boundary.CachedCollection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Book;
 import java.util.List;
@@ -18,7 +18,7 @@ public class SearchResults extends ViewAbstract {
     CssLayout content = null;
 
     @Inject
-    Collection col;
+    CachedCollection col;
     
     String text;
 

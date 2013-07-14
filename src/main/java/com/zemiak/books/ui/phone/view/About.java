@@ -2,17 +2,23 @@ package com.zemiak.books.ui.phone.view;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
-import com.zemiak.books.client.boundary.Collection;
+import com.zemiak.books.client.boundary.CacheClearEvent;
+import com.zemiak.books.client.boundary.CachedCollection;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 @CDIView("about")
 public class About extends ViewAbstract {
     @Inject
-    Collection col;
+    CachedCollection col;
+    
+    @Inject 
+    private javax.enterprise.event.Event<CacheClearEvent> clearEvent;
     
     CssLayout content = null;
     public final String VERSION = "1.0";
@@ -62,6 +68,14 @@ public class About extends ViewAbstract {
             new Label(getBold(String.valueOf(col.getBooksCount())), ContentMode.HTML)}, 5);
 
         content.addComponent(table);
+        content.addComponent(new Button("Clear Cache", new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                clearEvent.fire(new CacheClearEvent());
+                Notification.show("Data Cache Cleared", Notification.Type.HUMANIZED_MESSAGE);
+            }
+        }));
     }
 
     private String getBold(String text) {

@@ -29,7 +29,6 @@ public class Collection {
     
     @PostConstruct
     public void init() {
-        
     }
     
     public List<Author> getAuthors() {

@@ -6,7 +6,7 @@ import com.vaadin.cdi.CDIView;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
-import com.zemiak.books.client.boundary.Collection;
+import com.zemiak.books.client.boundary.CachedCollection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Book;
 import com.zemiak.books.client.domain.Tag;
@@ -22,7 +22,7 @@ class AuthorDetail extends ViewAbstract {
     CssLayout content = null;
     
     @Inject
-    Collection col;
+    CachedCollection col;
     
     Author author;
     List<Book> books;
@@ -51,7 +51,25 @@ class AuthorDetail extends ViewAbstract {
         setContent(content);
         
         setCaption(author.getName());
+        
+        renderWebPages();
+        renderBooks();
+        renderTags();
+    }
 
+    private void readData() {
+        tags = new ArrayList<>();
+
+        for (Tag tag: author.getTags()) {
+            tags.add(tag.getName());
+        }
+        
+        Collections.sort(tags);
+
+        books = author.getBooks();
+    }
+
+    private void renderWebPages() {
         if (author.getWebPages() != null && !author.getWebPages().isEmpty()) {
             VerticalComponentGroup group2 = new VerticalComponentGroup("Links");
 
@@ -62,7 +80,9 @@ class AuthorDetail extends ViewAbstract {
 
             content.addComponents(group2);
         }
+    }
 
+    private void renderBooks() {
         VerticalComponentGroup group1 = new VerticalComponentGroup("Books");
 
         for (Book book: books) {
@@ -82,7 +102,9 @@ class AuthorDetail extends ViewAbstract {
         }
 
         content.addComponents(group1);
-        
+    }
+
+    private void renderTags() {
         if (null != tags && !tags.isEmpty()) {
             VerticalComponentGroup group = new VerticalComponentGroup("Tags");
 
@@ -104,17 +126,5 @@ class AuthorDetail extends ViewAbstract {
 
             content.addComponents(group);
         }
-    }
-
-    private void readData() {
-        tags = new ArrayList<>();
-
-        for (Tag tag: author.getTags()) {
-            tags.add(tag.getName());
-        }
-        
-        Collections.sort(tags);
-
-        books = author.getBooks();
     }
 }

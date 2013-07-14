@@ -4,7 +4,7 @@ import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
-import com.zemiak.books.client.boundary.Collection;
+import com.zemiak.books.client.boundary.CachedCollection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Tag;
 import java.util.List;
@@ -16,7 +16,7 @@ class TagDetail extends ViewAbstract {
     CssLayout content = null;
     
     @Inject
-    Collection col;
+    CachedCollection col;
     
     String tag;
     
