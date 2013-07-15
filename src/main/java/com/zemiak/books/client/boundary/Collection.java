@@ -83,12 +83,8 @@ public class Collection {
         return tagList;
     }
 
-    public List<Tag> getDistinctTags() {
-        return tags.findByDistinct();
-    }
-
     public Tag getTag(String name) {
-        return tags.findByName(name);
+        return new Tag(name);
     }
     
     public int getAuthorsCount() {

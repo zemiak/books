@@ -45,4 +45,8 @@
     
 
     <inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
+    
+    <generate-with class="OptimizedConnectorBundleLoaderFactory">
+        <when-type-assignable class="com.vaadin.client.metadata.ConnectorBundleLoader" />
+    </generate-with>
 </module>

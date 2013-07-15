@@ -15,7 +15,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
 public class Tag implements Comparable, AutoCloseable {
-    private long id;
     private String name;
     private String authorsUrl;
     private List<Author> authors = null;
@@ -24,6 +23,10 @@ public class Tag implements Comparable, AutoCloseable {
     private Client client = null;
     
     public Tag() {
+    }
+
+    public Tag(String name) {
+        this.name = name;
     }
 
     public List<Author> getAuthors() {
@@ -49,10 +52,6 @@ public class Tag implements Comparable, AutoCloseable {
         if (null != client) client.destroy();
     }
 
-    public long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -60,7 +59,6 @@ public class Tag implements Comparable, AutoCloseable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 53 * hash + (int) (this.id ^ (this.id >>> 32));
         hash = 53 * hash + Objects.hashCode(this.name);
         return hash;
     }
@@ -74,9 +72,6 @@ public class Tag implements Comparable, AutoCloseable {
             return false;
         }
         final Tag other = (Tag) obj;
-        if (this.id != other.id) {
-            return false;
-        }
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
@@ -85,7 +80,7 @@ public class Tag implements Comparable, AutoCloseable {
 
     @Override
     public String toString() {
-        return "Tag{" + "id=" + id + ", name=" + name + '}';
+        return "Tag{name=" + name + '}';
     }
 
     @Override

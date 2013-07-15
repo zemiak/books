@@ -25,30 +25,9 @@ public class Tags {
         webResource = client.resource(RestData.BASE_URI).path("tags");
     }
 
-    public Tag find(int id) throws com.sun.jersey.api.client.UniformInterfaceException {
-        WebResource resource = webResource;
-
-        resource = resource.path(String.valueOf(id));
-        return resource.get(Tag.class);
-    }
-
-    public Tag findByName(String name) throws com.sun.jersey.api.client.UniformInterfaceException {
-        WebResource resource = webResource;
-
-        resource = resource.path("name/" + name);
-        return resource.get(Tag.class);
-    }
-
     public List<Tag> all() throws com.sun.jersey.api.client.UniformInterfaceException {
         WebResource resource = webResource;
 
-        return resource.get(new GenericType<List<Tag>>(){});
-    }
-
-    public List<Tag> findByDistinct() {
-        WebResource resource = webResource;
-
-        resource = resource.path("distinct");
         return resource.get(new GenericType<List<Tag>>(){});
     }
 

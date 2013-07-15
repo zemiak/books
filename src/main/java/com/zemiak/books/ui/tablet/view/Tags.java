@@ -35,7 +35,7 @@ public class Tags extends NavigationView {
         this.setToolbar(new NavToolbar(manager));
         
         this.col = manager.getCollection();
-        this.tags = col.getDistinctTags();
+        this.tags = col.getTags();
         
         refresh();
         initialized = true;

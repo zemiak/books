@@ -150,7 +150,7 @@ public class CachedCollection {
         List<Tag> ret = (List<Tag>) cache.get(key);
         
         if (null == ret) {
-            ret = col.getDistinctTags();
+            ret = col.getTags();
             cache.set(key, ret);
         }
         
