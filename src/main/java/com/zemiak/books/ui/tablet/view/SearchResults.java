@@ -1,10 +1,9 @@
 package com.zemiak.books.ui.tablet.view;
 
+import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.zemiak.books.client.boundary.CachedCollection;
@@ -15,7 +14,7 @@ import javax.inject.Inject;
 
 @CDIView("searchresultsTablet")
 public class SearchResults extends ViewAbstract {
-    CssLayout content = null;
+    CssLayout grid = null;
 
     @Inject
     CachedCollection col;
@@ -67,28 +66,31 @@ public class SearchResults extends ViewAbstract {
     }
 
     private void refresh() {
-        content = new CssLayout();
-        setContent(content);
+        grid = new CssLayout();
+        grid.setWidth("100%");
+        grid.addStyleName("grid");
+        setContent(grid);
 
         if (text.isEmpty()) {
-            content.addComponent(new Label("Cannot search for an empty string"));
+            grid.addComponent(new Label("Cannot search for an empty string"));
             return;
         }
         
         if (books.isEmpty() && authors.isEmpty()) {
             Label searchText = new Label("No results for text: <b>" + text + "</b>");
             searchText.setContentMode(ContentMode.HTML);
-            content.addComponent(searchText);
+            grid.addComponent(searchText);
             return;
         }
         
+        new Responsive(grid);
+        
         if (! books.isEmpty()) {
-            VerticalComponentGroup group = new VerticalComponentGroup("Books: " + books.size());
-
             for (Book book: books) {
                 NavigationButton button = new NavigationButton();
+                button.setSizeUndefined();
                 button.setDescription(getHighlightedValue(book.getName()));
-                group.addComponent(button);
+                grid.addComponent(button);
 
                 final Book finalBook = book;
 
@@ -101,20 +103,14 @@ public class SearchResults extends ViewAbstract {
                     }
                 });
             }
-
-            content.addComponents(group);
         }
 
         if (! authors.isEmpty()) {
-            VerticalComponentGroup group = new VerticalComponentGroup("Authors: " + authors.size());
-
             for (Author author: authors) {
                 NavigationButton button = new NavigationButton();
+                button.setSizeUndefined();
                 button.setDescription(getHighlightedValue(author.getName()));
-                group.addComponent(button);
-
-                Button b = new Button();
-                b.setHtmlContentAllowed(true);
+                grid.addComponent(button);
 
                 final Author finalAuthor = author;
 
@@ -127,8 +123,6 @@ public class SearchResults extends ViewAbstract {
                     }
                 });
             }
-
-            content.addComponents(group);
         }
     }
 }

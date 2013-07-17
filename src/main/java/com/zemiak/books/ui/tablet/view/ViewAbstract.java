@@ -4,8 +4,8 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.zemiak.books.ui.phone.NavManager;
-import com.zemiak.books.ui.phone.NavToolbar;
+import com.zemiak.books.ui.tablet.NavManager;
+import com.zemiak.books.ui.tablet.NavToolbar;
 
 abstract public class ViewAbstract extends NavigationView implements View {
     @Override

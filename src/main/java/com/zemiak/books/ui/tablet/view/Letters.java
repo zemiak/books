@@ -1,7 +1,7 @@
 package com.zemiak.books.ui.tablet.view;
 
+import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.client.boundary.CachedCollection;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 @CDIView("lettersTablet")
 public class Letters extends ViewAbstract {
-    CssLayout content = null;
+    CssLayout grid = null;
     List<Letter> letters;
     
     @Inject
@@ -25,7 +25,7 @@ public class Letters extends ViewAbstract {
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
-        setCaption("Books");
+        setCaption("Books/Tablet");
         
         if (initialized) {
             return;
@@ -38,14 +38,15 @@ public class Letters extends ViewAbstract {
     }
 
     private void refresh() {
-        content = new CssLayout();
-        setContent(content);
+        grid = new CssLayout();
+        grid.setWidth("100%");
+        grid.addStyleName("grid");
+        setContent(grid);
 
-        VerticalComponentGroup group = new VerticalComponentGroup("Letters");
         for (Letter letter: letters) {
-            NavigationButton button = new NavigationButton();
-            button.setCaption(letter.getLetter());
-            group.addComponent(button);
+            NavigationButton button = new NavigationButton(letter.getLetter());
+            button.setSizeUndefined();
+            grid.addComponent(button);
 
             final Letter finalLetter = letter;
 
@@ -57,8 +58,10 @@ public class Letters extends ViewAbstract {
                     getNavManager().navigateTo(view);
                 }
             });
+            
+            grid.addComponent(button);
         }
-
-        content.addComponents(group);
+        
+        new Responsive(grid);
     }
 }

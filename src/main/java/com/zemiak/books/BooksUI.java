@@ -17,7 +17,7 @@ import javax.inject.Inject;
 @Widgetset("com.zemiak.books.ui.phone.AppWidgetSet")
 @CDIUI
 public class BooksUI extends UI {
-    final boolean DEBUG_PHONE = true;
+    final boolean DEBUG_PHONE = false;
     
     private Collection col;
     

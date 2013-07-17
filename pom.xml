@@ -88,6 +88,12 @@
             <artifactId>vaadin-cdi</artifactId>
             <version>${vaadin.cdi.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.vaadin.addon.responsive</groupId>
+            <artifactId>responsive</artifactId>
+            <version>1.0.0.alpha1</version>
+        </dependency>
 
         <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -195,29 +201,29 @@
                     </hostedWebapp>
                     <noServer>true</noServer>
 
-                    <draftCompile>false</draftCompile>
-                    <compileReport>true</compileReport>
-                    <style>OBF</style>
-                    <strict>true</strict>
-                    <runTarget>http://localhost:8080/</runTarget>
-                </configuration>
-                <executions>
-                    <execution>
-                        <configuration>
-                        </configuration>
-                        <goals>
-                            <goal>resources</goal>
-                            <goal>update-widgetset</goal>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-            </plugin>
-           -->
+                     <draftCompile>false</draftCompile>
+                     <compileReport>true</compileReport>
+                     <style>OBF</style>
+                     <strict>true</strict>
+                     <runTarget>http://localhost:8080/</runTarget>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <configuration>
+                         </configuration>
+                         <goals>
+                             <goal>resources</goal>
+                             <goal>update-widgetset</goal>
+                             <goal>compile</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.mortbay.jetty</groupId>
+                 <artifactId>jetty-maven-plugin</artifactId>
+             </plugin>
+            -->
         </plugins>
     </build>
 

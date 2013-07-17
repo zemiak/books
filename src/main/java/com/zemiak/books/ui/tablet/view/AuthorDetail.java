@@ -53,14 +53,7 @@ class AuthorDetail extends ViewAbstract {
     }
 
     private void readData() {
-        tags = new ArrayList<>();
-
-        for (Tag tag: author.getTags()) {
-            System.err.println("Got tag:" + tag);
-            tags.add(tag.getName());
-        }
-
-        System.err.println("Tags:" + tags);
+        tags = author.getTags();
         Collections.sort(tags);
 
         books = author.getBooks();

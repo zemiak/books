@@ -1,7 +1,7 @@
 package com.zemiak.books.ui.tablet.view;
 
+import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.client.boundary.CachedCollection;
@@ -13,7 +13,7 @@ import javax.inject.Inject;
 @CDIView("tagdetailTablet")
 class TagDetail extends ViewAbstract {
     List<Author> authors;
-    CssLayout content = null;
+    CssLayout grid = null;
     
     @Inject
     CachedCollection col;
@@ -41,14 +41,16 @@ class TagDetail extends ViewAbstract {
     }
 
     private void refresh() {
-        content = new CssLayout();
-        setContent(content);
+        grid = new CssLayout();
+        grid.setWidth("100%");
+        grid.addStyleName("grid");
+        setContent(grid);
+        new Responsive(grid);
         
-        VerticalComponentGroup group = new VerticalComponentGroup("Authors");
-
         for (Author author: authors) {
             NavigationButton button = new NavigationButton(author.getName());
-            group.addComponent(button);
+            button.setSizeUndefined();
+            grid.addComponent(button);
 
             final Author finalAuthor = author;
 
@@ -61,8 +63,6 @@ class TagDetail extends ViewAbstract {
                 }
             });
         }
-
-        content.addComponents(group);
     }
 
     private void refreshData() {

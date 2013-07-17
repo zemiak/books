@@ -1,7 +1,7 @@
 package com.zemiak.books.ui.tablet.view;
 
+import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.client.boundary.CachedCollection;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 @CDIView("tagsTablet")
 public class Tags extends ViewAbstract {
-    CssLayout content = null;
+    CssLayout grid = null;
     List<Tag> tags;
     
     @Inject
@@ -38,14 +38,15 @@ public class Tags extends ViewAbstract {
     }
 
     private void refresh() {
-        content = new CssLayout();
-        setContent(content);
-
-        VerticalComponentGroup group = new VerticalComponentGroup("Tags");
+        grid = new CssLayout();
+        grid.setWidth("100%");
+        grid.addStyleName("grid");
+        setContent(grid);
 
         for (Tag tag: tags) {
             NavigationButton button = new NavigationButton(tag.getName());
-            group.addComponent(button);
+            button.setSizeUndefined();
+            grid.addComponent(button);
 
             final Tag finalTag = tag;
 
@@ -58,7 +59,7 @@ public class Tags extends ViewAbstract {
                 }
             });
         }
-
-        content.addComponents(group);
+        
+        new Responsive(grid);
     }
 }
