@@ -9,10 +9,7 @@ import com.vaadin.ui.Link;
 import com.zemiak.books.client.boundary.CachedCollection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Book;
-import com.zemiak.books.client.domain.Tag;
 import com.zemiak.books.client.domain.WebPage;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -54,8 +51,6 @@ class AuthorDetail extends ViewAbstract {
 
     private void readData() {
         tags = author.getTags();
-        Collections.sort(tags);
-
         books = author.getBooks();
     }
 
