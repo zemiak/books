@@ -24,7 +24,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.navigateTo(nav.getLetters());
+                nav.navigateTo("lettersTablet");
             }
         });
         addComponent(button);
@@ -36,7 +36,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.navigateTo(nav.getTags());
+                nav.navigateTo("tagsTablet");
             }
         });
         addComponent(button);
@@ -49,7 +49,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.navigateTo(nav.getSearch());
+                nav.navigateTo("searchTablet");
             }
         });
         addComponent(button);
@@ -62,7 +62,7 @@ public class NavToolbar extends Toolbar {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                nav.navigateTo(nav.getAbout());
+                nav.navigateTo("aboutTablet");
             }
         });
         addComponent(button);

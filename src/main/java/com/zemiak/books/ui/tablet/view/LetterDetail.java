@@ -1,37 +1,37 @@
 package com.zemiak.books.ui.tablet.view;
 
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
-import com.zemiak.books.client.boundary.Collection;
+import com.zemiak.books.client.boundary.CachedCollection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Letter;
-import com.zemiak.books.ui.tablet.NavManager;
-import com.zemiak.books.ui.tablet.NavToolbar;
 import java.util.List;
+import javax.inject.Inject;
 
-class LetterDetail extends NavigationView {
+@CDIView("letterdetailTablet")
+class LetterDetail extends ViewAbstract {
     CssLayout content = null;
-    List<Author> authors;
-    NavManager manager;
-    Collection col;
+    
+    @Inject
+    CachedCollection col;
+    
     Letter letter;
+    List<Author> authors;
 
-    public LetterDetail(Letter letter, NavManager manager) {
-        super(letter.getLetter());
-
+    public LetterDetail() {
+    }
+    
+    public void setLetter(Letter letter) {
         this.letter = letter;
-        authors = letter.getAuthors();
-        this.manager = manager;
-        this.col = manager.getCollection();
-
-        this.setToolbar(new NavToolbar(manager));
+        refreshData();
     }
 
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption("Letter " + letter.getLetter());
         
         refresh();
     }
@@ -51,11 +51,17 @@ class LetterDetail extends NavigationView {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new AuthorDetail(finalAuthor, manager));
+                    AuthorDetail view = (AuthorDetail) getNavManager().getView("authordetailTablet");
+                    view.setAuthor(finalAuthor);
+                    getNavManager().navigateTo(view);
                 }
             });
         }
 
         content.addComponents(group);
+    }
+
+    private void refreshData() {
+        authors = letter.getAuthors();
     }
 }

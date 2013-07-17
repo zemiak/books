@@ -2,8 +2,8 @@ package com.zemiak.books.ui.tablet.view;
 
 import com.vaadin.addon.touchkit.extensions.Html5InputSettings;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
@@ -12,29 +12,25 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
-import com.zemiak.books.ui.tablet.NavManager;
-import com.zemiak.books.ui.tablet.NavToolbar;
 
-public class Search extends NavigationView {
-    NavManager manager;
+@CDIView("searchTablet")
+public class Search extends ViewAbstract {
     Layout form = null;
     final TextField searchField = new TextField();
     boolean initialized = false;
     
     public Search() {
-        setCaption("Books");
     }
-
+    
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption("Search");
         
         if (initialized) {
+            searchField.focus();
             return;
         }
-        
-        this.manager = (NavManager) getNavigationManager();
-        this.setToolbar(new NavToolbar(manager));
         
         refresh();
         initialized = true;
@@ -73,7 +69,9 @@ public class Search extends NavigationView {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                getNavigationManager().navigateTo(new SearchResults(searchField.getValue(), manager));
+                SearchResults view = (SearchResults) getNavManager().getView("searchresultsTablet");
+                view.setText(searchField.getValue());
+                getNavManager().navigateTo(view);
             }
         });
         group.addComponent(navButton);
@@ -84,7 +82,9 @@ public class Search extends NavigationView {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                getNavigationManager().navigateTo(new SearchResults(searchField.getValue(), manager));
+                SearchResults view = (SearchResults) getNavManager().getView("searchresultsTablet");
+                view.setText(searchField.getValue());
+                getNavManager().navigateTo(view);
             }
         });
 

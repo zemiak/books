@@ -1,35 +1,39 @@
 package com.zemiak.books.ui.tablet.view;
 
-import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
-import com.zemiak.books.client.boundary.Collection;
-import com.zemiak.books.ui.tablet.NavManager;
-import com.zemiak.books.ui.tablet.NavToolbar;
+import com.zemiak.books.client.boundary.CacheClearEvent;
+import com.zemiak.books.client.boundary.CachedCollection;
+import javax.inject.Inject;
 
-public class About extends NavigationView {
-    Collection col;
+@CDIView("aboutTablet")
+public class About extends ViewAbstract {
+    @Inject
+    CachedCollection col;
+    
+    @Inject 
+    private javax.enterprise.event.Event<CacheClearEvent> clearEvent;
+    
     CssLayout content = null;
     public final String VERSION = "1.0";
     boolean initialized = false;
 
     public About() {
-        setCaption("Books");
     }
     
     @Override
     public void onBecomingVisible() {
         super.onBecomingVisible();
+        this.setCaption("About");
         
         if (initialized) {
             return;
         }
-        
-        NavManager manager = (NavManager) getNavigationManager();
-        this.col = manager.getCollection();
-        this.setToolbar(new NavToolbar(manager));
         
         refresh();
         initialized = true;
@@ -59,6 +63,14 @@ public class About extends NavigationView {
             new Label(getBold(String.valueOf(col.getBooksCount())), ContentMode.HTML)}, 5);
 
         content.addComponent(table);
+        content.addComponent(new Button("Clear Cache", new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                clearEvent.fire(new CacheClearEvent());
+                Notification.show("Data Cache Cleared", Notification.Type.HUMANIZED_MESSAGE);
+            }
+        }));
     }
 
     private String getBold(String text) {

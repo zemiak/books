@@ -1,61 +1,72 @@
 package com.zemiak.books.ui.tablet.view;
 
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
-import com.zemiak.books.client.boundary.Collection;
+import com.zemiak.books.client.boundary.CachedCollection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Book;
 import com.zemiak.books.client.domain.Tag;
 import com.zemiak.books.client.domain.WebPage;
-import com.zemiak.books.ui.tablet.NavManager;
-import com.zemiak.books.ui.tablet.NavToolbar;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.inject.Inject;
 
-/**
- *
- * @author vasko
- */
-class AuthorDetail extends NavigationView {
+@CDIView("authordetailTablet")
+class AuthorDetail extends ViewAbstract {
     CssLayout content = null;
-    List<String> tags = new ArrayList<>();
-    List<Book> books;
-    NavManager manager;
-    Collection col;
+    
+    @Inject
+    CachedCollection col;
+    
     Author author;
+    List<Book> books;
+    List<String> tags;
 
-    public AuthorDetail(Author author, NavManager manager) {
-        super(author.getName());
-
-        col = manager.getCollection();
-        
-        for (Tag tag: author.getTags()) {
-            tags.add(tag.getName());
-        }
-
-        books = author.getBooks();
-        this.manager = manager;
-
+    public AuthorDetail() {
+    }
+    
+    public void setAuthor(Author author) {
         this.author = author;
-
-        this.setToolbar(new NavToolbar(manager));
+        readData();
     }
 
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption(author.getName());
+        
         refresh();
     }
 
     private void refresh() {
         content = new CssLayout();
         setContent(content);
+        
+        renderWebPages();
+        renderBooks();
+        renderTags();
+    }
 
+    private void readData() {
+        tags = new ArrayList<>();
+
+        for (Tag tag: author.getTags()) {
+            System.err.println("Got tag:" + tag);
+            tags.add(tag.getName());
+        }
+
+        System.err.println("Tags:" + tags);
+        Collections.sort(tags);
+
+        books = author.getBooks();
+    }
+
+    private void renderWebPages() {
         if (author.getWebPages() != null && !author.getWebPages().isEmpty()) {
             VerticalComponentGroup group2 = new VerticalComponentGroup("Links");
 
@@ -66,7 +77,9 @@ class AuthorDetail extends NavigationView {
 
             content.addComponents(group2);
         }
+    }
 
+    private void renderBooks() {
         VerticalComponentGroup group1 = new VerticalComponentGroup("Books");
 
         for (Book book: books) {
@@ -78,15 +91,18 @@ class AuthorDetail extends NavigationView {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    getNavigationManager().navigateTo(new BookDetail(finalBook, manager));
+                    BookDetail view = (BookDetail) getNavManager().getView("bookdetailTablet");
+                    view.setBook(finalBook);
+                    getNavManager().navigateTo(view);
                 }
             });
         }
 
         content.addComponents(group1);
+    }
 
+    private void renderTags() {
         if (null != tags && !tags.isEmpty()) {
-            Collections.sort(tags);
             VerticalComponentGroup group = new VerticalComponentGroup("Tags");
 
             for (String tag: tags) {
@@ -98,7 +114,9 @@ class AuthorDetail extends NavigationView {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        getNavigationManager().navigateTo(new TagDetail(finalTag, manager));
+                        TagDetail view = (TagDetail) getNavManager().getView("tagdetailTablet");
+                        view.setTag(finalTag);
+                        getNavManager().navigateTo(view);
                     }
                 });
             }
