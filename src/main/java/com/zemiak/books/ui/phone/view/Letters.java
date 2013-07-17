@@ -21,16 +21,15 @@ public class Letters extends ViewAbstract {
 
     public Letters() {
     }
-
+    
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption("Books");
         
         if (initialized) {
             return;
         }
-        
-        this.setCaption("Books");
         
         this.letters = col.getLetters();
         

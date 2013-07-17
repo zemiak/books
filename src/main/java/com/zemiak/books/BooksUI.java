@@ -1,5 +1,6 @@
 package com.zemiak.books;
 
+import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.Widgetset;
@@ -22,6 +23,8 @@ public class BooksUI extends UI {
     
     @Inject
     private CDIViewProvider viewProvider;
+    
+    private Toolbar toolbar;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -41,6 +44,9 @@ public class BooksUI extends UI {
         
         com.zemiak.books.ui.phone.NavManager nav = new com.zemiak.books.ui.phone.NavManager();
         setContent(nav);
+        
+        toolbar = new com.zemiak.books.ui.phone.NavToolbar(nav);
+        
         nav.setViewProvider(viewProvider);
         nav.navigateTo("letters");
     }
@@ -55,5 +61,9 @@ public class BooksUI extends UI {
         com.zemiak.books.ui.tablet.NavManager nav = new com.zemiak.books.ui.tablet.NavManager(col);
         setContent(nav);
         nav.navigateTo(((com.zemiak.books.ui.tablet.NavManager) nav).getLetters());
+    }
+    
+    public Toolbar getToolbar() {
+        return toolbar;
     }
 }

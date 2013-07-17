@@ -14,7 +14,6 @@ import com.zemiak.books.client.domain.WebPage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 @CDIView("authordetail")
@@ -31,10 +30,6 @@ class AuthorDetail extends ViewAbstract {
     public AuthorDetail() {
     }
     
-    @PostConstruct
-    public void init() {
-    }
-    
     public void setAuthor(Author author) {
         this.author = author;
         readData();
@@ -43,14 +38,14 @@ class AuthorDetail extends ViewAbstract {
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption(author.getName());
+        
         refresh();
     }
 
     private void refresh() {
         content = new CssLayout();
         setContent(content);
-        
-        setCaption(author.getName());
         
         renderWebPages();
         renderBooks();
@@ -61,9 +56,11 @@ class AuthorDetail extends ViewAbstract {
         tags = new ArrayList<>();
 
         for (Tag tag: author.getTags()) {
+            System.err.println("Got tag:" + tag);
             tags.add(tag.getName());
         }
-        
+
+        System.err.println("Tags:" + tags);
         Collections.sort(tags);
 
         books = author.getBooks();

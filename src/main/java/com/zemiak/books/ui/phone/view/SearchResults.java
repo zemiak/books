@@ -41,6 +41,7 @@ public class SearchResults extends ViewAbstract {
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption("?" + text);
         
         refresh();
     }
@@ -68,8 +69,7 @@ public class SearchResults extends ViewAbstract {
     private void refresh() {
         content = new CssLayout();
         setContent(content);
-        setCaption("?" + text);
-        
+
         if (text.isEmpty()) {
             content.addComponent(new Label("Cannot search for an empty string"));
             return;

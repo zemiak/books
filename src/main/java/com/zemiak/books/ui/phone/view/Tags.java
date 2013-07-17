@@ -21,16 +21,15 @@ public class Tags extends ViewAbstract {
 
     public Tags() {
     }
-
+    
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption("Tags");
         
         if (initialized) {
             return;
         }
-        
-        setCaption("Books");
         
         this.tags = col.getDistinctTags();
         

@@ -1,6 +1,7 @@
 package com.zemiak.books.ui.phone.view;
 
 import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.zemiak.books.ui.phone.NavManager;
@@ -17,9 +18,10 @@ abstract public class ViewAbstract extends NavigationView implements View {
     }
     
     @Override
-    protected void onBecomingVisible() {
-        super.onBecomingVisible();
-
-        this.setToolbar(new NavToolbar(getNavManager()));
+    public void attach() {
+        super.attach();
+        
+        Toolbar toolbar = new NavToolbar(getNavManager());
+        this.setToolbar(toolbar);
     }
 }

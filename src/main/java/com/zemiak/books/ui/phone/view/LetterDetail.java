@@ -31,6 +31,7 @@ class LetterDetail extends ViewAbstract {
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption("Letter " + letter.getLetter());
         
         refresh();
     }

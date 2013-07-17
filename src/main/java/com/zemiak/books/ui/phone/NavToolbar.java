@@ -1,6 +1,5 @@
 package com.zemiak.books.ui.phone;
 
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;

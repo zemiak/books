@@ -20,14 +20,15 @@ public class Search extends ViewAbstract {
     boolean initialized = false;
     
     public Search() {
-        setCaption("Books");
     }
-
+    
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption("Search");
         
         if (initialized) {
+            searchField.focus();
             return;
         }
         

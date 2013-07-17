@@ -9,7 +9,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.zemiak.books.client.boundary.CacheClearEvent;
 import com.zemiak.books.client.boundary.CachedCollection;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 @CDIView("about")
@@ -27,14 +26,10 @@ public class About extends ViewAbstract {
     public About() {
     }
     
-    @PostConstruct
-    public void init() {
-        this.setCaption("Books");
-    }
-    
     @Override
     public void onBecomingVisible() {
         super.onBecomingVisible();
+        this.setCaption("About");
         
         if (initialized) {
             return;

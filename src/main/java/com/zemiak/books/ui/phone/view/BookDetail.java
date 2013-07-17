@@ -31,10 +31,11 @@ class BookDetail extends ViewAbstract {
 
     public BookDetail() {
     }
-
+    
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
+        setCaption(book.getName());
         
         refresh();
     }
@@ -46,7 +47,6 @@ class BookDetail extends ViewAbstract {
     private void refresh() {
         content = new CssLayout();
         setContent(content);
-        setCaption(book.getName());
 
         VerticalComponentGroup group1 = new VerticalComponentGroup();
 
