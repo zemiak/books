@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
 public class Author implements Comparable, AutoCloseable {
-    private List<Tag> tags = null;
+    private List<String> tags = null;
     private String name;
     private int id;
     private List<WebPage> webPages = null;
@@ -41,20 +41,10 @@ public class Author implements Comparable, AutoCloseable {
     }
 
     public List<WebPage> getWebPages() {
-        if (null == webPages) {
-            WebResource resource = getClient().resource(webPagesUrl);
-            webPages = resource.get(new GenericType<List<WebPage>>() {});
-        }
-
         return webPages;
     }
 
-    public List<Tag> getTags() {
-        if (null == tags) {
-            WebResource resource = getClient().resource(tagsUrl);
-            tags = resource.get(new GenericType<List<Tag>>() {});
-        }
-
+    public List<String> getTags() {
         return tags;
     }
     
