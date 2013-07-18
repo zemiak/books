@@ -2,32 +2,19 @@ package com.zemiak.books.ui.phone.view;
 
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
-import com.zemiak.books.client.boundary.CachedCollection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Letter;
-import java.util.List;
-import javax.inject.Inject;
 
-@CDIView("letterdetail")
 class LetterDetail extends ViewAbstract {
     CssLayout content = null;
     
-    @Inject
-    CachedCollection col;
-    
     Letter letter;
-    List<Author> authors;
 
-    public LetterDetail() {
+    public LetterDetail(Letter letter) {
+        this.letter = letter;
     }
     
-    public void setLetter(Letter letter) {
-        this.letter = letter;
-        refreshData();
-    }
-
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
@@ -42,7 +29,7 @@ class LetterDetail extends ViewAbstract {
 
         VerticalComponentGroup group = new VerticalComponentGroup();
 
-        for (Author author: authors) {
+        for (Author author: letter.getAuthors()) {
             NavigationButton button = new NavigationButton(author.getName());
             group.addComponent(button);
 
@@ -51,17 +38,12 @@ class LetterDetail extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    AuthorDetail view = (AuthorDetail) getNavManager().getView("authordetail");
-                    view.setAuthor(finalAuthor);
+                    AuthorDetail view = new AuthorDetail(finalAuthor);
                     getNavManager().navigateTo(view);
                 }
             });
         }
 
         content.addComponents(group);
-    }
-
-    private void refreshData() {
-        authors = letter.getAuthors();
     }
 }

@@ -25,7 +25,7 @@ public class Letters extends ViewAbstract {
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
-        setCaption("Books/Tablet");
+        setCaption("Books");
         
         if (initialized) {
             return;
@@ -53,8 +53,7 @@ public class Letters extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    LetterDetail view = (LetterDetail) getNavManager().getView("letterdetailTablet");
-                    view.setLetter(finalLetter);
+                    LetterDetail view = new LetterDetail(finalLetter);
                     getNavManager().navigateTo(view);
                 }
             });

@@ -5,6 +5,7 @@ import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.zemiak.books.client.boundary.RestData;
 import java.util.List;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,7 +17,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 public class Tag implements Comparable, AutoCloseable {
     private String name;
-    private String authorsUrl;
+    private String authorsUrl = null;
     private List<Author> authors = null;
 
     @XmlTransient
@@ -31,6 +32,10 @@ public class Tag implements Comparable, AutoCloseable {
 
     public List<Author> getAuthors() {
         if (null == authors) {
+            if (null == authorsUrl) {
+                authorsUrl = RestData.BASE_URI + "/authors/tag/" + name;
+            }
+            
             WebResource resource = getClient().resource(authorsUrl);
             authors = resource.get(new GenericType<List<Author>>(){});
         }

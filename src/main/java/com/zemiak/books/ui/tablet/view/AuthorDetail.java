@@ -2,36 +2,27 @@ package com.zemiak.books.ui.tablet.view;
 
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.cdi.CDIView;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
-import com.zemiak.books.client.boundary.CachedCollection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Book;
+import com.zemiak.books.client.domain.Tag;
 import com.zemiak.books.client.domain.WebPage;
 import java.util.List;
-import javax.inject.Inject;
 
-@CDIView("authordetailTablet")
 class AuthorDetail extends ViewAbstract {
     CssLayout content = null;
-    
-    @Inject
-    CachedCollection col;
     
     Author author;
     List<Book> books;
     List<String> tags;
 
-    public AuthorDetail() {
-    }
-    
-    public void setAuthor(Author author) {
+    public AuthorDetail(Author author) {
         this.author = author;
         readData();
     }
-
+    
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
@@ -79,8 +70,7 @@ class AuthorDetail extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    BookDetail view = (BookDetail) getNavManager().getView("bookdetailTablet");
-                    view.setBook(finalBook);
+                    BookDetail view = new BookDetail(finalBook);
                     getNavManager().navigateTo(view);
                 }
             });
@@ -102,8 +92,7 @@ class AuthorDetail extends ViewAbstract {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        TagDetail view = (TagDetail) getNavManager().getView("tagdetailTablet");
-                        view.setTag(finalTag);
+                        TagDetail view = new TagDetail(new Tag(finalTag));
                         getNavManager().navigateTo(view);
                     }
                 });

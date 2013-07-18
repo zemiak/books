@@ -2,33 +2,27 @@ package com.zemiak.books.ui.tablet.view;
 
 import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.cdi.CDIView;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.zemiak.books.client.boundary.CachedCollection;
 import com.zemiak.books.client.domain.Author;
 import com.zemiak.books.client.domain.Book;
+import com.zemiak.books.ui.phone.view.BookDetail;
 import java.util.List;
-import javax.inject.Inject;
 
-@CDIView("searchresultsTablet")
 public class SearchResults extends ViewAbstract {
     CssLayout grid = null;
 
-    @Inject
-    CachedCollection col;
-    
     String text;
+    CachedCollection col;
 
     private List<Author> authors;
     private List<Book> books;
 
-    public SearchResults() {
-    }
-    
-    public void setText(String text) {
+    public SearchResults(String text, CachedCollection col) {
         this.text = text.trim().toLowerCase();
+        this.col = col;
         refreshData();
     }
     
@@ -97,8 +91,7 @@ public class SearchResults extends ViewAbstract {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        BookDetail view = (BookDetail) getNavManager().getView("bookdetailTablet");
-                        view.setBook(finalBook);
+                        BookDetail view = new BookDetail(finalBook);
                         getNavManager().navigateTo(view);
                     }
                 });
@@ -117,8 +110,7 @@ public class SearchResults extends ViewAbstract {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        AuthorDetail view = (AuthorDetail) getNavManager().getView("authordetailTablet");
-                        view.setAuthor(finalAuthor);
+                        AuthorDetail view = new AuthorDetail(finalAuthor);
                         getNavManager().navigateTo(view);
                     }
                 });

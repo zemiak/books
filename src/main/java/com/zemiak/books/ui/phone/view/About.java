@@ -5,6 +5,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.zemiak.books.client.boundary.CacheClearEvent;
@@ -63,14 +64,18 @@ public class About extends ViewAbstract {
             new Label(getBold(String.valueOf(col.getBooksCount())), ContentMode.HTML)}, 5);
 
         content.addComponent(table);
-        content.addComponent(new Button("Clear Cache", new Button.ClickListener() {
-
+        
+        NativeButton clearCacheButton = new NativeButton("Clear Cache", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 clearEvent.fire(new CacheClearEvent());
                 Notification.show("Data Cache Cleared", Notification.Type.HUMANIZED_MESSAGE);
             }
-        }));
+        });
+        
+        clearCacheButton.setSizeFull();
+        
+        content.addComponent(clearCacheButton);
     }
 
     private String getBold(String text) {

@@ -1,7 +1,6 @@
 package com.zemiak.books.ui.tablet.view;
 
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.cdi.CDIView;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
 import com.vaadin.ui.CssLayout;
@@ -9,7 +8,6 @@ import com.vaadin.ui.Link;
 import com.zemiak.books.client.domain.Book;
 import java.io.File;
 
-@CDIView("bookdetailTablet")
 class BookDetail extends ViewAbstract {
     static class BookFileResource extends FileResource {
         private String mimeType;
@@ -29,7 +27,8 @@ class BookDetail extends ViewAbstract {
     CssLayout content = null;
     Book book;
 
-    public BookDetail() {
+    public BookDetail(Book book) {
+        this.book = book;
     }
     
     @Override
@@ -40,10 +39,6 @@ class BookDetail extends ViewAbstract {
         refresh();
     }
     
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
     private void refresh() {
         content = new CssLayout();
         setContent(content);

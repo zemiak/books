@@ -52,8 +52,7 @@ public class Letters extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    LetterDetail view = (LetterDetail) getNavManager().getView("letterdetail");
-                    view.setLetter(finalLetter);
+                    LetterDetail view = new LetterDetail(finalLetter);
                     getNavManager().navigateTo(view);
                 }
             });

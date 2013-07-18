@@ -12,12 +12,17 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
+import com.zemiak.books.client.boundary.CachedCollection;
+import javax.inject.Inject;
 
 @CDIView("searchTablet")
 public class Search extends ViewAbstract {
     Layout form = null;
     final TextField searchField = new TextField();
     boolean initialized = false;
+    
+    @Inject
+    CachedCollection col;
     
     public Search() {
     }
@@ -69,8 +74,7 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                SearchResults view = (SearchResults) getNavManager().getView("searchresultsTablet");
-                view.setText(searchField.getValue());
+                SearchResults view = new SearchResults(searchField.getValue(), col);
                 getNavManager().navigateTo(view);
             }
         });
@@ -82,8 +86,7 @@ public class Search extends ViewAbstract {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                SearchResults view = (SearchResults) getNavManager().getView("searchresultsTablet");
-                view.setText(searchField.getValue());
+                SearchResults view = new SearchResults(searchField.getValue(), col);
                 getNavManager().navigateTo(view);
             }
         });

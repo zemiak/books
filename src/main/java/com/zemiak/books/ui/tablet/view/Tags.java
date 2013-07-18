@@ -53,8 +53,7 @@ public class Tags extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    TagDetail view = (TagDetail) getNavManager().getView("tagdetailTablet");
-                    view.setTag(finalTag);
+                    TagDetail view = new TagDetail(finalTag);
                     getNavManager().navigateTo(view);
                 }
             });
