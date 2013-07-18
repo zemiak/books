@@ -21,6 +21,7 @@ public class NavToolbar extends Toolbar {
     private void lettersButton() {
         Button button = new Button();
         button.setIcon(new ThemeResource("icons/book.png"));
+        button.setCaption("Letters");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -33,6 +34,7 @@ public class NavToolbar extends Toolbar {
     private void tagsButton() {
         Button button = new Button();
         button.setIcon(new ThemeResource("icons/tag.png"));
+        button.setCaption("Tags");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -58,7 +60,7 @@ public class NavToolbar extends Toolbar {
     private void aboutButton() {
         Button button = new Button();
         button.setIcon(new ThemeResource("icons/stats.png"));
-        button.setCaption("Search");
+        button.setCaption("About");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
