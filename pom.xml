@@ -3,17 +3,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zemiak</groupId>
-    <artifactId>books-ui</artifactId>
+    <artifactId>books</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>books-ui</name>
+    <name>books</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <vaadin.version>7.1.0</vaadin.version>
+        <vaadin.version>7.1.3</vaadin.version>
         <vaadin.cdi.version>1.0.0.alpha1</vaadin.cdi.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
         <jersey.version>1.17.1</jersey.version>

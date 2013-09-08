@@ -12,7 +12,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
-import com.zemiak.books.client.boundary.CachedCollection;
+import com.zemiak.books.boundary.Collection;
 import javax.inject.Inject;
 
 @CDIView("searchTablet")
@@ -22,7 +22,7 @@ public class Search extends ViewAbstract {
     boolean initialized = false;
     
     @Inject
-    CachedCollection col;
+    Collection col;
     
     public Search() {
     }
@@ -44,7 +44,12 @@ public class Search extends ViewAbstract {
     private void refresh() {
         form = new CssLayout();
         setContent(form);
-        
+
+        initSearchGroup();
+        initFilterGroup();
+    }
+
+    private void initSearchGroup() throws FieldGroup.BindException {
         PropertysetItem item = new PropertysetItem();
         item.addItemProperty("name", new ObjectProperty<>(""));
         
@@ -57,7 +62,6 @@ public class Search extends ViewAbstract {
         html5InputSettings.setProperty("autocorrect", "off");
         html5InputSettings.setProperty("autocapitalize", "off");
         html5InputSettings.setProperty("placeholder", "Search...");
-        
         
         searchField.setImmediate(true);
         searchField.focus();
@@ -74,7 +78,7 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                SearchResults view = new SearchResults(searchField.getValue(), col);
+                SearchResults view = new SearchResults(searchField.getValue());
                 getNavManager().navigateTo(view);
             }
         });
@@ -86,11 +90,35 @@ public class Search extends ViewAbstract {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                SearchResults view = new SearchResults(searchField.getValue(), col);
+                SearchResults view = new SearchResults(searchField.getValue());
                 getNavManager().navigateTo(view);
             }
         });
 
+        form.addComponent(group);
+    }
+
+    private void initFilterGroup() {
+        VerticalComponentGroup group = new VerticalComponentGroup("Search");
+        
+        NavigationButton navButton = new NavigationButton();
+        navButton.setCaption("Last 6 months");
+        navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+            }
+        });
+        group.addComponent(navButton);
+        
+        navButton = new NavigationButton();
+        navButton.setCaption("6 to 12 months");
+        navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+            }
+        });
+        group.addComponent(navButton);
+        
         form.addComponent(group);
     }
 }

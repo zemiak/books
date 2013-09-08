@@ -5,22 +5,27 @@ import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.zemiak.books.client.boundary.CachedCollection;
-import com.zemiak.books.client.domain.Author;
-import com.zemiak.books.client.domain.Book;
+import com.zemiak.books.boundary.Collection;
+import com.zemiak.books.domain.Author;
+import com.zemiak.books.domain.Book;
 import com.zemiak.books.ui.phone.view.BookDetail;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+@Named
 public class SearchResults extends ViewAbstract {
     CssLayout grid = null;
 
     String text;
-    CachedCollection col;
+    
+    @Inject
+    Collection col;
 
     private List<Author> authors;
     private List<Book> books;
 
-    public SearchResults(String text, CachedCollection col) {
+    public SearchResults(String text) {
         this.text = text.trim().toLowerCase();
         this.col = col;
         refreshData();

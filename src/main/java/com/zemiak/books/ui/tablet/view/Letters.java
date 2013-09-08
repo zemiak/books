@@ -4,8 +4,8 @@ import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
-import com.zemiak.books.client.boundary.CachedCollection;
-import com.zemiak.books.client.domain.Letter;
+import com.zemiak.books.boundary.Collection;
+import com.zemiak.books.domain.Letter;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -15,7 +15,7 @@ public class Letters extends ViewAbstract {
     List<Letter> letters;
     
     @Inject
-    CachedCollection col;
+    Collection col;
     
     boolean initialized = false;
 

@@ -3,17 +3,23 @@ package com.zemiak.books.ui.phone.view;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.CssLayout;
-import com.zemiak.books.client.domain.Author;
-import com.zemiak.books.client.domain.Tag;
+import com.zemiak.books.boundary.Collection;
+import com.zemiak.books.domain.Author;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+@Named
 class TagDetail extends ViewAbstract {
     List<Author> authors;
     CssLayout content = null;
     
-    Tag tag;
+    String tag;
     
-    public TagDetail(Tag tag) {
+    @Inject
+    Collection col;
+    
+    public TagDetail(String tag) {
         this.tag = tag;
     }
     
@@ -21,7 +27,7 @@ class TagDetail extends ViewAbstract {
     protected void onBecomingVisible() {
         super.onBecomingVisible();
 
-        setCaption("#" + tag.getName());
+        setCaption("#" + tag);
         refresh();
     }
 
@@ -31,7 +37,7 @@ class TagDetail extends ViewAbstract {
         
         VerticalComponentGroup group = new VerticalComponentGroup("Authors");
 
-        for (Author author: tag.getAuthors()) {
+        for (Author author: col.getAuthorsByTag(tag)) {
             NavigationButton button = new NavigationButton(author.getName());
             group.addComponent(button);
 

@@ -4,18 +4,17 @@ import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
-import com.zemiak.books.client.boundary.CachedCollection;
-import com.zemiak.books.client.domain.Tag;
+import com.zemiak.books.boundary.Collection;
 import java.util.List;
 import javax.inject.Inject;
 
 @CDIView("tags")
 public class Tags extends ViewAbstract {
     CssLayout content = null;
-    List<Tag> tags;
+    List<String> tags;
     
     @Inject
-    CachedCollection col;
+    Collection col;
     
     boolean initialized = false;
 
@@ -31,7 +30,7 @@ public class Tags extends ViewAbstract {
             return;
         }
         
-        this.tags = col.getDistinctTags();
+        this.tags = col.getTags();
         
         refresh();
         initialized = true;
@@ -43,11 +42,11 @@ public class Tags extends ViewAbstract {
 
         VerticalComponentGroup group = new VerticalComponentGroup("Tags");
 
-        for (Tag tag: tags) {
-            NavigationButton button = new NavigationButton(tag.getName());
+        for (String tag: tags) {
+            NavigationButton button = new NavigationButton(tag);
             group.addComponent(button);
 
-            final Tag finalTag = tag;
+            final String finalTag = tag;
 
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override

@@ -5,10 +5,9 @@ import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
-import com.zemiak.books.client.domain.Author;
-import com.zemiak.books.client.domain.Book;
-import com.zemiak.books.client.domain.Tag;
-import com.zemiak.books.client.domain.WebPage;
+import com.zemiak.books.domain.Author;
+import com.zemiak.books.domain.Book;
+import com.zemiak.books.domain.WebPage;
 import java.util.List;
 
 class AuthorDetail extends ViewAbstract {
@@ -92,7 +91,7 @@ class AuthorDetail extends ViewAbstract {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        TagDetail view = new TagDetail(new Tag(finalTag));
+                        TagDetail view = new TagDetail(finalTag);
                         getNavManager().navigateTo(view);
                     }
                 });

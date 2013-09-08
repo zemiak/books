@@ -3,8 +3,8 @@ package com.zemiak.books.ui.phone.view;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.CssLayout;
-import com.zemiak.books.client.domain.Author;
-import com.zemiak.books.client.domain.Letter;
+import com.zemiak.books.domain.Author;
+import com.zemiak.books.domain.Letter;
 
 class LetterDetail extends ViewAbstract {
     CssLayout content = null;

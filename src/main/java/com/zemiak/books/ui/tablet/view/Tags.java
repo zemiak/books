@@ -4,18 +4,17 @@ import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
-import com.zemiak.books.client.boundary.CachedCollection;
-import com.zemiak.books.client.domain.Tag;
+import com.zemiak.books.boundary.Collection;
 import java.util.List;
 import javax.inject.Inject;
 
 @CDIView("tagsTablet")
 public class Tags extends ViewAbstract {
     CssLayout grid = null;
-    List<Tag> tags;
+    List<String> tags;
     
     @Inject
-    CachedCollection col;
+    Collection col;
     
     boolean initialized = false;
 
@@ -31,7 +30,7 @@ public class Tags extends ViewAbstract {
             return;
         }
         
-        this.tags = col.getDistinctTags();
+        this.tags = col.getTags();
         
         refresh();
         initialized = true;
@@ -43,12 +42,12 @@ public class Tags extends ViewAbstract {
         grid.addStyleName("grid");
         setContent(grid);
 
-        for (Tag tag: tags) {
-            NavigationButton button = new NavigationButton(tag.getName());
+        for (String tag: tags) {
+            NavigationButton button = new NavigationButton(tag);
             button.setSizeUndefined();
             grid.addComponent(button);
 
-            final Tag finalTag = tag;
+            final String finalTag = tag;
 
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override

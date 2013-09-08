@@ -8,14 +8,14 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
-import com.zemiak.books.client.boundary.CacheClearEvent;
-import com.zemiak.books.client.boundary.CachedCollection;
+import com.zemiak.books.domain.CacheClearEvent;
+import com.zemiak.books.service.Statistics;
 import javax.inject.Inject;
 
 @CDIView("about")
 public class About extends ViewAbstract {
     @Inject
-    CachedCollection col;
+    Statistics stats;
     
     @Inject 
     private javax.enterprise.event.Event<CacheClearEvent> clearEvent;
@@ -55,13 +55,13 @@ public class About extends ViewAbstract {
         table.addItem(new Object[]{"Version", 
             new Label(getBold(VERSION), ContentMode.HTML)}, 1);
         table.addItem(new Object[]{"Authors", 
-            new Label(getBold(String.valueOf(col.getAuthorsCount())), ContentMode.HTML)}, 2);
+            new Label(getBold(String.valueOf(stats.getAuthors())), ContentMode.HTML)}, 2);
         table.addItem(new Object[]{"Documented Authors", 
-            new Label(getBold(String.valueOf(col.getAuthorsDocumentedCount())), ContentMode.HTML)}, 3);
+            new Label(getBold(String.valueOf(stats.getAuthorsDocumented())), ContentMode.HTML)}, 3);
         table.addItem(new Object[]{"Tagged Authors", 
-            new Label(getBold(String.valueOf(col.getAuthorsTaggedCount())), ContentMode.HTML)}, 4);
+            new Label(getBold(String.valueOf(stats.getAuthorsTagged())), ContentMode.HTML)}, 4);
         table.addItem(new Object[]{"Books", 
-            new Label(getBold(String.valueOf(col.getBooksCount())), ContentMode.HTML)}, 5);
+            new Label(getBold(String.valueOf(stats.getBooks())), ContentMode.HTML)}, 5);
 
         content.addComponent(table);
         

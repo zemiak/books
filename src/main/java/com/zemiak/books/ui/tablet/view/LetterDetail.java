@@ -3,8 +3,8 @@ package com.zemiak.books.ui.tablet.view;
 import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.CssLayout;
-import com.zemiak.books.client.domain.Author;
-import com.zemiak.books.client.domain.Letter;
+import com.zemiak.books.domain.Author;
+import com.zemiak.books.domain.Letter;
 import java.util.List;
 
 class LetterDetail extends ViewAbstract {

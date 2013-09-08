@@ -5,7 +5,7 @@ import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
-import com.zemiak.books.client.domain.Book;
+import com.zemiak.books.domain.Book;
 import java.io.File;
 
 public class BookDetail extends ViewAbstract {

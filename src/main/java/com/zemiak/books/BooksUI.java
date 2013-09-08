@@ -6,9 +6,9 @@ import com.vaadin.annotations.Title;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
-import com.zemiak.books.client.boundary.Collection;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
+import com.zemiak.books.boundary.Collection;
 import javax.inject.Inject;
 
 @SuppressWarnings("serial")

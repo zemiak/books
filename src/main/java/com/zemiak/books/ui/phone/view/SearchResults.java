@@ -6,11 +6,14 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.zemiak.books.client.boundary.CachedCollection;
-import com.zemiak.books.client.domain.Author;
-import com.zemiak.books.client.domain.Book;
+import com.zemiak.books.boundary.Collection;
+import com.zemiak.books.domain.Author;
+import com.zemiak.books.domain.Book;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+@Named
 public class SearchResults extends ViewAbstract {
     CssLayout content = null;
 
@@ -19,11 +22,11 @@ public class SearchResults extends ViewAbstract {
     private List<Author> authors;
     private List<Book> books;
     
-    CachedCollection col;
+    @Inject
+    Collection col;
 
-    public SearchResults(String text, CachedCollection col) {
+    public SearchResults(String text) {
         this.text = text;
-        this.col = col;
         refreshData();
     }
     
