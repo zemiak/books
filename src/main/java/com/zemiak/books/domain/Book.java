@@ -15,6 +15,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class Book implements Serializable, Comparable {
+
     private String mobiFileName;
     private String epubFileName;
     private String name;
@@ -26,7 +27,7 @@ public class Book implements Serializable, Comparable {
 
     public Book() {
     }
-    
+
     public static String getSourceCaption(BookSource source) {
         switch (source) {
             case MARTINUS:
@@ -156,6 +157,7 @@ public class Book implements Serializable, Comparable {
         }
 
         String fileName = getEpubFileName();
+
         if (null != fileName) {
             try {
                 ZipFile epub = new ZipFile(fileName);
@@ -186,7 +188,7 @@ public class Book implements Serializable, Comparable {
     }
 
     private boolean isPalmKnihySource(ZipFile epub) {
-        ZipEntry entry = epub.getEntry("OEPBS/Text/social-drm.html");
+        ZipEntry entry = epub.getEntry("OEBPS/Text/social-drm.html");
         Boolean is = false;
 
         if (null != entry && !entry.isDirectory()) {
@@ -202,14 +204,34 @@ public class Book implements Serializable, Comparable {
             }
         }
 
+        if (!is) {
+            entry = epub.getEntry("OEBPS/social-drm.html");
+
+            if (null != entry && !entry.isDirectory()) {
+                try {
+                    try (InputStream stream = epub.getInputStream(entry)) {
+                        String content = Book.fromStream(stream);
+                        if (content.contains("Palmknihy")) {
+                            is = true;
+                        }
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Book.class.getName()).log(Level.SEVERE, "Cannot get input stream from:" + entry.getName(), ex);
+                }
+            }
+        }
+
         return is;
     }
 
     private boolean isMartinusSource(ZipFile epub) {
         Boolean is = false;
-        
+
         for (int i = 0; i < 10; i++) {
-            ZipEntry entry = epub.getEntry("OEPBS/Text/disclaimer_" + i + ".html");
+            ZipEntry entry = epub.getEntry("OEBPS/Text/disclaimer_" + i + ".html");
+            if (null == entry) {
+                entry = epub.getEntry("OEBPS/Text/disclaimer_" + i + ".xhtml");
+            }
 
             if (null != entry && !entry.isDirectory()) {
                 try {
@@ -223,7 +245,7 @@ public class Book implements Serializable, Comparable {
                     Logger.getLogger(Book.class.getName()).log(Level.SEVERE, "Cannot get input stream from:" + entry.getName(), ex);
                 }
             }
-            
+
             if (is) {
                 break;
             }
@@ -234,13 +256,12 @@ public class Book implements Serializable, Comparable {
 
     private boolean isKosmasSource(ZipFile epub) {
         Boolean is = false;
-        
+
         for (Enumeration<? extends ZipEntry> e = epub.entries(); e.hasMoreElements();) {
             ZipEntry entry = e.nextElement();
 
-            if (null != entry && !entry.isDirectory() && entry.getName().startsWith("OEBPS/Text/")
-                    && (entry.getName().matches("^.*_00\\d\\.html$") 
-                    || entry.getName().matches("^.*_000\\d\\.html$"))) {
+            if (null != entry && !entry.isDirectory()
+                    && entry.getName().matches("^OEBPS(/Text){0,1}/\\w*_0{2,3}\\d\\.x{0,1}html$")) {
                 try {
                     try (InputStream stream = epub.getInputStream(entry)) {
                         String content = Book.fromStream(stream);
@@ -252,7 +273,7 @@ public class Book implements Serializable, Comparable {
                     Logger.getLogger(Book.class.getName()).log(Level.SEVERE, "Cannot get input stream from:" + entry.getName(), ex);
                 }
             }
-            
+
             if (is) {
                 break;
             }
@@ -265,11 +286,11 @@ public class Book implements Serializable, Comparable {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         StringBuilder out = new StringBuilder();
         String line;
-        
+
         while ((line = reader.readLine()) != null) {
             out.append(line);
         }
-        
+
         return out.toString();
     }
 
