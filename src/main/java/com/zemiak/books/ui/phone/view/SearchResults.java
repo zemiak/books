@@ -10,10 +10,11 @@ import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Book;
 import java.util.List;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.inject.Named;
 
-@Named
+@Dependent
 public class SearchResults extends ViewAbstract {
     CssLayout content = null;
 
@@ -24,8 +25,17 @@ public class SearchResults extends ViewAbstract {
     
     @Inject
     Collection col;
+    
+    @Inject
+    Instance<BookDetail> bookView;
+    
+    @Inject
+    Instance<AuthorDetail> authorView;
 
-    public SearchResults(String text) {
+    public SearchResults() {
+    }
+    
+    public void setText(String text) {
         this.text = text;
         refreshData();
     }
@@ -92,7 +102,8 @@ public class SearchResults extends ViewAbstract {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        BookDetail view = new BookDetail(finalBook);
+                        BookDetail view = bookView.get();
+                        view.setBook(finalBook);
                         getNavManager().navigateTo(view);
                     }
                 });
@@ -117,7 +128,8 @@ public class SearchResults extends ViewAbstract {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        AuthorDetail view = new AuthorDetail(finalAuthor);
+                        AuthorDetail view = authorView.get();
+                        view.setAuthor(finalAuthor);
                         getNavManager().navigateTo(view);
                     }
                 });

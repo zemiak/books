@@ -1,6 +1,5 @@
 package com.zemiak.books.ui.phone.view;
 
-import com.vaadin.addon.responsive.Responsive;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.CssLayout;
@@ -9,10 +8,11 @@ import com.zemiak.books.domain.Book;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.inject.Named;
 
-@Named
+@Dependent
 public class DateFilterResults extends ViewAbstract {
 
     CssLayout content = null;
@@ -20,10 +20,16 @@ public class DateFilterResults extends ViewAbstract {
     @Inject
     Collection col;
     
+    @Inject
+    Instance<BookDetail> bookView;
+    
     Date from, to;
     private List<Book> books;
 
-    public DateFilterResults(Date from, Date to) {
+    public DateFilterResults() {
+    }
+    
+    public void setDateInterval(Date from, Date to) {
         this.from = from;
         this.to = to;
 
@@ -61,7 +67,8 @@ public class DateFilterResults extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    BookDetail view = new BookDetail(finalBook);
+                    BookDetail view = bookView.get();
+                    view.setBook(finalBook);
                     getNavManager().navigateTo(view);
                 }
             });

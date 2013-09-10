@@ -7,7 +7,9 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
 import com.zemiak.books.domain.Book;
 import java.io.File;
+import javax.enterprise.context.Dependent;
 
+@Dependent
 public class BookDetail extends ViewAbstract {
     static class BookFileResource extends FileResource {
         private String mimeType;
@@ -27,7 +29,10 @@ public class BookDetail extends ViewAbstract {
     CssLayout content = null;
     Book book;
 
-    public BookDetail(Book book) {
+    public BookDetail() {
+    }
+
+    public void setBook(Book book) {
         this.book = book;
     }
     

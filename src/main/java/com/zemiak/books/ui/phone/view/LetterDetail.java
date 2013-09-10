@@ -5,13 +5,23 @@ import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Letter;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
+@Dependent
 class LetterDetail extends ViewAbstract {
     CssLayout content = null;
     
     Letter letter;
+    
+    @Inject
+    Instance<AuthorDetail> authorView;
+    
+    public LetterDetail() {
+    }
 
-    public LetterDetail(Letter letter) {
+    public void setLetter(Letter letter) {
         this.letter = letter;
     }
     
@@ -38,7 +48,8 @@ class LetterDetail extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    AuthorDetail view = new AuthorDetail(finalAuthor);
+                    AuthorDetail view = authorView.get();
+                    view.setAuthor(finalAuthor);
                     getNavManager().navigateTo(view);
                 }
             });

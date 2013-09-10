@@ -13,6 +13,10 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
 import com.zemiak.books.boundary.Collection;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 @CDIView("searchTablet")
@@ -23,6 +27,12 @@ public class Search extends ViewAbstract {
     
     @Inject
     Collection col;
+    
+    @Inject
+    Instance<SearchResults> resultsView;
+    
+    @Inject
+    Instance<DateFilterResults> dateView;
     
     public Search() {
     }
@@ -78,7 +88,8 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                SearchResults view = new SearchResults(searchField.getValue());
+                SearchResults view = resultsView.get();
+                view.setText(searchField.getValue());
                 getNavManager().navigateTo(view);
             }
         });
@@ -90,7 +101,8 @@ public class Search extends ViewAbstract {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                SearchResults view = new SearchResults(searchField.getValue());
+                SearchResults view = resultsView.get();
+                view.setText(searchField.getValue());
                 getNavManager().navigateTo(view);
             }
         });
@@ -106,6 +118,15 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                Date to = new Date();
+                GregorianCalendar from = new GregorianCalendar();
+                
+                from.setTime(to);
+                from.add(Calendar.MONTH, -6);
+                
+                DateFilterResults view = dateView.get();
+                view.setDateInterval(from.getTime(), to);
+                getNavManager().navigateTo(view);
             }
         });
         group.addComponent(navButton);
@@ -115,6 +136,18 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                GregorianCalendar from = new GregorianCalendar();
+                
+                from.setTime(new Date());
+                from.add(Calendar.MONTH, -6);
+                
+                Date to = from.getTime();
+                
+                from.add(Calendar.MONTH, -6);
+                
+                DateFilterResults view = dateView.get();
+                view.setDateInterval(from.getTime(), to);
+                getNavManager().navigateTo(view);
             }
         });
         group.addComponent(navButton);

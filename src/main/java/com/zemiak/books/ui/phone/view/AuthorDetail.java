@@ -9,15 +9,28 @@ import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Book;
 import com.zemiak.books.domain.WebPage;
 import java.util.List;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
+@Dependent
 class AuthorDetail extends ViewAbstract {
     CssLayout content = null;
     
     Author author;
     List<Book> books;
     List<String> tags;
+    
+    @Inject
+    Instance<BookDetail> bookView;
+    
+    @Inject
+    Instance<TagDetail> tagView;
+    
+    public AuthorDetail() {
+    }
 
-    public AuthorDetail(Author author) {
+    public void setAuthor(Author author) {
         this.author = author;
         readData();
     }
@@ -69,7 +82,8 @@ class AuthorDetail extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    BookDetail view = new BookDetail(finalBook);
+                    BookDetail view = bookView.get();
+                    view.setBook(finalBook);
                     getNavManager().navigateTo(view);
                 }
             });
@@ -91,7 +105,8 @@ class AuthorDetail extends ViewAbstract {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        TagDetail view = new TagDetail(finalTag);
+                        TagDetail view = tagView.get();
+                        view.setTag(finalTag);
                         getNavManager().navigateTo(view);
                     }
                 });

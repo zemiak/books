@@ -6,10 +6,11 @@ import com.vaadin.ui.CssLayout;
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import java.util.List;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.inject.Named;
 
-@Named
+@Dependent
 class TagDetail extends ViewAbstract {
     List<Author> authors;
     CssLayout content = null;
@@ -19,7 +20,13 @@ class TagDetail extends ViewAbstract {
     @Inject
     Collection col;
     
-    public TagDetail(String tag) {
+    @Inject
+    Instance<AuthorDetail> authorView;
+    
+    public TagDetail() {
+    }
+    
+    public void setTag(String tag) {
         this.tag = tag;
     }
     
@@ -46,7 +53,8 @@ class TagDetail extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    AuthorDetail view = new AuthorDetail(finalAuthor);
+                    AuthorDetail view = authorView.get();
+                    view.setAuthor(finalAuthor);
                     getNavManager().navigateTo(view);
                 }
             });
