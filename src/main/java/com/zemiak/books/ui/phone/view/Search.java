@@ -13,6 +13,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
 import com.zemiak.books.boundary.Collection;
+import com.zemiak.books.domain.Book;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -33,6 +34,9 @@ public class Search extends ViewAbstract {
     
     @Inject
     Instance<DateFilterResults> dateView;
+    
+    @Inject
+    Instance<SourceResults> sourceView;
     
     public Search() {
     }
@@ -112,7 +116,7 @@ public class Search extends ViewAbstract {
     }
     
     private void initFilterGroup() {
-        VerticalComponentGroup group = new VerticalComponentGroup("Search");
+        VerticalComponentGroup group = new VerticalComponentGroup("Filters");
         
         NavigationButton navButton = new NavigationButton();
         navButton.setCaption("Last 6 months");
@@ -154,5 +158,41 @@ public class Search extends ViewAbstract {
         group.addComponent(navButton);
         
         form.addComponent(group);
+        
+        navButton = new NavigationButton();
+        navButton.setCaption("From PalmKnihy");
+        navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                SourceResults view = sourceView.get();
+                view.setSource(Book.BookSource.PALMKNIHY);
+                getNavManager().navigateTo(view);
+            }
+        });
+        group.addComponent(navButton);
+        
+        navButton = new NavigationButton();
+        navButton.setCaption("From Martinus");
+        navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                SourceResults view = sourceView.get();
+                view.setSource(Book.BookSource.MARTINUS);
+                getNavManager().navigateTo(view);
+            }
+        });
+        group.addComponent(navButton);
+        
+        navButton = new NavigationButton();
+        navButton.setCaption("From Kosmas");
+        navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                SourceResults view = sourceView.get();
+                view.setSource(Book.BookSource.KOSMAS);
+                getNavManager().navigateTo(view);
+            }
+        });
+        group.addComponent(navButton);
     }
 }

@@ -140,4 +140,16 @@ public class Collection {
         
         return results;
     }
+
+    public List<Book> getBooksBySource(Book.BookSource source) {
+        List<Book> results = new ArrayList<>();
+        
+        for (Book book: getBooks()) {
+            if (book.getSource().equals(source)) {
+                results.add(book);
+            }
+        }
+        
+        return results;
+    }
 }

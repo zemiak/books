@@ -15,7 +15,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class Book implements Serializable, Comparable {
-
     private String mobiFileName;
     private String epubFileName;
     private String name;
@@ -26,6 +25,19 @@ public class Book implements Serializable, Comparable {
     private int id;
 
     public Book() {
+    }
+    
+    public static String getSourceCaption(BookSource source) {
+        switch (source) {
+            case MARTINUS:
+                return "Martinus";
+            case KOSMAS:
+                return "Kosmas";
+            case PALMKNIHY:
+                return "PalmKnihy";
+            default:
+                return "Other";
+        }
     }
 
     public String getMobiFileName() {
