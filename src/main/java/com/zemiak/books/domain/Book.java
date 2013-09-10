@@ -110,11 +110,6 @@ public class Book implements Serializable, Comparable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" + "mobiFileName=" + mobiFileName + ", epubFileName=" + epubFileName + ", name=" + name + ", author=" + author + ", id=" + id + '}';
-    }
-
     public boolean isEnglish() {
         return english;
     }
@@ -283,5 +278,10 @@ public class Book implements Serializable, Comparable {
         PALMKNIHY,
         KOSMAS,
         OTHER,
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" + "mobiFileName=" + mobiFileName + ", epubFileName=" + epubFileName + ", name=" + name + ", english=" + english + ", source=" + source + ", author=" + author + ", modifiedTime=" + modifiedTime + ", id=" + id + '}';
     }
 }

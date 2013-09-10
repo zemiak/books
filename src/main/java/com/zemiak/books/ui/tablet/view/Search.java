@@ -123,13 +123,14 @@ public class Search extends ViewAbstract {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
                 Date to = new Date();
-                GregorianCalendar from = new GregorianCalendar();
+                GregorianCalendar cal = new GregorianCalendar();
                 
-                from.setTime(to);
-                from.add(Calendar.MONTH, -6);
+                cal.setTime(to);
+                cal.add(Calendar.MONTH, -6);
+                Date from = cal.getTime();
                 
                 DateFilterResults view = dateView.get();
-                view.setDateInterval(from.getTime(), to);
+                view.setDateInterval(from, to);
                 getNavManager().navigateTo(view);
             }
         });
@@ -140,17 +141,19 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                GregorianCalendar from = new GregorianCalendar();
+                GregorianCalendar cal = new GregorianCalendar();
                 
-                from.setTime(new Date());
-                from.add(Calendar.MONTH, -6);
+                cal.setTime(new Date());
+                cal.add(Calendar.MONTH, -6);
                 
-                Date to = from.getTime();
+                Date to = cal.getTime();
                 
-                from.add(Calendar.MONTH, -6);
+                cal.add(Calendar.MONTH, -6);
+                
+                Date from = cal.getTime();
                 
                 DateFilterResults view = dateView.get();
-                view.setDateInterval(from.getTime(), to);
+                view.setDateInterval(from, to);
                 getNavManager().navigateTo(view);
             }
         });

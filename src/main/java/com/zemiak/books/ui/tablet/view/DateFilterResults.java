@@ -42,7 +42,7 @@ public class DateFilterResults extends ViewAbstract {
 
     @Override
     protected void onBecomingVisible() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
         super.onBecomingVisible();
         setCaption("Dates " + df.format(from) + " - " + df.format(to));
