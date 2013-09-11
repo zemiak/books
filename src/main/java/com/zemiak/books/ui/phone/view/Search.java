@@ -194,5 +194,7 @@ public class Search extends ViewAbstract {
             }
         });
         group.addComponent(navButton);
+        
+        form.addComponent(group);
     }
 }
