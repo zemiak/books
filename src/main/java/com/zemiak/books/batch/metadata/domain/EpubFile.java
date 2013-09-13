@@ -2,7 +2,6 @@ package com.zemiak.books.batch.metadata.domain;
 
 import com.zemiak.books.domain.Book;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,18 +23,63 @@ public class EpubFile {
     private nl.siegmann.epublib.domain.Book ebook;
     private boolean different = false;
     
+    private class AuthorName {
+        private String first, last;
+        
+        public AuthorName(String composed) {
+            if (composed.contains(",")) {
+                String[] parts = composed.split(",");
+                
+                last = parts[0].trim();
+                first = parts[1].trim();
+            } else {
+                last = composed;
+                first = "";
+            }
+        }
+
+        public String getFirst() {
+            return first;
+        }
+
+        public String getLast() {
+            return last;
+        }
+        
+        @Override
+        public String toString() {
+            if (first.isEmpty()) {
+                return last;
+            }
+            
+            return last + ", " + first;
+        }
+        
+        public nl.siegmann.epublib.domain.Author getAuthor() {
+            return new nl.siegmann.epublib.domain.Author(first, last);
+        }
+    }
+    
     public EpubFile(Book book) throws IOException {
         this.book = book;
         
         EpubReader epubReader = new EpubReader();
-        this.ebook = epubReader.readEpub(new FileInputStream(book.getEpubFileName()));
+        
+        if (null == book.getEpubFileName()) {
+            LOG.log(Level.SEVERE, "epub is null. Book: {0}", book);
+            return;
+        }
 
+        FileInputStream file = new FileInputStream(book.getEpubFileName());
+        ebook = epubReader.readEpub(file);
         Metadata data = ebook.getMetadata();
 
         String title = (data.getTitles().isEmpty() ? "" : data.getTitles().get(0));
-        compare(book.getName(), title, "Name");
-
+        compare(book.getName().trim(), title.trim(), "name");
+        
         String authorName = "";
+        AuthorName should = new AuthorName(book.getAuthor().getName());
+        
         if (! data.getAuthors().isEmpty()) {
             nl.siegmann.epublib.domain.Author author = data.getAuthors().get(0);
 
@@ -45,7 +89,7 @@ public class EpubFile {
                 authorName = author.getLastname();
             }
         }
-        compare(book.getAuthor().getName(), authorName, "Author");
+        compare(should.toString(), authorName, "author");
     }
     
     public boolean isUpToDate() {
@@ -56,12 +100,13 @@ public class EpubFile {
         if (! should.equals(is)) {
             different = true;
             
-            LOG.log(Level.INFO, "Book {0}: different field {1}. Should be: {2}, is: {3}", 
-                    new Object[]{book.getId(), fieldName, should, is});
+            LOG.log(Level.INFO, 
+                    "Book {0}: different field {1}. Should be: x" + should + "x is: x" + is + "x", 
+                    new Object[]{book.getEpubFileName(), fieldName});
         }
     }
     
-    public void updateAndWrite() throws IOException {
+    public void update() {
         Metadata data = ebook.getMetadata();
         
         List<String> titles = new ArrayList<>();
@@ -69,25 +114,26 @@ public class EpubFile {
         data.setTitles(titles);
         
         List<nl.siegmann.epublib.domain.Author> authors = new ArrayList<>();
-        nl.siegmann.epublib.domain.Author author;
-        String name = book.getAuthor().getName();
+        AuthorName name = new AuthorName(book.getAuthor().getName());
         
-        if (! name.contains(",")) {
-            author = new nl.siegmann.epublib.domain.Author(name);
-        } else {
-            String[] parts = name.split(",");
-            
-            // firstName, lastName
-            author = new nl.siegmann.epublib.domain.Author(parts[1].trim(), parts[0].trim());
-        }
-        authors.add(author);
+        authors.add(name.getAuthor());
         data.setAuthors(authors);
         
         ebook.setMetadata(data);
-        
+    }
+    
+    public void write() throws IOException {
         EpubWriter epubWriter = new EpubWriter();
-        boolean result = true;
         
         epubWriter.write(ebook, new FileOutputStream(book.getEpubFileName()));
+    }
+    
+    @Override
+    public String toString() {
+        return book.getEpubFileName();
+    }
+
+    public Book getBook() {
+        return book;
     }
 }

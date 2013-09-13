@@ -17,8 +17,6 @@ public class Configuration {
     final static String CONFIGURATION_FILE = "/etc/zemiak-books.properties";
     
     private String bookPath = "/Users/vasko/Documents/Books/";
-    private String baseUrl = "http://localhost:8080/books-backend/";
-    private String restBaseUrl = "http://localhost:8080/books-backend/webresources/";
     Properties prop = new Properties();
     
     @PostConstruct
@@ -28,20 +26,10 @@ public class Configuration {
         }
         
         readBasePathOption();
-        readBaseUrlOption();
-        readRestBaseUrlOption();
     }
 
     public String getBookPath() {
         return bookPath;
-    }
-
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-    
-    public String getRestBaseUrl() {
-        return restBaseUrl;
     }
 
     private boolean loadPropertiesFromFile() {
@@ -73,24 +61,8 @@ public class Configuration {
     private void readBasePathOption() {
         bookPath = prop.getProperty("bookPath", bookPath);
         
-        if (! bookPath.endsWith("/")) {
-            bookPath += "/";
-        }
-    }
-
-    private void readBaseUrlOption() {
-        baseUrl = prop.getProperty("baseUrl", baseUrl);
-        
-        if (baseUrl.endsWith("/")) {
-            baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
-        }
-    }
-
-    private void readRestBaseUrlOption() {
-        restBaseUrl = prop.getProperty("restBaseUrl", restBaseUrl);
-        
-        if (restBaseUrl.endsWith("/")) {
-            restBaseUrl = restBaseUrl.substring(0, restBaseUrl.length() - 1);
+        if (! bookPath.endsWith(Storage.PATH_SEPARATOR)) {
+            bookPath += Storage.PATH_SEPARATOR;
         }
     }
 }

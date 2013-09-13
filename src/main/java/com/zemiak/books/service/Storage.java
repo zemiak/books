@@ -32,6 +32,7 @@ import javax.inject.Inject;
 @DependsOn("Configuration")
 public class Storage {
     private static final Logger LOG = Logger.getLogger(Storage.class.getName());
+    public static final String PATH_SEPARATOR = System.getProperty("file.separator");
 
     @Inject
     private Collection col;
@@ -51,7 +52,7 @@ public class Storage {
         col.deleteData();
         
         for (String letter : mainDir.list()) {
-            File letterFile = new File(mainDir.getAbsolutePath() + "/" + letter);
+            File letterFile = new File(mainDir.getAbsolutePath() + PATH_SEPARATOR + letter);
 
             if (letterFile.isDirectory()) {
                 readLetter(letterFile);
@@ -73,7 +74,7 @@ public class Storage {
         List<Author> authors = new ArrayList<>();
 
         for (String author: letterFile.list()) {
-            File authorFile = new File(letterFile.getAbsolutePath() + "/" + author);
+            File authorFile = new File(letterFile.getAbsolutePath() + PATH_SEPARATOR + author);
 
             if (authorFile.isDirectory() && !authorFile.getName().startsWith(".")) {
                 authors.add(readAuthor(authorFile));
@@ -201,17 +202,24 @@ public class Storage {
         List<Book> authorBooks = new ArrayList<>();
 
         for (String bookFileName : dir.list()) {
-            File bookFile = new File(dir.getAbsolutePath() + "/" + bookFileName);
+            File bookFile = new File(dir.getAbsolutePath() + PATH_SEPARATOR + bookFileName);
 
-            if (bookFile.isFile() && !bookFile.getName().startsWith(".") && bookFile.getName().endsWith(".mobi")) {
+            if (bookFile.isFile() && !bookFile.getName().startsWith(".") && bookFile.getName().endsWith(".epub")) {
                 Book book = new Book();
 
                 String name = bookFile.getName();
                 book.setName(name.substring(0, name.lastIndexOf('.')));
 
                 name = bookFile.getAbsolutePath();
-                book.setMobiFileName(name);
-                book.setEpubFileName(name.substring(0, name.indexOf('.')) + ".epub");
+                book.setEpubFileName(name);
+                
+                File mobiFile = new File(name.substring(0, name.lastIndexOf('.')) + ".mobi");
+                if (mobiFile.isFile()) {
+                    book.setMobiFileName(mobiFile.getAbsolutePath());
+                } else {
+                    book.setMobiFileName(null);
+                }
+                
                 book.setAuthor(author);
                 book.setId();
                 

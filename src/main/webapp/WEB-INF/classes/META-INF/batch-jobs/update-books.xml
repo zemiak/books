@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<job id="metadata-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <properties>
+        <property name="fileList" value="/tmp/books-filelist"/>
+    </properties>
+    
+    <!--
+    <flow id="convertToEpub">
+        <step id="prepare" next="run">
+            <listeners>
+                <listener ref="com.zemiak.books.batch.epub.Listener"/>
+            </listeners>
+            <batchlet ref="com.zemiak.books.batch.epub.PrepareFileList"></batchlet>
+        </step>
+        
+        <step id="run" next="cleanup">
+            <listeners>
+                <listener ref="com.zemiak.books.batch.epub.Listener"/>
+            </listeners>
+            
+            <chunk item-count="1">
+                <reader ref="com.zemiak.books.batch.epub.Reader"></reader>
+                <processor ref="com.zemiak.books.batch.epub.Processor"></processor>
+                <writer ref="com.zemiak.books.batch.epub.Writer"></writer>
+            </chunk>
+        </step>
+        
+        <step id="cleanup" >
+            <listeners>
+                <listener ref="com.zemiak.books.batch.epub.Listener"/>
+            </listeners>
+            <batchlet ref="com.zemiak.books.batch.epub.RemoveFileList">
+            </batchlet>
+        </step>
+    </flow>
+    -->
+    
+    <flow id="updateMetadata"> 
+        <step id="prepare" next="run">
+            <listeners>
+                <listener ref="com.zemiak.books.batch.metadata.Listener"/>
+            </listeners>
+            <batchlet ref="MetadataPrepareFileList"></batchlet>
+        </step>
+        
+        <step id="run" next="cleanup">
+            <listeners>
+                <listener ref="com.zemiak.books.batch.metadata.Listener"/>
+            </listeners>
+            
+            <chunk item-count="1">
+                <reader ref="MetadataItemReader"></reader>
+                <processor ref="com.zemiak.books.batch.metadata.Processor"></processor>
+                <writer ref="com.zemiak.books.batch.metadata.Writer"></writer>
+            </chunk>
+        </step>
+        
+        <step id="cleanup" >
+            <listeners>
+                <listener ref="com.zemiak.books.batch.metadata.Listener"/>
+            </listeners>
+            <batchlet ref="MetadataRemoveFileList">
+            </batchlet>
+        </step>
+    </flow>
+    
+    <!--
+    <flow id="convertToMobi">
+        <step id="prepare" next="run">
+            <listeners>
+                <listener ref="com.zemiak.books.batch.mobi.Listener"/>
+            </listeners>
+            <batchlet ref="com.zemiak.books.batch.mobi.PrepareFileList"></batchlet>
+        </step>
+        
+        <step id="run" next="cleanup">
+            <listeners>
+                <listener ref="com.zemiak.books.batch.mobi.Listener"/>
+            </listeners>
+            
+            <chunk item-count="1">
+                <reader ref="com.zemiak.books.batch.mobi.Reader"></reader>
+                <processor ref="com.zemiak.books.batch.mobi.Processor"></processor>
+                <writer ref="com.zemiak.books.batch.mobi.Writer"></writer>
+            </chunk>
+        </step>
+        
+        <step id="cleanup" >
+            <listeners>
+                <listener ref="com.zemiak.books.batch.mobi.Listener"/>
+            </listeners>
+            <batchlet ref="com.zemiak.books.batch.mobi.RemoveFileList">
+            </batchlet>
+        </step>
+    </flow>
+    -->
+</job>

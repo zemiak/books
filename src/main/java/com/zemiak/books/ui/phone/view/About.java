@@ -8,6 +8,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
+import com.zemiak.books.boundary.BatchRunner;
 import com.zemiak.books.domain.CacheClearEvent;
 import com.zemiak.books.service.Statistics;
 import javax.inject.Inject;
@@ -19,6 +20,9 @@ public class About extends ViewAbstract {
     
     @Inject 
     private javax.enterprise.event.Event<CacheClearEvent> clearEvent;
+    
+    @Inject
+    BatchRunner runner;
     
     CssLayout content = null;
     public final String VERSION = "1.0";
@@ -74,8 +78,20 @@ public class About extends ViewAbstract {
         });
         
         clearCacheButton.setSizeFull();
-        
         content.addComponent(clearCacheButton);
+        
+        NativeButton updateCollectionButton = new NativeButton("Update Collection", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                if (runner.isUpdateCollectionRunning()) {
+                    Notification.show("Job is still running");
+                } else {
+                    runner.runUpdateCollection();
+                }
+            }
+        });
+        updateCollectionButton.setSizeFull();
+        content.addComponent(updateCollectionButton);
     }
 
     private String getBold(String text) {

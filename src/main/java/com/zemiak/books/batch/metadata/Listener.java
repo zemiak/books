@@ -1,20 +1,20 @@
 package com.zemiak.books.batch.metadata;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.batch.api.listener.JobListener;
 import javax.batch.api.listener.StepListener;
 import javax.batch.runtime.context.JobContext;
 import javax.batch.runtime.context.StepContext;
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *
  * @author vasko
  */
-@Dependent
-@Named("MetadataJobListener")
 public class Listener implements JobListener, StepListener {
+    private static final Logger LOG = Logger.getLogger(Listener.class.getName());
+    
     @Inject
     JobContext jobCtx;
     
@@ -23,21 +23,21 @@ public class Listener implements JobListener, StepListener {
 
     @Override
     public void beforeJob() throws Exception {
-        System.out.println("Job starting " + jobCtx.getJobName());
+        LOG.log(Level.INFO, "Job starting {0}", jobCtx.getJobName());
     }
 
     @Override
     public void afterJob() {
-        System.out.println("Job Finished");
+        LOG.log(Level.INFO, "Job finished {0}", jobCtx.getJobName());
     }
 
     @Override
     public void beforeStep() throws Exception {
-        System.out.println("Start STep " + stepCtx.getStepName());
+        LOG.log(Level.INFO, "Start step {0}", stepCtx.getStepName());
     }
 
     @Override
     public void afterStep() throws Exception {
-        System.out.println("End step");
+        LOG.log(Level.INFO, "End step {0}", stepCtx.getStepName());
     }
 }
