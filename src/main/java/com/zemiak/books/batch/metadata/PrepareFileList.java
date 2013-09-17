@@ -54,7 +54,7 @@ public class PrepareFileList implements Batchlet {
             throw ex;
         }
         
-        LOG.log(Level.INFO, "Going to update {0} books.", counter);
+        LOG.log(Level.INFO, "Going to update {0} books' metadata", counter);
         
         return "done";
     }

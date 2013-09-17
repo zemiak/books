@@ -1,6 +1,5 @@
-package com.zemiak.books.batch.metadata;
+package com.zemiak.books.batch.service;
 
-import com.zemiak.books.domain.CacheClearEvent;
 import com.zemiak.books.service.Storage;
 import java.io.File;
 import java.util.logging.Level;
@@ -8,21 +7,16 @@ import java.util.logging.Logger;
 import javax.batch.api.Batchlet;
 import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *
  * @author vasko
  */
-@Named("MetadataRemoveFileList")
 public class RemoveFileList implements Batchlet {
     @Inject
     JobContext jobCtx;
 
     private static final Logger LOG = Logger.getLogger(RemoveFileList.class.getName());
-    
-    @Inject 
-    private javax.enterprise.event.Event<CacheClearEvent> clearEvent;
     
     public RemoveFileList() {
     }
@@ -30,9 +24,6 @@ public class RemoveFileList implements Batchlet {
     @Override
     public String process() throws Exception {
         String fileList = getFileListName();
-        
-        // clear Storage cache
-        clearEvent.fire(new CacheClearEvent());
         
         File file = new File(fileList);
         if (! file.delete()) {

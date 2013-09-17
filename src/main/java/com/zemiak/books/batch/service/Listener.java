@@ -1,4 +1,4 @@
-package com.zemiak.books.batch.metadata;
+package com.zemiak.books.batch.service;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

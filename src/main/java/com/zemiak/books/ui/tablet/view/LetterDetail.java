@@ -38,8 +38,6 @@ class LetterDetail extends ViewAbstract {
         setContent(grid);
         
         new Responsive(grid);
-        
-        System.err.println("Attached");
     }
     
     @Override
@@ -69,12 +67,9 @@ class LetterDetail extends ViewAbstract {
                 }
             });
         }
-
-        System.err.println("Rendered " + authors.size() + " authors for letter " + letter.getLetter());
     }
 
     private void refreshData() {
         authors = letter.getAuthors();
-        System.err.println("Data refreshed for letter " + letter.getLetter());
     }
 }

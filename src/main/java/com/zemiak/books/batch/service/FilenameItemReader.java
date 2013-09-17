@@ -1,6 +1,5 @@
-package com.zemiak.books.batch.metadata;
+package com.zemiak.books.batch.service;
 
-import com.zemiak.books.batch.metadata.domain.EpubFile;
 import com.zemiak.books.boundary.Collection;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -18,9 +17,9 @@ import javax.inject.Named;
  *
  * @author vasko
  */
-@Named("MetadataItemReader")
-public class Reader extends AbstractItemReader {
-    private static final Logger LOG = Logger.getLogger(Reader.class.getName());
+@Named("FilenameItemReader")
+public class FilenameItemReader extends AbstractItemReader {
+    private static final Logger LOG = Logger.getLogger(FilenameItemReader.class.getName());
     
     @Inject
     JobContext jobCtx;
@@ -32,7 +31,7 @@ public class Reader extends AbstractItemReader {
     BufferedReader br;
     int recordNumber;
 
-    public Reader() {
+    public FilenameItemReader() {
     }
 
     @Override
@@ -62,12 +61,6 @@ public class Reader extends AbstractItemReader {
     public Object readItem() throws IOException {
         String line = br.readLine();
 
-        if (null != line) {
-            Integer id = Integer.valueOf(line.trim());
-
-            return new EpubFile(col.getBook(id));
-        }
-
-        return null;
+        return (null == line) ? null : line.trim();
     }
 }

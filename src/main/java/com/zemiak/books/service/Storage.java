@@ -157,7 +157,7 @@ public class Storage {
 
     }
 
-    public String readFileContent(File urlFile) {
+    static public String readFileContent(File urlFile) {
         FileInputStream stream;
         try {
             stream = new FileInputStream(urlFile);
@@ -184,7 +184,8 @@ public class Storage {
     }
 
     private void readBooks(File authorFile, Author author) {
-        File en = new File(authorFile.getAbsolutePath() + "/en/");
+        File en = new File(authorFile.getAbsolutePath() 
+                + PATH_SEPARATOR + "en" + PATH_SEPARATOR);
 
         if (en.isDirectory()) {
             for (Book book: readBooksFromDirectory(en, author)) {
