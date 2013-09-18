@@ -18,6 +18,7 @@ public class Book implements Serializable, Comparable {
 
     private String mobiFileName;
     private String epubFileName;
+    private String pdfFileName;
     private String name;
     private boolean english;
     private BookSource source = null;
@@ -294,6 +295,14 @@ public class Book implements Serializable, Comparable {
         return out.toString();
     }
 
+    public String getPdfFileName() {
+        return pdfFileName;
+    }
+
+    public void setPdfFileName(String pdfFileName) {
+        this.pdfFileName = pdfFileName;
+    }
+    
     public enum BookSource {
         MARTINUS,
         PALMKNIHY,
@@ -303,6 +312,6 @@ public class Book implements Serializable, Comparable {
 
     @Override
     public String toString() {
-        return "Book{" + "mobiFileName=" + mobiFileName + ", epubFileName=" + epubFileName + ", name=" + name + ", english=" + english + ", source=" + source + ", author=" + author + ", modifiedTime=" + modifiedTime + ", id=" + id + '}';
+        return "Book{" + "pdfFileName=" + pdfFileName + ", mobiFileName=" + mobiFileName + ", epubFileName=" + epubFileName + ", name=" + name + ", english=" + english + ", source=" + source + ", author=" + author + ", modifiedTime=" + modifiedTime + ", id=" + id + '}';
     }
 }

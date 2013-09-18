@@ -67,6 +67,15 @@ public class BookDetail extends ViewAbstract {
             FileDownloader fileDownloader = new FileDownloader(new BookFileResource(new File(book.getEpubFileName()), "application/epub+zip"));
             fileDownloader.extend(button);
         }
+        
+        if (book.getPdfFileName() != null) {
+            Link button = new Link();
+            button.setCaption("PDF Format");
+            group1.addComponent(button);
+
+            FileDownloader fileDownloader = new FileDownloader(new BookFileResource(new File(book.getPdfFileName()), "application/pdf"));
+            fileDownloader.extend(button);
+        }
 
         content.addComponent(group1);
     }

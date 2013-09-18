@@ -205,30 +205,12 @@ public class Storage {
         for (String bookFileName : dir.list()) {
             File bookFile = new File(dir.getAbsolutePath() + PATH_SEPARATOR + bookFileName);
 
-            if (bookFile.isFile() && !bookFile.getName().startsWith(".") && bookFile.getName().endsWith(".epub")) {
-                Book book = new Book();
-
-                String name = bookFile.getName();
-                book.setName(name.substring(0, name.lastIndexOf('.')));
-
-                name = bookFile.getAbsolutePath();
-                book.setEpubFileName(name);
-                
-                File mobiFile = new File(name.substring(0, name.lastIndexOf('.')) + ".mobi");
-                if (mobiFile.isFile()) {
-                    book.setMobiFileName(mobiFile.getAbsolutePath());
-                } else {
-                    book.setMobiFileName(null);
+            if (bookFile.isFile() && !bookFile.getName().startsWith(".")) {
+                if (bookFile.getName().endsWith(".epub")) {
+                    createNewEpubBook(bookFile, author, authorBooks);
+                } else if (bookFile.getName().endsWith(".epub")) {
+                    createNewPdfBook(bookFile, author, authorBooks);
                 }
-                
-                book.setAuthor(author);
-                book.setId();
-                
-                // read additional properties
-                book.getModifiedTime();
-                book.getSource();
-
-                authorBooks.add(book);
             }
         }
 
@@ -268,7 +250,7 @@ public class Storage {
 
     private void refreshData() {
         long startTime = System.currentTimeMillis();
-        LOG.log(Level.SEVERE, "readData started on {0}", new Object[]{new Date()});
+        LOG.log(Level.INFO, "readData started on {0}", new Object[]{new Date()});
         
         File mainDir = new File(conf.getBookPath());
         readDataFromFiles(mainDir);
@@ -276,10 +258,54 @@ public class Storage {
         col.refreshCollections();
         stat.readStatistics();
 
-        LOG.log(Level.SEVERE,"readData finished in {0}ms"
+        LOG.log(Level.INFO,"readData finished in {0}ms"
                 + ". Stats: " + "Letters {1}, authors {2}, books {3}, tags {4}",
                 new Object[]{(System.currentTimeMillis() - startTime),
                     col.getLetters().size(), col.getAuthors().size(), col.getBooks().size(),
                     col.getTags().size()});
+    }
+
+    private void createNewEpubBook(File bookFile, Author author, List<Book> authorBooks) {
+        Book book = new Book();
+
+        String name = bookFile.getName();
+        book.setName(name.substring(0, name.lastIndexOf('.')));
+
+        name = bookFile.getAbsolutePath();
+        book.setEpubFileName(name);
+        
+        File mobiFile = new File(name.substring(0, name.lastIndexOf('.')) + ".mobi");
+        if (mobiFile.isFile()) {
+            book.setMobiFileName(mobiFile.getAbsolutePath());
+        } else {
+            book.setMobiFileName(null);
+        }
+        
+        book.setAuthor(author);
+        book.setId();
+        
+        // read additional properties
+        book.getModifiedTime();
+        book.getSource();
+
+        authorBooks.add(book);
+    }
+    
+    private void createNewPdfBook(File bookFile, Author author, List<Book> authorBooks) {
+        Book book = new Book();
+
+        String name = bookFile.getName();
+        book.setName(name.substring(0, name.lastIndexOf('.')));
+
+        name = bookFile.getAbsolutePath();
+        book.setPdfFileName(name);
+        
+        book.setAuthor(author);
+        book.setId();
+        
+        // read additional properties
+        book.getModifiedTime();
+
+        authorBooks.add(book);
     }
 }
