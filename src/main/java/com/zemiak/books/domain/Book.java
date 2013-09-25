@@ -173,7 +173,7 @@ public class Book implements Serializable, Comparable {
                     source = BookSource.OTHER;
                 }
             } catch (IOException ex) {
-                Logger.getLogger(Book.class.getName()).log(Level.SEVERE, "Cannot read ZipFile:" + fileName, ex);
+                Logger.getLogger(Book.class.getName()).log(Level.SEVERE, "Cannot read ZipFile: {0}: {1}", new Object[]{fileName, ex.getMessage()});
             }
         }
 

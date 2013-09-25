@@ -17,6 +17,8 @@ public class Configuration {
     final static String CONFIGURATION_FILE = "/etc/zemiak-books.properties";
     
     private String bookPath = "/Users/vasko/Documents/Books/";
+    private static final Logger LOG = Logger.getLogger(Configuration.class.getName());
+    
     Properties prop = new Properties();
     
     @PostConstruct
@@ -38,20 +40,20 @@ public class Configuration {
         try {
             stream = new FileInputStream(CONFIGURATION_FILE);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, "Conf file not found: " + CONFIGURATION_FILE, ex);
             return false;
         }
         
         try {
             prop.load(stream);
         } catch (IOException ex) {
-            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, "Cannot load conf file: " + CONFIGURATION_FILE, ex);
             return false;
         } finally {
             try {
                 stream.close();
             } catch (IOException ex) {
-                Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, "Cannot close conf file: " + CONFIGURATION_FILE, ex);
             }
         }
         

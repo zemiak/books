@@ -81,6 +81,10 @@ public class CalibreWrapper {
         File file = new File(name);
         String content = Storage.readFileContent(file);
         
+        if (null == content) {
+            return;
+        }
+        
         content = content.replace("ansicpg1252", "ansicpg1250");
         
         try (FileWriter stream = new FileWriter(name)) {

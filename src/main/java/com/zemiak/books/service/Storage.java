@@ -33,7 +33,7 @@ import javax.inject.Inject;
 public class Storage {
     private static final Logger LOG = Logger.getLogger(Storage.class.getName());
     public static final String PATH_SEPARATOR = System.getProperty("file.separator");
-
+    
     @Inject
     private Collection col;
     
@@ -119,7 +119,12 @@ public class Storage {
             return;
         }
 
-        String content = readFileContent(file).trim().toLowerCase();
+        String content = readFileContent(file);
+        if (null == content) {
+            return;
+        }
+
+        content = content.trim().toLowerCase();
 
         if (content.indexOf(';') == -1) {
             author.addTag(content);
@@ -142,6 +147,10 @@ public class Storage {
         }
 
         String content = readFileContent(urlFile);
+        if (null == content) {
+            return null;
+        }
+        
         int pos = content.indexOf("URL=");
 
         if (pos == -1) {
@@ -151,7 +160,7 @@ public class Storage {
         try {
             return new URL(content.substring(pos + 4));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, "Cannot parse URL: " + content.substring(pos + 4), ex);
             return null;
         }
 
@@ -162,7 +171,7 @@ public class Storage {
         try {
             stream = new FileInputStream(urlFile);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, "File not found: {0}: {1}", new Object[]{urlFile.getAbsolutePath(), ex.getMessage()});
             return null;
         }
 
@@ -172,13 +181,13 @@ public class Storage {
 
           return Charset.defaultCharset().decode(bb).toString();
         } catch (IOException ex) {
-            Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, "Cannot read file content: {0}: {1}", new Object[]{urlFile.getAbsolutePath(), ex});
             return null;
         } finally {
             try {
                 stream.close();
             } catch (IOException ex) {
-                Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, "Cannot close file: {0}: {1}", new Object[]{urlFile.getAbsolutePath(), ex.getMessage()});
             }
         }
     }
@@ -305,6 +314,7 @@ public class Storage {
         
         // read additional properties
         book.getModifiedTime();
+        //book.getSource();
 
         authorBooks.add(book);
     }
