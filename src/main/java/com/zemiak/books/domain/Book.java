@@ -161,16 +161,16 @@ public class Book implements Serializable, Comparable {
 
         if (null != fileName) {
             try {
-                ZipFile epub = new ZipFile(fileName);
-
-                if (isPalmKnihySource(epub)) {
-                    source = BookSource.PALMKNIHY;
-                } else if (isMartinusSource(epub)) {
-                    source = BookSource.MARTINUS;
-                } else if (isKosmasSource(epub)) {
-                    source = BookSource.KOSMAS;
-                } else {
-                    source = BookSource.OTHER;
+                try (ZipFile epub = new ZipFile(fileName)) {
+                    if (isPalmKnihySource(epub)) {
+                        source = BookSource.PALMKNIHY;
+                    } else if (isMartinusSource(epub)) {
+                        source = BookSource.MARTINUS;
+                    } else if (isKosmasSource(epub)) {
+                        source = BookSource.KOSMAS;
+                    } else {
+                        source = BookSource.OTHER;
+                    }
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Book.class.getName()).log(Level.SEVERE, "Cannot read ZipFile: {0}: {1}", new Object[]{fileName, ex.getMessage()});

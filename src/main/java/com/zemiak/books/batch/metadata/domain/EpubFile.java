@@ -69,9 +69,11 @@ public class EpubFile {
             LOG.log(Level.SEVERE, "epub is null. Book: {0}", book);
             return;
         }
-
-        FileInputStream file = new FileInputStream(book.getEpubFileName());
-        ebook = epubReader.readEpub(file);
+        
+        try (FileInputStream file = new FileInputStream(book.getEpubFileName())) {
+            ebook = epubReader.readEpub(file);
+        }
+        
         Metadata data = ebook.getMetadata();
 
         String title = (data.getTitles().isEmpty() ? "" : data.getTitles().get(0));
@@ -125,7 +127,9 @@ public class EpubFile {
     public void write() throws IOException {
         EpubWriter epubWriter = new EpubWriter();
         
-        epubWriter.write(ebook, new FileOutputStream(book.getEpubFileName()));
+        try (FileOutputStream stream = new FileOutputStream(book.getEpubFileName())) {
+            epubWriter.write(ebook, stream);
+        }
     }
     
     @Override

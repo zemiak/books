@@ -210,6 +210,11 @@ public class Storage {
 
     private List<Book> readBooksFromDirectory(File dir, Author author) {
         List<Book> authorBooks = new ArrayList<>();
+        
+        if (null == dir) {
+            LOG.log(Level.SEVERE, "Cannot read files from a directory:{0}", dir.getAbsolutePath());
+            return authorBooks;
+        }
 
         for (String bookFileName : dir.list()) {
             File bookFile = new File(dir.getAbsolutePath() + PATH_SEPARATOR + bookFileName);
