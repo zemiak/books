@@ -9,9 +9,7 @@ import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Book;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 @Dependent
@@ -24,10 +22,10 @@ public class SearchResults extends ViewAbstract {
     Collection col;
     
     @Inject
-    Instance<BookDetail> bookView;
+    BookDetail bookView;
     
     @Inject
-    Instance<AuthorDetail> authorView;
+    AuthorDetail authorView;
 
     private List<Author> authors;
     private List<Book> books;
@@ -105,9 +103,8 @@ public class SearchResults extends ViewAbstract {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        BookDetail view = bookView.get();
-                        view.setBook(finalBook);
-                        getNavManager().navigateTo(view);
+                        bookView.setBook(finalBook);
+                        getNavManager().navigateTo(bookView);
                     }
                 });
             }
@@ -125,9 +122,8 @@ public class SearchResults extends ViewAbstract {
                 button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                     @Override
                     public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                        AuthorDetail view = authorView.get();
-                        view.setAuthor(finalAuthor);
-                        getNavManager().navigateTo(view);
+                        authorView.setAuthor(finalAuthor);
+                        getNavManager().navigateTo(authorView);
                     }
                 });
             }

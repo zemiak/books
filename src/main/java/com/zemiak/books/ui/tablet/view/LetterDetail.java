@@ -7,7 +7,6 @@ import com.zemiak.books.domain.Author;
 import com.zemiak.books.domain.Letter;
 import java.util.List;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 @Dependent
@@ -18,7 +17,7 @@ class LetterDetail extends ViewAbstract {
     List<Author> authors;
     
     @Inject
-    Instance<AuthorDetail> authorView;
+    AuthorDetail authorView;
     
     public LetterDetail() {
     }
@@ -61,9 +60,8 @@ class LetterDetail extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    AuthorDetail view = authorView.get();
-                    view.setAuthor(finalAuthor);
-                    getNavManager().navigateTo(view);
+                    authorView.setAuthor(finalAuthor);
+                    getNavManager().navigateTo(authorView);
                 }
             });
         }

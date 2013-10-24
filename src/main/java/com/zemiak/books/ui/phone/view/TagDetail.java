@@ -7,7 +7,6 @@ import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import java.util.List;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 @Dependent
@@ -21,7 +20,7 @@ class TagDetail extends ViewAbstract {
     Collection col;
     
     @Inject
-    Instance<AuthorDetail> authorView;
+    AuthorDetail authorView;
     
     public TagDetail() {
     }
@@ -53,9 +52,8 @@ class TagDetail extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    AuthorDetail view = authorView.get();
-                    view.setAuthor(finalAuthor);
-                    getNavManager().navigateTo(view);
+                    authorView.setAuthor(finalAuthor);
+                    getNavManager().navigateTo(authorView);
                 }
             });
         }

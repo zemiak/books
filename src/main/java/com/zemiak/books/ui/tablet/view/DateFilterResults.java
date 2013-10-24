@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 @Dependent
@@ -24,7 +23,7 @@ public class DateFilterResults extends ViewAbstract {
     private List<Book> books;
     
     @Inject
-    Instance<BookDetail> bookView;
+    BookDetail bookView;
 
     public DateFilterResults() {
     }
@@ -69,9 +68,8 @@ public class DateFilterResults extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    BookDetail view = bookView.get();
-                    view.setBook(finalBook);
-                    getNavManager().navigateTo(view);
+                    bookView.setBook(finalBook);
+                    getNavManager().navigateTo(bookView);
                 }
             });
         }

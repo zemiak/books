@@ -7,7 +7,6 @@ import com.vaadin.ui.CssLayout;
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Letter;
 import java.util.List;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 @CDIView("lettersTablet")
@@ -19,7 +18,7 @@ public class Letters extends ViewAbstract {
     Collection col;
     
     @Inject
-    Instance<LetterDetail> letterView;
+    LetterDetail letterView;
     
     boolean initialized = false;
 
@@ -57,9 +56,8 @@ public class Letters extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    LetterDetail view = letterView.get();
-                    view.setLetter(finalLetter);
-                    getNavManager().navigateTo(view);
+                    letterView.setLetter(finalLetter);
+                    getNavManager().navigateTo(letterView);
                 }
             });
             
