@@ -20,7 +20,7 @@ import java.util.GregorianCalendar;
 import javax.inject.Inject;
 
 @CDIView("searchTablet")
-public class Search extends ViewAbstract {
+public class SearchTablet extends ViewAbstractTablet {
     Layout form = null;
     final TextField searchField = new TextField();
     boolean initialized = false;
@@ -29,15 +29,15 @@ public class Search extends ViewAbstract {
     Collection col;
     
     @Inject
-    SearchResults resultsView;
+    SearchResultsTablet resultsView;
     
     @Inject
-    DateFilterResults dateView;
+    DateFilterResultsTablet dateView;
     
     @Inject
-    SourceResults sourceView;
+    SourceResultsTablet sourceView;
     
-    public Search() {
+    public SearchTablet() {
     }
     
     @Override

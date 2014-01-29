@@ -17,6 +17,7 @@ import com.zemiak.books.domain.Book;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 @CDIView("search")
@@ -29,13 +30,13 @@ public class Search extends ViewAbstract {
     Collection col;
     
     @Inject
-    SearchResults resultsView;
+    Instance<SearchResults> resultsView;
     
     @Inject
-    DateFilterResults dateView;
+    Instance<DateFilterResults> dateView;
     
     @Inject
-    SourceResults sourceView;
+    Instance<SourceResults> sourceView;
     
     public Search() {
     }
@@ -92,8 +93,9 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                resultsView.setText(searchField.getValue());
-                getNavManager().navigateTo(resultsView);
+                SearchResults view = resultsView.get();
+                view.setText(searchField.getValue());
+                getNavManager().navigateTo(view);
             }
         });
         group.addComponent(navButton);
@@ -104,8 +106,9 @@ public class Search extends ViewAbstract {
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                resultsView.setText(searchField.getValue());
-                getNavManager().navigateTo(resultsView);
+                SearchResults view = resultsView.get();
+                view.setText(searchField.getValue());
+                getNavManager().navigateTo(view);
             }
         });
 
@@ -126,8 +129,9 @@ public class Search extends ViewAbstract {
                 from.setTime(to);
                 from.add(Calendar.MONTH, -6);
                 
-                dateView.setDateInterval(from.getTime(), to);
-                getNavManager().navigateTo(dateView);
+                DateFilterResults view = dateView.get();
+                view.setDateInterval(from.getTime(), to);
+                getNavManager().navigateTo(view);
             }
         });
         group.addComponent(navButton);
@@ -146,8 +150,9 @@ public class Search extends ViewAbstract {
                 
                 from.add(Calendar.MONTH, -6);
                 
-                dateView.setDateInterval(from.getTime(), to);
-                getNavManager().navigateTo(dateView);
+                DateFilterResults view = dateView.get();
+                view.setDateInterval(from.getTime(), to);
+                getNavManager().navigateTo(view);
             }
         });
         group.addComponent(navButton);
@@ -159,8 +164,9 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                sourceView.setSource(Book.BookSource.PALMKNIHY);
-                getNavManager().navigateTo(sourceView);
+                SourceResults view = sourceView.get();
+                view.setSource(Book.BookSource.PALMKNIHY);
+                getNavManager().navigateTo(view);
             }
         });
         group.addComponent(navButton);
@@ -170,8 +176,9 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                sourceView.setSource(Book.BookSource.MARTINUS);
-                getNavManager().navigateTo(sourceView);
+                SourceResults view = sourceView.get();
+                view.setSource(Book.BookSource.MARTINUS);
+                getNavManager().navigateTo(view);
             }
         });
         group.addComponent(navButton);
@@ -181,8 +188,10 @@ public class Search extends ViewAbstract {
         navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                sourceView.setSource(Book.BookSource.KOSMAS);
-                getNavManager().navigateTo(sourceView);
+                SourceResults view = sourceView.get();
+                
+                view.setSource(Book.BookSource.KOSMAS);
+                getNavManager().navigateTo(view);
             }
         });
         group.addComponent(navButton);

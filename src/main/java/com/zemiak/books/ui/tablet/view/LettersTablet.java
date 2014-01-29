@@ -5,35 +5,36 @@ import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.boundary.Collection;
+import com.zemiak.books.domain.Letter;
 import java.util.List;
 import javax.inject.Inject;
 
-@CDIView("tagsTablet")
-public class Tags extends ViewAbstract {
+@CDIView("lettersTablet")
+public class LettersTablet extends ViewAbstractTablet {
     CssLayout grid = null;
-    List<String> tags;
+    List<Letter> letters;
     
     @Inject
     Collection col;
     
     @Inject
-    TagDetail tagView;
+    LetterDetailTablet letterView;
     
     boolean initialized = false;
 
-    public Tags() {
+    public LettersTablet() {
     }
     
     @Override
     protected void onBecomingVisible() {
         super.onBecomingVisible();
-        setCaption("Tags");
+        setCaption("Books");
         
         if (initialized) {
             return;
         }
         
-        this.tags = col.getTags();
+        this.letters = col.getLetters();
         
         refresh();
         initialized = true;
@@ -45,20 +46,22 @@ public class Tags extends ViewAbstract {
         grid.addStyleName("grid");
         setContent(grid);
 
-        for (String tag: tags) {
-            NavigationButton button = new NavigationButton(tag);
+        for (Letter letter: letters) {
+            NavigationButton button = new NavigationButton(letter.getLetter());
             button.setSizeUndefined();
             grid.addComponent(button);
 
-            final String finalTag = tag;
+            final Letter finalLetter = letter;
 
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    tagView.setTag(finalTag);
-                    getNavManager().navigateTo(tagView);
+                    letterView.setLetter(finalLetter);
+                    getNavManager().navigateTo(letterView);
                 }
             });
+            
+            grid.addComponent(button);
         }
         
         new Responsive(grid);

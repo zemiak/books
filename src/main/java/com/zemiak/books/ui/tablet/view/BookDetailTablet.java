@@ -10,7 +10,7 @@ import java.io.File;
 import javax.enterprise.context.Dependent;
 
 @Dependent
-public class BookDetail extends ViewAbstract {
+public class BookDetailTablet extends ViewAbstractTablet {
     static class BookFileResource extends FileResource {
         private String mimeType;
         
@@ -29,7 +29,7 @@ public class BookDetail extends ViewAbstract {
     CssLayout content = null;
     Book book;
     
-    public BookDetail() {
+    public BookDetailTablet() {
     }
 
     public void setBook(Book book) {

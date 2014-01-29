@@ -56,12 +56,12 @@ public class BooksUI extends UI {
     }
 
     private void initTablet() {
-        getPage().addBrowserWindowResizeListener(new com.zemiak.books.ui.tablet.ScreenSizeListener());
+        getPage().addBrowserWindowResizeListener(new com.zemiak.books.ui.tablet.ScreenSizeListenerTablet());
         
-        com.zemiak.books.ui.tablet.NavManager nav = new com.zemiak.books.ui.tablet.NavManager();
+        com.zemiak.books.ui.tablet.NavManagerTablet nav = new com.zemiak.books.ui.tablet.NavManagerTablet();
         setContent(nav);
         
-        toolbar = new com.zemiak.books.ui.tablet.NavToolbar(nav);
+        toolbar = new com.zemiak.books.ui.tablet.NavToolbarTablet(nav);
         
         nav.setViewProvider(viewProvider);
         nav.navigateTo("lettersTablet");

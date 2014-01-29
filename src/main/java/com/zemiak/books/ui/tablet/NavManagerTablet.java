@@ -5,10 +5,10 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.View;
 
-public class NavManager extends NavigationManager {
+public class NavManagerTablet extends NavigationManager {
     private CDIViewProvider viewProvider;
     
-    public NavManager() {
+    public NavManagerTablet() {
         super();
     }
 

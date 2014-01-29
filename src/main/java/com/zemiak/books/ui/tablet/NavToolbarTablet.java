@@ -4,10 +4,10 @@ import com.vaadin.addon.touchkit.ui.Toolbar;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 
-public class NavToolbar extends Toolbar {
-    NavManager nav;
+public class NavToolbarTablet extends Toolbar {
+    NavManagerTablet nav;
 
-    public NavToolbar(NavManager nav) {
+    public NavToolbarTablet(NavManagerTablet nav) {
         super();
 
         this.nav = nav;

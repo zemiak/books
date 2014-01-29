@@ -5,41 +5,46 @@ import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Book;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 @Dependent
-public class SourceResults extends ViewAbstract {
+public class DateFilterResultsTablet extends ViewAbstractTablet {
 
     CssLayout grid = null;
     
     @Inject
     Collection col;
     
-    Book.BookSource source;
+    Date from, to;
     private List<Book> books;
     
     @Inject
-    BookDetail bookView;
+    BookDetailTablet bookView;
 
-    public SourceResults() {
+    public DateFilterResultsTablet() {
     }
     
-    public void setSource(Book.BookSource source) {
-        this.source = source;
+    public void setDateInterval(Date from, Date to) {
+        this.from = from;
+        this.to = to;
 
         refreshData();
     }
 
     private void refreshData() {
-        books = col.getBooksBySource(source);
+        books = col.getBooksByDateInterval(from, to);
     }
 
     @Override
     protected void onBecomingVisible() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
         super.onBecomingVisible();
-        setCaption("Source: " + Book.getSourceCaption(source));
+        setCaption("Dates " + df.format(from) + " - " + df.format(to));
 
         refresh();
     }

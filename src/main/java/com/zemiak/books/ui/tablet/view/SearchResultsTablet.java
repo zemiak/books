@@ -13,7 +13,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 @Dependent
-public class SearchResults extends ViewAbstract {
+public class SearchResultsTablet extends ViewAbstractTablet {
     CssLayout grid = null;
 
     String text;
@@ -22,15 +22,15 @@ public class SearchResults extends ViewAbstract {
     Collection col;
     
     @Inject
-    BookDetail bookView;
+    BookDetailTablet bookView;
     
     @Inject
-    AuthorDetail authorView;
+    AuthorDetailTablet authorView;
 
     private List<Author> authors;
     private List<Book> books;
 
-    public SearchResults() {
+    public SearchResultsTablet() {
     }
     
     public void setText(String text) {

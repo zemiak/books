@@ -6,6 +6,7 @@ import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.CssLayout;
 import com.zemiak.books.boundary.Collection;
 import java.util.List;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 @CDIView("tags")
@@ -17,7 +18,7 @@ public class Tags extends ViewAbstract {
     Collection col;
     
     @Inject
-    TagDetail tagView;
+    Instance<TagDetail> tagView;
     
     boolean initialized = false;
 
@@ -54,8 +55,9 @@ public class Tags extends ViewAbstract {
             button.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 @Override
                 public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
-                    tagView.setTag(finalTag);
-                    getNavManager().navigateTo(tagView);
+                    TagDetail view = tagView.get();
+                    view.setTag(finalTag);
+                    getNavManager().navigateTo(view);
                 }
             });
         }

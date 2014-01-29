@@ -6,7 +6,7 @@ import com.vaadin.server.Page;
  *
  * @author vasko
  */
-public class ScreenSizeListener implements Page.BrowserWindowResizeListener {
+public class ScreenSizeListenerTablet implements Page.BrowserWindowResizeListener {
 
     @Override
     public void browserWindowResized(Page.BrowserWindowResizeEvent event) {

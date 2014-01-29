@@ -14,7 +14,7 @@ import com.zemiak.books.service.Statistics;
 import javax.inject.Inject;
 
 @CDIView("aboutTablet")
-class About extends ViewAbstract {
+class AboutTablet extends ViewAbstractTablet {
     @Inject
     Statistics stats;
     
@@ -28,7 +28,7 @@ class About extends ViewAbstract {
     public final String VERSION = "1.0";
     boolean initialized = false;
 
-    public About() {
+    public AboutTablet() {
     }
     
     @Override
