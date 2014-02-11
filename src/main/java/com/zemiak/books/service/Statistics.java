@@ -4,6 +4,7 @@ import com.zemiak.books.boundary.Collection;
 import com.zemiak.books.domain.Author;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
@@ -12,10 +13,7 @@ public class Statistics {
     @Inject
     private Collection col;
 
-    @Inject
-    private Configuration conf;
-    
-    private Map<String, String> cache = new HashMap<>();
+    private final Map<String, String> cache = new HashMap<>();
 
     public static final String BOOKS = "statistics.books";
     public static final String AUTHORS = "statistics.authors";
@@ -38,8 +36,9 @@ public class Statistics {
         return cache.get(AUTHORS_TAGGED);
     }
 
+    @PostConstruct
     public void readStatistics() {
-        int books = 0, authors = 0, authorsTagged = 0, authorsDocumented = 0;
+        int books, authors = 0, authorsTagged = 0, authorsDocumented = 0;
 
         books = col.getBooks().size();
 
