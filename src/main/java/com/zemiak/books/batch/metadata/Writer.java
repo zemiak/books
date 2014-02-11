@@ -1,10 +1,10 @@
 package com.zemiak.books.batch.metadata;
 
 import com.zemiak.books.batch.metadata.domain.EpubFile;
+import com.zemiak.books.batch.service.log.BatchLogger;
 import java.io.File;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.batch.api.chunk.AbstractItemWriter;
 
 /**
@@ -13,8 +13,8 @@ import javax.batch.api.chunk.AbstractItemWriter;
  */
 public class Writer extends AbstractItemWriter {
 
-    private static final Logger LOG = Logger.getLogger(Writer.class.getName());
-    
+    private static final BatchLogger LOG = BatchLogger.getLogger(Writer.class.getName());
+
     @Override
     public void writeItems(List list) throws Exception {
         for (Object obj : list) {
