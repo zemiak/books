@@ -4,7 +4,13 @@
     <properties>
         <property name="fileList" value="/tmp/books-filelist"/>
     </properties>
-    
+
+    <flow id="logfile" next="convertToEpub">
+        <step id="logfile-preparelog">
+            <batchlet ref="PrepareLogFile"></batchlet>
+        </step>
+    </flow>
+
     <flow id="convertToEpub" next="updateMetadata">
         <step id="toepub-prepare" next="toepub-run">
             <listeners>
@@ -12,19 +18,19 @@
             </listeners>
             <batchlet ref="ToepubPrepareFileList"></batchlet>
         </step>
-        
+
         <step id="toepub-run" next="toepub-cleanup">
             <listeners>
                 <listener ref="com.zemiak.books.batch.service.Listener"/>
             </listeners>
-            
+
             <chunk item-count="1">
                 <reader ref="FilenameItemReader"></reader>
                 <processor ref="com.zemiak.books.batch.toepub.Processor"></processor>
                 <writer ref="com.zemiak.books.batch.toepub.Writer"></writer>
             </chunk>
         </step>
-        
+
         <step id="toepub-cleanup" >
             <listeners>
                 <listener ref="com.zemiak.books.batch.service.Listener"/>
@@ -34,26 +40,26 @@
         </step>
     </flow>
 
-    <flow id="updateMetadata" next="convertToMobi"> 
+    <flow id="updateMetadata" next="convertToMobi">
         <step id="metadata-prepare" next="metadata-run">
             <listeners>
                 <listener ref="com.zemiak.books.batch.service.Listener"/>
             </listeners>
             <batchlet ref="MetadataPrepareFileList"></batchlet>
         </step>
-        
+
         <step id="metadata-run" next="metadata-cleanup">
             <listeners>
                 <listener ref="com.zemiak.books.batch.service.Listener"/>
             </listeners>
-            
+
             <chunk item-count="1">
                 <reader ref="MetadataItemReader"></reader>
                 <processor ref="com.zemiak.books.batch.metadata.Processor"></processor>
                 <writer ref="com.zemiak.books.batch.metadata.Writer"></writer>
             </chunk>
         </step>
-        
+
         <step id="metadata-cleanup" >
             <listeners>
                 <listener ref="com.zemiak.books.batch.service.Listener"/>
@@ -62,7 +68,7 @@
             </batchlet>
         </step>
     </flow>
-    
+
     <flow id="convertToMobi" next="updateBooksCleanup">
         <step id="tomobi-prepare" next="tomobi-run">
             <listeners>
@@ -70,19 +76,19 @@
             </listeners>
             <batchlet ref="TomobiPrepareFileList"></batchlet>
         </step>
-        
+
         <step id="tomobi-run" next="tomobi-cleanup">
             <listeners>
                 <listener ref="com.zemiak.books.batch.service.Listener"/>
             </listeners>
-            
+
             <chunk item-count="1">
                 <reader ref="FilenameItemReader"></reader>
                 <processor ref="com.zemiak.books.batch.tomobi.Processor"></processor>
                 <writer ref="com.zemiak.books.batch.tomobi.Writer"></writer>
             </chunk>
         </step>
-        
+
         <step id="tomobi-cleanup" >
             <listeners>
                 <listener ref="com.zemiak.books.batch.service.Listener"/>
@@ -91,11 +97,17 @@
             </batchlet>
         </step>
     </flow>
-    
-    <flow id="updateBooksCleanup">
+
+    <flow id="updateBooksCleanup" next="sendLog">
         <step id="refreshStorage">
             <batchlet ref="BatchRefreshStorage">
             </batchlet>
+        </step>
+    </flow>
+
+    <flow id="sendlog">
+        <step id="sendlog-send">
+            <batchlet ref="SendLogFile"></batchlet>
         </step>
     </flow>
 </job>
