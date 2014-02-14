@@ -1,4 +1,4 @@
-package com.zemiak.books.batch.metadata;
+package com.zemiak.books.batch.service;
 
 import com.zemiak.books.batch.metadata.domain.EpubFile;
 import com.zemiak.books.boundary.Collection;

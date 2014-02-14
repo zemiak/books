@@ -1,5 +1,6 @@
 package com.zemiak.books.batch.service.log;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -13,6 +14,7 @@ import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -35,7 +37,7 @@ public class SendLogFile implements Batchlet {
     @Resource(name = "mail/connect")
     private Session mailSession;
 
-    @Resource(name = "com.zemiak.movies")
+    @Resource(name = "com.zemiak.books")
     private Properties conf;
 
     public SendLogFile() {
@@ -43,6 +45,23 @@ public class SendLogFile implements Batchlet {
 
     @Override
     public String process() throws Exception {
+        final File file = new File(BatchLogger.getLogFileName());
+        if (! file.exists()) {
+            LOG.log(Level.INFO, "Log file does not exist, not sending...");
+            return "does-not-exist";
+        }
+
+        if (file.length() == 0) {
+            LOG.log(Level.INFO, "Log file is empty, not sending...");
+            return "zero-size";
+        }
+
+        sendLogFile();
+
+        return "sent";
+    }
+
+    private void sendLogFile() throws MessagingException {
         final Message message = new MimeMessage(mailSession);
         message.setFrom(new InternetAddress(conf.getProperty("mailFrom")));
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(conf.getProperty("mailTo")));
@@ -64,7 +83,6 @@ public class SendLogFile implements Batchlet {
         LOG.log(Level.INFO, "Sent LOG file to {0}", conf.getProperty("mailTo"));
 
         BatchLogger.deleteLogFile();
-        return "sent";
     }
 
     @Override
