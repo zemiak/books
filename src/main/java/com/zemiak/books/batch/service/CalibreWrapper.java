@@ -1,6 +1,7 @@
 package com.zemiak.books.batch.service;
 
-import com.google.gwt.thirdparty.guava.common.base.Joiner;
+import com.zemiak.books.batch.service.log.BatchLogger;
+import com.zemiak.books.service.CustomResourceLookup;
 import com.zemiak.books.service.Storage;
 import java.io.File;
 import java.io.FileWriter;
@@ -9,52 +10,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author vasko
  */
 public class CalibreWrapper {
-    String calibrePath = null;
-    Map<String, String> optionForExt = new HashMap<>();
-    private static final Logger LOG = Logger.getLogger(CalibreWrapper.class.getName());
+    private static final BatchLogger LOG = BatchLogger.getLogger(CalibreWrapper.class.getName());
+    final String calibrePath;
+    final Map<String, String> optionForExt = new HashMap<>();
 
     public CalibreWrapper() {
-        whichCalibre();
+        final Properties conf = new CustomResourceLookup().lookup("com.zemiak.books");
+        calibrePath = conf.getProperty("calibrePath");
 
         optionForExt.put("txt", "--pretty-print");
         optionForExt.put("pdb", "--input-encoding=1250");
         optionForExt.put("epub", "--mobi-ignore-margins");
-    }
-
-    private void whichCalibre() {
-        List<String> possiblePaths = new ArrayList<>();
-
-        calibrePath = null;
-
-        possiblePaths.add("c:\\Program Files\\Calibre2\\ebook-convert.exe");
-        possiblePaths.add("c:\\Program Files\\Calibre\\ebook-convert.exe");
-        possiblePaths.add("c:\\Program Files (x86)\\Calibre2\\ebook-convert.exe");
-        possiblePaths.add("c:\\Program Files (x86)\\Calibre\\ebook-convert.exe");
-        possiblePaths.add("/Applications/calibre.app/Contents/MacOS/ebook-convert");
-        possiblePaths.add("/usr/bin/ebook-convert");
-        possiblePaths.add("/usr/local/bin/ebook-convert");
-        possiblePaths.add("/opt/calibre/ebook-convert");
-
-        for (String possiblePath: possiblePaths) {
-            File possibleCalibre = new File(possiblePath);
-
-            if (possibleCalibre.isFile()) {
-                calibrePath = possiblePath;
-                break;
-            }
-        }
-
-        if (null == calibrePath) {
-            throw new RuntimeException("Calibre not found");
-        }
     }
 
     public void convertToEpub(String name) throws CalibreConversionException {
