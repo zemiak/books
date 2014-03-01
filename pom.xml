@@ -26,7 +26,7 @@
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
-        
+
         <repository>
             <id>vaadin-snapshots</id>
             <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
@@ -37,7 +37,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        
+
         <repository>
             <id>psiegman-repo</id>
             <url>https://github.com/psiegman/mvn-repo/raw/master/releases</url>
@@ -82,6 +82,13 @@
             <artifactId>vaadin-client-compiler</artifactId>
             <version>${vaadin.version}</version>
             <scope>provided</scope>
+
+            <exclusions>
+                <exclusion>
+                    <artifactId>servlet-api-2.5</artifactId>
+                    <groupId>org.mortbay.jetty</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -89,13 +96,13 @@
             <artifactId>vaadin-themes</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-cdi</artifactId>
             <version>${vaadin.cdi.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.vaadin.addon.responsive</groupId>
             <artifactId>responsive</artifactId>
@@ -121,7 +128,7 @@
             <artifactId>vaadin-touchkit-agpl</artifactId>
             <version>${vaadin.touchkit.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>nl.siegmann.epublib</groupId>
             <artifactId>epublib-core</artifactId>
